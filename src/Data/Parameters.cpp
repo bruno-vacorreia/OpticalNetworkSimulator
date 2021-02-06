@@ -53,15 +53,14 @@ const Parameters* parameters) {
 
 Parameters::Parameters(SimulationType* simulType)
 :simulType(simulType), loadPoint(0), minLoadPoint(0.0), maxLoadPoint(0.0), 
-loadPasso(0.0), numberLoadPoints(0), numberReqMax(0.0), mu(0.0), 
-numberBloqMax(0), slotBandwidth(0.0), numberSlots(0), numberCores(0), 
-maxSectionLegnth(0.0), numberPolarizations(0), guardBand(0), beta(0) {
+loadPasso(0.0), numberLoadPoints(0), numberReqMax(0), mu(0.0),
+numberBloqMax(0), slotBandwidth(0.0), numberSlots(0), numberCores(0), numberRoutes(0),
+maxSectionLegnth(0.0), numberPolarizations(0), guardBand(0), beta(0),
+numberProtectionRoutes(0){
     
 }
 
-Parameters::~Parameters() {
-    
-}
+Parameters::~Parameters() = default;
 
 void Parameters::Load() {
     unsigned int auxUnsInt;
@@ -171,7 +170,7 @@ double Parameters::GetLoadPoint(unsigned int index) const {
 }
 
 void Parameters::SetLoadPoint(std::vector<double> loadPoint) {
-    assert(loadPoint.size() > 0);
+    assert(!loadPoint.empty());
     this->loadPoint = loadPoint;
 }
 
@@ -210,11 +209,11 @@ void Parameters::SetNumberLoadPoints(unsigned int numberLoadPoints) {
     this->numberLoadPoints = numberLoadPoints;
 }
 
-double Parameters::GetNumberReqMax() const {
+NumRequest Parameters::GetNumberReqMax() const {
     return numberReqMax;
 }
 
-void Parameters::SetNumberReqMax(double numberReqMax) {
+void Parameters::SetNumberReqMax(NumRequest numberReqMax) {
     assert(numberReqMax > 0.0);
     this->numberReqMax = numberReqMax;
 }
@@ -229,7 +228,7 @@ void Parameters::SetMu(double mu) {
 }
 
 void Parameters::SetLoadPasso() {
-    int auxInt = this->numberLoadPoints;
+    unsigned int auxInt = this->numberLoadPoints;
     
     if(auxInt == 1)
         auxInt++;
@@ -245,12 +244,12 @@ void Parameters::SetLoadPointUniform() {
     }
 }
 
-double Parameters::GetNumberBloqMax() const {
+NumRequest Parameters::GetNumberBloqMax() const {
     return numberBloqMax;
 }
 
-void Parameters::SetNumberBloqMax(double numberBloqMax) {
-    assert(numberBloqMax > 0.0);
+void Parameters::SetNumberBloqMax(NumRequest numberBloqMax) {
+    assert(numberBloqMax > 0);
     this->numberBloqMax = numberBloqMax;
 }
 

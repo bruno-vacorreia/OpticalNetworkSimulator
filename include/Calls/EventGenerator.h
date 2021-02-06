@@ -46,8 +46,8 @@ private:
          * @param eventB Second event.
          * @return True if eventA time is greater then eventB time.
          */
-        bool operator()(const std::shared_ptr<Event> eventA,
-                        const std::shared_ptr<Event> eventB) const;
+        bool operator()(const std::shared_ptr<Event>& eventA,
+                        const std::shared_ptr<Event>& eventB) const;
     };
 public:
     /**
@@ -142,9 +142,9 @@ public:
     TIME GetRealSimulationTime() const;
     /**
      * @brief Function to set the computer simulation time.
-     * @param realSimullationTime Computer simulation time.
+     * @param realSimulationTime Computer simulation time.
      */
-    void SetRealSimulationTime(TIME realSimullationTime);
+    void SetRealSimulationTime(TIME realSimulationTime);
 private:
     /**
      * @brief Function responsible to create a call request.
@@ -205,12 +205,12 @@ private:
      * @brief Distribution responsible to generate
      * the deactivation connection time.
      */
-    std::exponential_distribution<TIME> exponencialMuDistribution;
+    std::exponential_distribution<TIME> exponentialMuDistribution;
     /**
      * @brief Distribution responsible to generate
      * the inter-arrival time.
      */
-    std::exponential_distribution<TIME> exponencialHDistribution;
+    std::exponential_distribution<TIME> exponentialHDistribution;
     /**
      * @brief Network load (Erlangs).
      */

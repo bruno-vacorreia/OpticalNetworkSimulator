@@ -231,7 +231,7 @@ public:
      * index.
      * @return Call request possible route.
      */
-    std::shared_ptr<Route> GetProtRoute(unsigned int routeIndex , 
+    std::shared_ptr<Route> GetProtRoute(unsigned int routeIndex,
     unsigned int protRouteIndex) const;
     
     std::deque<std::shared_ptr<Route>> GetProtRoutes(unsigned int routeIndex) 

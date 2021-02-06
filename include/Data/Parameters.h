@@ -20,6 +20,7 @@ class SimulationType;
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include <Kernel.h>
 
 /**
  * @brief The Parameters class is responsible for storage 
@@ -118,12 +119,12 @@ public:
      * @brief Returns the maximum number of requisitions.
      * @return Maximum number of requisitions.
      */
-    double GetNumberReqMax() const;
+    NumRequest GetNumberReqMax() const;
     /**
      * @brief Sets the maximum number of requisitions.
      * @param numberReqMax maximum number of requisitions.
      */
-    void SetNumberReqMax(double numberReqMax);  
+    void SetNumberReqMax(NumRequest numberReqMax);
     /**
      * @brief Returns the connection deactivation time.
      * @return Connection deactivation time.
@@ -138,12 +139,12 @@ public:
      * @brief Get the number of maximum blocked requisitions.
      * @return Number of maximum blocked requisitions.
      */
-    double GetNumberBloqMax() const;
+    NumRequest GetNumberBloqMax() const;
     /**
      * @brief Get the number of maximum blocked requisitions.
      * @param numberBloqMax number of maximum blocked requisitions.
      */
-    void SetNumberBloqMax(double numberBloqMax);
+    void SetNumberBloqMax(NumRequest numberBloqMax);
     /**
      * @brief Get the bandwidth of each slot.
      * @return Bandwidth of a slot.
@@ -210,17 +211,17 @@ public:
     unsigned int GetGuardBand() const;
 
     void SetGuardBand(unsigned int guardBand);
-  /**
+    /**
      * @brief Function to get Squeezing index (beta) used in the simulation 
      * with Protection option enabled.
      */
     double GetBeta() const;
-  /**
+    /**
      * @brief Function to set Squeezing index (beta) used in the simulation
      * with Protection option enabled.
      */
     void SetBeta(double beta);
-   /**
+    /**
      * @brief Function to get the number of protection routes for each one 
      * k-working routes.
      * @return Number of protection routes.
@@ -264,7 +265,7 @@ private:
     /**
      * @brief Total number of requisitions.
      */
-    double numberReqMax;
+    NumRequest numberReqMax;
     /**
      * @brief Deactivation connection time.
      */
@@ -272,7 +273,7 @@ private:
     /**
      * @brief Number of maximum blocked requisitions.
      */
-    double numberBloqMax;
+    NumRequest numberBloqMax;
     /**
      * @brief Bandwidth of each slot.
      */

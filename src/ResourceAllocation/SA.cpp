@@ -12,23 +12,19 @@
  */
 
 #include "../../include/ResourceAllocation/SA.h"
-#include "../../include/ResourceAllocation/CSA.h"
 #include "../../include/ResourceAllocation/Route.h"
 #include "../../include/ResourceAllocation/ResourceAlloc.h"
 #include "../../include/Calls/Call.h"
 #include "../../include/Calls/CallDevices.h"
 #include "../../include/Structure/Topology.h"
 #include "../../include/Structure/Node.h"
-#include "../../include/GeneralClasses/Def.h"
 
 SA::SA(ResourceAlloc* rsa, SpectrumAllocationOption option, Topology* topology) 
 :resourceAlloc(rsa), specAllOption(option), topology(topology) {
     
 }
 
-SA::~SA() {
-    
-}
+SA::~SA() = default;
 
 void SA::SpecAllocation(Call* call) {
     call->SetCore(0);
@@ -99,7 +95,7 @@ void SA::FirstFit(Call* call) {
     
     for(unsigned int slot = 0; slot < topNumSlots; slot++){
         
-        if(resourceAlloc->CheckSlotDisp(route, slot)){
+        if(ResourceAlloc::CheckSlotDisp(route, slot)){
             numContigSlots++;
             
             if(numContigSlots == numSlotsReq){
@@ -147,7 +143,7 @@ void SA::MSCL(Call* call) {
     }
     
     for(unsigned int s = 0; s < (numSlotsTop - numSlotsReq + 1); s++){
-        DispFitSi = resourceAlloc->CheckSlotsDisp(route, s, 
+        DispFitSi = ResourceAlloc::CheckSlotsDisp(route, s,
                                                   s + numSlotsReq - 1);
         
         if(DispFitSi){
@@ -251,7 +247,7 @@ std::vector<unsigned int> SA::FirstFitSlots(Call* call) {
     std::vector<unsigned int> slots(0);
     
     for(unsigned int a = 0; a <= maxSlotIndex; a++){
-        if(resourceAlloc->CheckSlotsDisp(route, a, a + numSlotsReq - 1)){
+        if(ResourceAlloc::CheckSlotsDisp(route, a, a + numSlotsReq - 1)){
             slots.push_back(a);
         }
     }

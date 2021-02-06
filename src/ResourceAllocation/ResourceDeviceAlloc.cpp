@@ -13,27 +13,19 @@
 
 #include "../../include/ResourceAllocation/ResourceDeviceAlloc.h"
 #include "../../include/ResourceAllocation/Routing.h"
-#include "../../include/ResourceAllocation/Resources.h"
 #include "../../include/ResourceAllocation/Route.h"
 #include "../../include/ResourceAllocation/SA.h"
 #include "../../include/ResourceAllocation/RegeneratorAssignment/RegAssAlgorithms.h"
-#include "../../include/Calls/CallDevices.h"
-#include "../../include/GeneralClasses/Def.h"
-#include "../../include/Structure/Topology.h"
-#include "../../include/Structure/NodeDevices.h"
 #include "../../include/SimulationType/SimulationType.h"
 #include "../../include/Data/InputOutput.h"
 #include "../../include/ResourceAllocation/ProtectionSchemes/ProtectionSchemes.h"  
 
 ResourceDeviceAlloc::ResourceDeviceAlloc(SimulationType *simulType)
-:ResourceAlloc(simulType), protectionScheme(this->protectionScheme),
-regAssAlgorithm(nullptr) {
+:ResourceAlloc(simulType), protScheme(nullptr), regAssAlgorithm(nullptr) {
 
 }
 
-ResourceDeviceAlloc::~ResourceDeviceAlloc() {
-
-}
+ResourceDeviceAlloc::~ResourceDeviceAlloc() = default;
 
 void ResourceDeviceAlloc::Load() {
     ResourceAlloc::Load();
@@ -67,7 +59,7 @@ void ResourceDeviceAlloc::AdditionalSettings() {
 }
 
 void ResourceDeviceAlloc::ResourAlloc(Call* call) {
-    CallDevices* callDev = dynamic_cast<CallDevices*>(call);
+    auto* callDev = dynamic_cast<CallDevices*>(call);
     
     if(options->GetRegenerationOption() != RegenerationDisabled)
         regAssAlgorithm->ResourceAlloc(callDev);
@@ -265,11 +257,8 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
     
     switch (options->GetProtectionOption()){
         case ProtectionDPP:
-            protScheme = std::make_shared<DedicatedPathProtection>(this);
-            break;
         case ProtectionPDPP:
-            protScheme = std::make_shared<PartitioningDedicatedPathProtection>
-            (this);
+            protScheme = std::make_shared<DedicatedPathProtection>(this);
             break;
         case ProtectionEPDPP_GA:
             protScheme = std::make_shared<PartitioningDedicatedPathProtection>
@@ -280,22 +269,3 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
             std::abort();
     }
 }
-
-/*void ResourceDeviceAlloc::CreatePDPPBitRateOptions() {
-    unsigned int numNodes = this->topology->GetNumNodes();
-    protectionScheme->PDPPBitRateDistribution.resize(numNodes * numNodes);
-    
-    switch(options->GetProtectionOption()){
-        case ProtectionDPP:
-            break;
-        case ProtectionPDPP:
-            protectionScheme->PDPPBitRateDistribution.assign(numNodes*numNodes, 0);
-            break;
-        case ProtectionEPDPP_GA:
-            protectionScheme->PDPPBitRateDistribution.assign(numNodes*numNodes, 1);
-            break;
-        default:
-            std::cerr << "Invalid Protection Option" << std::endl;
-            std::abort();
-    }
-}*/

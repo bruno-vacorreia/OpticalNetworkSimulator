@@ -12,7 +12,6 @@
  */
 
 #include "../../include/Calls/Event.h"
-#include "../../include/Calls/EventGenerator.h"
 #include "../../include/ResourceAllocation/ResourceAlloc.h"
 #include "../../include/Data/Data.h"
 #include "../../include/Structure/Topology.h"
@@ -38,7 +37,7 @@ std::ostream& operator<<(std::ostream& ostream, const Event* event){
 
 Event::Event(EventGenerator* generator, std::shared_ptr<Call> call, TIME time)
 :parGenerator(generator), eventType(CallRequest), eventTime(time),
-call(call) {
+call(std::move(call)) {
 
 }
 

@@ -136,7 +136,7 @@ ResourceAlloc* SimulationType::GetResourceAlloc() const {
 void SimulationType::InitializeAll() {
     this->topology->Initialize();
     this->callGenerator->Initialize();
-    this->numberRequests = 0.0;
+    this->numberRequests = 0;
 }
 
 void SimulationType::Simulate() {
@@ -173,7 +173,7 @@ void SimulationType::CreateLoadResourceAlloc() {
 }
 
 void SimulationType::SimulateNumTotalReq() {
-    double numReqMax = this->parameters->GetNumberReqMax();
+    NumRequest numReqMax = this->parameters->GetNumberReqMax();
     std::shared_ptr<Event> evt;
     unsigned int countEvent = 0;
     double countBand = 1E8;

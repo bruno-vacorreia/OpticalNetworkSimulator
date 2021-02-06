@@ -25,21 +25,19 @@
 std::default_random_engine EventGenerator::random_generator(0);
 
 bool EventGenerator::EventCompare::operator()(
-const std::shared_ptr<Event> eventA,
-const std::shared_ptr<Event> eventB) const {
+const std::shared_ptr<Event>& eventA,
+const std::shared_ptr<Event>& eventB) const {
     
     return (eventA->GetEventTime() > eventB->GetEventTime());
 }
 
 EventGenerator::EventGenerator(SimulationType* simulType) 
 :simulType(simulType), topology(nullptr), data(nullptr), traffic(nullptr),
-networkLoad(0.0), simulationTime(0.0) {
+resourceAlloc(nullptr), networkLoad(0.0), simulationTime(0.0), realSimulationTime(0.0) {
     
 }
 
-EventGenerator::~EventGenerator() {
-    
-}
+EventGenerator::~EventGenerator() = default;
 
 void EventGenerator::Load() {
     this->topology = this->GetSimulType()->GetTopology();
@@ -51,7 +49,7 @@ void EventGenerator::Load() {
     (0, this->topology->GetNumNodes() - 1);
     this->uniformTrafficDistribution = std::uniform_int_distribution<int>
     (0, this->traffic->GetVecTraffic().size() - 1);
-    this->exponencialMuDistribution = std::exponential_distribution<TIME>
+    this->exponentialMuDistribution = std::exponential_distribution<TIME>
     (1.0L / this->simulType->GetParameters()->GetMu());
     
     this->LoadRandomGenerator();
@@ -60,7 +58,7 @@ void EventGenerator::Load() {
 void EventGenerator::Initialize() {
     this->InitializeGenerator();
     this->simulationTime = 0.0;
-    this->exponencialHDistribution = std::exponential_distribution<TIME>
+    this->exponentialHDistribution = std::exponential_distribution<TIME>
     (this->networkLoad);
     this->SetRealSimulationTime((TIME) std::clock() / CLOCKS_PER_SEC);
 }
@@ -87,11 +85,11 @@ void EventGenerator::GenerateCall() {
     unsigned int auxIndexTraffic = 
     uniformTrafficDistribution(random_generator);
     
-    TIME arrivalTime = exponencialHDistribution(random_generator);
-    TIME deactvationTime = exponencialMuDistribution(random_generator);
+    TIME arrivalTime = exponentialHDistribution(random_generator);
+    TIME deactivationTime = exponentialMuDistribution(random_generator);
     
     newCall = this->CreateCall(auxIndexOrNode, auxIndexDeNode, auxIndexTraffic,
-                               deactvationTime);
+                               deactivationTime);
     
     //Event creation from the call created before
     std::shared_ptr<Event> newEvent = 
@@ -128,7 +126,7 @@ std::shared_ptr<Event> EventGenerator::GetNextEvent() {
 }
 
 void EventGenerator::PushEvent(std::shared_ptr<Event> evt) {
-    this->queueEvents.push(evt);
+    this->queueEvents.push(std::move(evt));
 }
 
 SimulationType* EventGenerator::GetSimulType() const {
@@ -151,9 +149,9 @@ TIME EventGenerator::GetRealSimulationTime() const {
     return realSimulationTime;
 }
 
-void EventGenerator::SetRealSimulationTime(TIME realSimullationTime) {
-    assert(realSimullationTime > 0.0);
-    this->realSimulationTime = realSimullationTime;
+void EventGenerator::SetRealSimulationTime(TIME realSimulationTime) {
+    assert(realSimulationTime > 0.0);
+    this->realSimulationTime = realSimulationTime;
 }
 
 std::shared_ptr<Call> EventGenerator::CreateCall(unsigned orNodeIndex, 
@@ -161,15 +159,15 @@ unsigned deNodeIndex, unsigned trafficIndex, TIME deactTime) {
     std::shared_ptr<Call> newCall;
     Node* orNode = this->topology->GetNode(orNodeIndex);
     Node* deNode = this->topology->GetNode(deNodeIndex);
-    double traffic = this->traffic->GetTraffic(trafficIndex);
+    double trafficValue = this->traffic->GetTraffic(trafficIndex);
     
     switch(this->simulType->GetOptions()->GetDevicesOption()){
         case DevicesDisabled:
-            newCall = std::make_shared<Call>(orNode, deNode, traffic, 
+            newCall = std::make_shared<Call>(orNode, deNode, trafficValue,
                                              deactTime);
             break;
         case DevicesEnabled:
-            newCall = std::make_shared<CallDevices>(orNode, deNode, traffic, 
+            newCall = std::make_shared<CallDevices>(orNode, deNode, trafficValue,
                                                     deactTime);
             break;
         default:

@@ -15,7 +15,6 @@
 #include "../../include/Data/Parameters.h"
 #include "../../include/Data/Data.h"
 #include "../../include/Data/InputOutput.h"
-#include "../../include/Calls/EventGenerator.h"
 #include "../../include/Calls/Traffic.h"
 #include "../../include/Structure/Topology.h"
 
@@ -25,9 +24,7 @@ TypeSimulation typeSimulation)
 
 }
 
-SimulationMultiLoad::~SimulationMultiLoad() {
-
-}
+SimulationMultiLoad::~SimulationMultiLoad() = default;
 
 void SimulationMultiLoad::Run() {
     unsigned int numLoadPoints = this->GetParameters()->

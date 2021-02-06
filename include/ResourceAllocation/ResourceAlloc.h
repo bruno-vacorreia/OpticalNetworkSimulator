@@ -90,7 +90,7 @@ public:
      * @param call Call request to evaluate the OSNR.
      * @return True if the call presents a acceptable OSNR.
      */
-    bool CheckOSNR(Call* call);
+    bool CheckOSNR(Call* call) const;
     /**
      * @brief Check if this ResourceAlloc will apply R-SA or SA-R, depending 
      * on the order vector.
@@ -103,14 +103,14 @@ public:
      * routes of each node pair route(s).
      * @return True if the simulation uses interfering routes.
      */
-    bool CheckInterRouting();
+    bool CheckInterRouting() const;
     /**
      * @brief Checks if an specified slot is free in an specified route.
      * @param route Route to be analyzed.
      * @param slot Slot index.
      * @return True if the slot is available.
      */
-    bool CheckSlotDisp(Route* route, SlotIndex slot) const;
+    static bool CheckSlotDisp(Route* route, SlotIndex slot) ;
     /**
      * @brief Checks if a block of slots is free in an specified route.
      * @param route Route to be analyzed.
@@ -118,8 +118,8 @@ public:
      * @param lastSlot Last slot index.
      * @return True if the block of slots is available.
      */
-    bool CheckSlotsDisp(Route* route, SlotIndex firstSlot, 
-                        SlotIndex lastSlot) const;
+    static bool CheckSlotsDisp(Route* route, SlotIndex firstSlot,
+                               SlotIndex lastSlot);
     /**
      * @brief Checks if there is a contiguous block of free slots in
      * an specified route.
@@ -136,8 +136,8 @@ public:
      * @param core Index of the core.
      * @return True if the block of slots is available.
      */
-    bool CheckSlotsDispCore(Route* route, SlotIndex firstSlot,
-                            SlotIndex lastSlot, CoreIndex core) const;
+    static bool CheckSlotsDispCore(Route* route, SlotIndex firstSlot,
+                            SlotIndex lastSlot, CoreIndex core) ;
     /**
      * @brief Check if the specified OSNR is larger than the signal OSNR for
      * the specified route.
@@ -145,7 +145,7 @@ public:
      * @param OSNRth OSNR value for comparison.
      * @return True if the OSNR is larger.
      */
-    bool CheckOSNR(const Route* route, double OSNRth);
+    static bool CheckOSNR(const Route* route, double OSNRth);
     
     /**
      * @brief Get the SimulationType object that owns this object.
@@ -206,13 +206,13 @@ public:
      * @brief 
      * @param route 
      */
-    void DisableRouteLinks(Route* route);
+    static void DisableRouteLinks(Route* route);
     
-      /**
+    /**
      * @brief 
      * @param route 
      */
-    void EnableRouteLinks(Route* route);
+    static void EnableRouteLinks(Route* route);
     
     /**
      * @brief Function to calculate the network fragmentation ratio.
@@ -228,8 +228,8 @@ public:
      * @param pos Route index of the node pair.
      * @return Interfering routes.
      */
-    std::vector<std::shared_ptr<Route>> GetInterRoutes(int ori, int des, 
-                                                       int pos);
+    std::vector<std::shared_ptr<Route>> GetInterRoutes(unsigned int ori, unsigned int des,
+                                                       unsigned int pos);
     /**
      * @brief Gets the container of interfering routes of a specified node pair 
      * and route of this pair.
@@ -304,7 +304,7 @@ public:
      * @param callSize Call request number of slots.
      * @return Number of forms.
      */
-    unsigned int CalcNumForms(Route* route, unsigned int callSize);
+    unsigned int CalcNumForms(Route* route, unsigned int callSize) const;
     /**
      * @brief Function to calculate the number of simultaneous allocations of 
      * a call request number of slots in a specified availability vector.

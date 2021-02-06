@@ -30,13 +30,13 @@ public:
     
     void SpecAllocation(Call* call) override;
 
-    void FirstFit(Call* call);        
+    void FirstFit(Call* call) override;
     /**
      * @brief Return strong call class pointer to cast
      * @param call pointer of call class
      * @return Call pointer
      */    
-    void MSCL(Call* call);
+    void MSCL(Call* call) override;
 private:
     
 };

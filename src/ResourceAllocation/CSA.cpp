@@ -12,7 +12,6 @@
  */
 
 #include "../../include/ResourceAllocation/CSA.h"
-#include "../../include/ResourceAllocation/SA.h"
 #include "../../include/Calls/Call.h"
 #include "../../include/ResourceAllocation/Route.h"
 #include "../../include/ResourceAllocation/ResourceAlloc.h"
@@ -53,7 +52,7 @@ void CSA::FirstFit(Call* call){
     for(unsigned int core = 0; core < this->GetTopology()->GetNumCores(); 
     core++){
         for(int s = 0; s < slot_range; s++){
-            if(resourceAlloc->CheckSlotsDispCore(route, s, s + 
+            if(ResourceAlloc::CheckSlotsDispCore(route, s, s +
             call->GetNumberSlots() - 1, core)){
                 call->SetFirstSlot(s);
                 call->SetLastSlot(s + call->GetNumberSlots() - 1);
@@ -74,11 +73,12 @@ void CSA::MSCL(Call* call){
     Route *route = call->GetRoute(), *route_aux;
     int NslotsReq = call->GetNumberSlots(),slot_range = 
     totalSlots - NslotsReq + 1;
-    int core_size = this->GetTopology()->GetNumCores(),orNode = 
-    route->GetOrNodeId(),desNode = route->GetDeNodeId();
+    int core_size = this->GetTopology()->GetNumCores();
+    NodeIndex orNode = route->GetOrNodeId();
+    NodeIndex desNode = route->GetDeNodeId();
+    unsigned int coreIndex = 0;
     //Ponteiro que receberá todas as rotas que interferem com route
-    std::vector<std::shared_ptr<Route>> RouteInt = this->SA::GetResourceAlloc()
-    ->GetInterRoutes(orNode,desNode,0);
+    std::vector<std::shared_ptr<Route>> RouteInt = this->GetResourceAlloc()->GetInterRoutes(orNode, desNode, coreIndex);
     //int a = RouteInt.size();
     int vetCapInic,vetCapFin,si;
     double perda, perdaMin = std::numeric_limits<double>::max();
@@ -98,7 +98,7 @@ void CSA::MSCL(Call* call){
             //Verifica quais conjuntos de slots podem ser alocados
             for(s = 0; s < slot_range; s++){
                 perda = 0.0;
-                DispFitSi = resourceAlloc->CheckSlotsDispCore(route, s,
+                DispFitSi = ResourceAlloc::CheckSlotsDispCore(route, s,
                 s + NslotsReq - 1,e);
                 if(DispFitSi == true){
                     //Percorre rotas interferentes
@@ -108,7 +108,7 @@ void CSA::MSCL(Call* call){
                         else
                             route_aux = RouteInt.at(0).get();
                         for(int se = 0;se < totalSlots;se++){
-				if(!(resourceAlloc->CheckSlotsDispCore(route_aux,
+				if(!(ResourceAlloc::CheckSlotsDispCore(route_aux,
                                 se,se,e))){
 					vetDispInt[se] = false;
 					vetDispFin[se] = false;

@@ -18,21 +18,17 @@
 #include "../../include/ResourceAllocation/Route.h"
 #include "../../include/ResourceAllocation/SA.h"
 #include "../../include/ResourceAllocation/CSA.h"
-#include "../../include/ResourceAllocation/Modulation.h"
-#include "../../include/ResourceAllocation/Resources.h"
 #include "../../include/ResourceAllocation/Signal.h"
 #include "../../include/Data/Parameters.h"
 #include "../../include/Data/InputOutput.h"
-#include "../../include/Data/Options.h"
 #include "../../include/Data/Data.h"
 #include "../../include/Calls/Call.h"
 #include "../../include/Calls/Traffic.h"
-#include "../../include/Calls/EventGenerator.h"
 
 ResourceAlloc::ResourceAlloc(SimulationType *simulType)
 :topology(nullptr), traffic(nullptr), options(nullptr), simulType(simulType),
-parameters(nullptr), routing(nullptr), specAlloc(nullptr), modulation(nullptr),
-resources(nullptr) {
+parameters(nullptr), resourAllocOption(ResourAllocInvalid), phyLayerOption(PhyLayerDisabled), routing(nullptr),
+specAlloc(nullptr), modulation(nullptr), resources(nullptr) {
     
 }
 
@@ -172,7 +168,7 @@ void ResourceAlloc::SpecRouting(Call* call) {
             if(!this->CheckOSNR(call))
                 continue;
             
-            if(this->CheckSlotsDisp(call->GetRoute(), auxSlot, 
+            if(ResourceAlloc::CheckSlotsDisp(call->GetRoute(), auxSlot,
             auxSlot + call->GetNumberSlots() - 1)){
                 call->SetFirstSlot(auxSlot);
                 call->SetLastSlot(auxSlot + call->GetNumberSlots() - 1);
@@ -245,7 +241,7 @@ void ResourceAlloc::RoutingOffline() {
     }
 }
 
-bool ResourceAlloc::CheckInterRouting() {
+bool ResourceAlloc::CheckInterRouting() const {
     
     switch(this->GetSimulType()->GetOptions()->GetSpecAllOption()){
         case SpecAllMSCL:
@@ -255,10 +251,10 @@ bool ResourceAlloc::CheckInterRouting() {
     }
 }
 
-bool ResourceAlloc::CheckOSNR(Call* call) {
+bool ResourceAlloc::CheckOSNR(Call* call) const {
     
     if(this->phyLayerOption == PhyLayerEnabled)
-        if(!this->CheckOSNR(call->GetRoute(), call->GetOsnrTh()))
+        if(!ResourceAlloc::CheckOSNR(call->GetRoute(), call->GetOsnrTh()))
             return false;
     
     return true;
@@ -269,7 +265,7 @@ bool ResourceAlloc::CheckResourceAllocOrder(Call* call) {
     GetNodeId()*this->topology->GetNumNodes()+call->GetDeNode()->GetNodeId() );
 }
 
-bool ResourceAlloc::CheckSlotDisp(Route* route, SlotIndex slot) const {
+bool ResourceAlloc::CheckSlotDisp(Route* route, SlotIndex slot) {
     Link* link;
     unsigned int numHops = route->GetNumHops();
     
@@ -283,10 +279,10 @@ bool ResourceAlloc::CheckSlotDisp(Route* route, SlotIndex slot) const {
 }
 
 bool ResourceAlloc::CheckSlotsDisp(Route* route, SlotIndex firstSlot, 
-SlotIndex lastSlot) const {
+SlotIndex lastSlot) {
     
     for(unsigned int a = firstSlot; a <= lastSlot; a++){
-        if(!this->CheckSlotDisp(route, a))
+        if(!ResourceAlloc::CheckSlotDisp(route, a))
             return false;
     }
     
@@ -300,7 +296,7 @@ const {
 
     for(unsigned int s = 0; s < totalNumSlots; s++){
         
-        if(this->CheckSlotDisp(route, s))
+        if(ResourceAlloc::CheckSlotDisp(route, s))
             numContiguousSlots++;
         else
             numContiguousSlots = 0;
@@ -311,7 +307,7 @@ const {
 }
 
 bool ResourceAlloc::CheckSlotsDispCore(Route* route, SlotIndex firstSlot, 
-SlotIndex lastSlot, CoreIndex core) const {
+SlotIndex lastSlot, CoreIndex core) {
     bool flag = false;
     Link* link = route->GetLink(0);
     
@@ -596,7 +592,7 @@ double ResourceAlloc::CalcLinkFragmentationEF(Link* link) const {
     
     if(a != 0.0){
         b = (double) std::accumulate(freeSlotsBlocks.begin(),
-                                     freeSlotsBlocks.end(), 0);
+                                     freeSlotsBlocks.end(), 0.0);
     }
     
     return 1 - (a/b);
@@ -630,8 +626,8 @@ double ResourceAlloc::CalcLinkFragmentationABP(Link* link) const {
     return 1 - (a/b);
 }
 
-std::vector<std::shared_ptr<Route>> ResourceAlloc::GetInterRoutes(int ori, 
-int des, int pos) {
+std::vector<std::shared_ptr<Route>> ResourceAlloc::GetInterRoutes(unsigned int ori,
+                                                                  unsigned int des, unsigned int pos) {
     return this->resources->interRoutes.at(ori*(this->topology->GetNumNodes()) 
     + des).at(pos);
 }
@@ -794,7 +790,7 @@ std::vector<SlotState> ResourceAlloc::GetDispVector(Route* route) const {
     std::vector<SlotState> vecDisp(topNumSlots, free);
     
     for(SlotIndex a = 0; a < topNumSlots; a++){
-        if(!this->CheckSlotDisp(route, a))
+        if(!ResourceAlloc::CheckSlotDisp(route, a))
             vecDisp.at(a) = occupied;
     }
     
@@ -813,7 +809,7 @@ std::vector<SlotState>& dispVec) const {
     return sum;
 }
 
-unsigned int ResourceAlloc::CalcNumForms(Route* route, unsigned int callSize) {
+unsigned int ResourceAlloc::CalcNumForms(Route* route, unsigned int callSize) const {
     std::vector<SlotState> vecDisp = this->GetDispVector(route);
     
     return this->CalcNumFormAloc(callSize, vecDisp);

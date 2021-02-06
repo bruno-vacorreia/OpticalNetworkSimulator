@@ -86,8 +86,6 @@ private:
     std::shared_ptr<RegeneratorAssignment> regAssAlgorithm;
     
     std::shared_ptr<ProtectionScheme> protScheme;
-    
-    ProtectionScheme* protectionScheme;
 };
 
 #endif /* RESOURCEDEVICEALLOC_H */
