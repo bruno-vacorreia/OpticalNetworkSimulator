@@ -66,6 +66,22 @@ public:
      * @param call Call request to be analyzed.
      */
     void SetModulationParam(CallDevices* call);
+
+    /**
+    * @brief Define the Best Modulation format for a call request and
+    * apply the values to it.
+    * @param call Call request to be analyzed.
+    */
+    void DefineBestModulation(Call* call);
+    /**
+     * @brief Define the Best Modulation format for a multiCall request and
+    * apply the values to each one.
+     * @param call multiCall request to be analyzed.
+     */
+    void DefineBestModulation(CallDevices* call);
+
+
+
     /**
      * @brief Gets the possible slots set that the call requests can use.
      * @param traffic Container with all possible traffics.

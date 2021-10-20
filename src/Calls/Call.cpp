@@ -191,6 +191,10 @@ Route* Call::GetRoute() const {
     return this->route.get();
 }
 
+std::shared_ptr<Route> Call::GetRoutePtr() const {
+    return this->route;
+}
+
 std::shared_ptr<Route> Call::GetRoute(unsigned int index) const {
     assert(index < this->trialRoutes.size());
     
@@ -306,3 +310,5 @@ void Call::ClearTrialModulations() {
 TypeModulation Call::GetModulation(unsigned int index) {
     return this->trialModulation.at(index);
 }
+
+

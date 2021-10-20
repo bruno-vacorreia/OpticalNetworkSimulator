@@ -218,6 +218,11 @@ public:
      */
     Route* GetRoute() const;
     /**
+    * @brief Function to get the pointer of route allocated for the call request.
+    * @return Call request route.
+    */
+    std::shared_ptr<Route> GetRoutePtr() const;
+    /**
      * @brief Function to get a specified route of the possible routes that
      * can allocate the call request.
      * @param index Route index.

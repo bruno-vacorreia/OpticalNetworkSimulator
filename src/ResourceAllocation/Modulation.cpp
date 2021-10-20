@@ -67,6 +67,45 @@ void Modulation::SetModulationParam(CallDevices* call) {
     }
 }
 
+void Modulation::DefineBestModulation(Call *call) {
+    if(resourAlloc->options->GetResourAllocOption() == ResourAllocRSA){
+        call->SetModulation(FixedModulation);
+        SetModulationParam(call);
+    }
+
+    if(resourAlloc->options->GetResourAllocOption() == ResourAllocRMSA) {
+        resourAlloc->phyLayerOption = PhyLayerEnabled;
+        std::shared_ptr<Call> testCall = std::make_shared<Call>(call->GetOrNode(),
+                   call->GetOrNode(), call->GetBitRate(), 0.0);
+        testCall->SetRoute(call->GetRoutePtr());
+
+        for (TypeModulation mod = LastModulation; mod >= FirstModulation;
+             mod = TypeModulation(mod - 1)) {
+            testCall->SetModulation(mod);
+            SetModulationParam(testCall.get());
+
+            if (resourAlloc->CheckOSNR(testCall.get())) {
+                call->SetModulation(testCall->GetModulation());
+                SetModulationParam(call);
+                break;
+            }
+        }
+    }
+}
+
+void Modulation::DefineBestModulation(CallDevices *call) {
+    std::vector<Call*> calls = call->GetTranspSegments();
+
+    if(!calls.empty()){
+        for(auto it: calls)
+            this->DefineBestModulation(it);
+    }
+    else{
+        Call* baseCall = dynamic_cast<Call*>(call);
+        this->DefineBestModulation(baseCall);
+    }
+}
+
 std::vector<unsigned int> Modulation::GetPossibleSlots(std::vector<double> 
                                                        traffic) {
     std::vector<unsigned int> posSlots(0);
@@ -294,3 +333,7 @@ std::vector<double>& traffic) {
 unsigned int Modulation::GetNumBits(TypeModulation modulation) {
     return mapNumBitsModulation.at(modulation);
 }
+
+
+
+

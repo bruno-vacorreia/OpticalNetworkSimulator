@@ -345,20 +345,17 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).front().empty()){
             for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
                 callWork0->SetRoute(group3.at(0));
-                callWork0->SetModulation(FixedModulation);
                 callWork1->SetRoute(group3.at(1));
-                callWork1->SetModulation(FixedModulation);
                 callWork2->SetRoute(group3.at(2));
-                callWork2->SetModulation(FixedModulation);
 
-                //calculate number of slots for the vector of calls
-                this->modulation->SetModulationParam(call);
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
                 //check if the number of slots are available in the 3 routes
                 this->resDevAlloc->specAlloc->SpecAllocation(call);
 
                 if (topology->IsValidLigthPath(call)) {
                     call->SetRoute(group3.at(0));
-                    call->SetModulation(FixedModulation);
+                    call->SetModulation(callWork0->GetModulation());
                     call->SetFirstSlot(callWork0->GetFirstSlot());
                     call->SetLastSlot(callWork0->GetLastSlot());
                     call->SetStatus(Accepted);
@@ -382,18 +379,16 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
             for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
                 callWork0->SetRoute(group2.at(0));
-                callWork0->SetModulation(FixedModulation);
                 callWork1->SetRoute(group2.at(1));
-                callWork1->SetModulation(FixedModulation);
 
-                //calculate number of slots for the vector of calls
-                this->modulation->SetModulationParam(call);
-                //check if the number of slots are available in the 3 routes
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 2 routes
                 this->resDevAlloc->specAlloc->SpecAllocation(call);
 
                 if (topology->IsValidLigthPath(call)) {
                     call->SetRoute(group2.at(0));
-                    call->SetModulation(FixedModulation);
+                    call->SetModulation(callWork0->GetModulation());
                     call->SetFirstSlot(callWork0->GetFirstSlot());
                     call->SetLastSlot(callWork0->GetLastSlot());
                     call->SetStatus(Accepted);
@@ -412,13 +407,14 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
 
         for(auto& route : resources->allRoutes.at(nodePairIndex)){
             callWork0->SetRoute(route);
-            callWork0->SetModulation(FixedModulation);
-            this->modulation->SetModulationParam(call);
+            //callWork0->SetModulation(FixedModulation);
+            //this->modulation->SetModulationParam(call);
+            this->modulation->DefineBestModulation(call);
             this->resDevAlloc->specAlloc->SpecAllocation(call);
 
             if(topology->IsValidLigthPath(call)){
                 call->SetRoute(route);
-                call->SetModulation(FixedModulation);
+                call->SetModulation(callWork0->GetModulation());
                 call->SetFirstSlot(callWork0->GetFirstSlot());
                 call->SetLastSlot(callWork0->GetLastSlot());
                 call->SetStatus(Accepted);
@@ -445,18 +441,16 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
             for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
                 callWork0->SetRoute(group2.at(0));
-                callWork0->SetModulation(FixedModulation);
                 callWork1->SetRoute(group2.at(1));
-                callWork1->SetModulation(FixedModulation);
 
-                //calculate number of slots for the vector of calls
-                this->modulation->SetModulationParam(call);
-                //check if the number of slots are available in the 3 routes
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 2 routes
                 this->resDevAlloc->specAlloc->SpecAllocation(call);
 
                 if (topology->IsValidLigthPath(call)) {
                     call->SetRoute(group2.at(0));
-                    call->SetModulation(FixedModulation);
+                    call->SetModulation(callWork0->GetModulation());
                     call->SetFirstSlot(callWork0->GetFirstSlot());
                     call->SetLastSlot(callWork0->GetLastSlot());
                     call->SetStatus(Accepted);
@@ -475,13 +469,14 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
 
          for(auto& route : resources->allRoutes.at(nodePairIndex)){
              callWork0->SetRoute(route);
-             callWork0->SetModulation(FixedModulation);
-             this->modulation->SetModulationParam(call);
+             //callWork0->SetModulation(FixedModulation);
+             //this->modulation->SetModulationParam(call);
+             this->modulation->DefineBestModulation(call);
              this->resDevAlloc->specAlloc->SpecAllocation(call);
 
              if(topology->IsValidLigthPath(call)){
                  call->SetRoute(route);
-                 call->SetModulation(FixedModulation);
+                 call->SetModulation(callWork0->GetModulation());
                  call->SetFirstSlot(callWork0->GetFirstSlot());
                  call->SetLastSlot(callWork0->GetLastSlot());
                  call->SetStatus(Accepted);
@@ -960,8 +955,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 bool allocCallWork2Found = false;
                 sumFirstSlots = 0;
                 callWork0->SetRoute(group3.at(0));
-                callWork0->SetModulation(FixedModulation);
-                this->modulation->SetModulationParam(callWork0.get());
+                //callWork0->SetModulation(FixedModulation);
+                //this->modulation->SetModulationParam(callWork0.get());
+                this->modulation->DefineBestModulation(callWork0.get());
                 for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                     auxSlot = possibleSlots.at(s);
                     if (auxSlot + callWork0->GetNumberSlots() - 1 >= topNumSlots)
@@ -976,8 +972,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 }
                 if (allocCallWork0Found == true) {
                     callWork1->SetRoute(group3.at(1));
-                    callWork1->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork1.get());
+                    //callWork1->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork1.get());
+                    this->modulation->DefineBestModulation(callWork1.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
                         if (auxSlot + callWork1->GetNumberSlots() - 1 >= topNumSlots)
@@ -993,8 +990,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 }
                 if (allocCallWork1Found == true) {
                     callWork2->SetRoute(group3.at(2));
-                    callWork2->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork2.get());
+                    //callWork2->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork2.get());
+                    this->modulation->DefineBestModulation(callWork2.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
                         if (auxSlot + callWork2->GetNumberSlots() - 1 >= topNumSlots)
@@ -1028,8 +1026,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 if (index == minSlotIndexSum && index != Def::Max_Int) {
                     callWork0->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(0));
-                    callWork0->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork0.get());
+                    //callWork0->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork0.get());
+                    this->modulation->DefineBestModulation(callWork0.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork0->GetRoute(),
                      firstSlotIndexes.at(counterIndex).at(0),
                      firstSlotIndexes.at(counterIndex).at(0) +callWork0->GetNumberSlots() -1)) {
@@ -1040,8 +1039,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     callWork1->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(1));
-                    callWork1->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork1.get());
+                    //callWork1->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork1.get());
+                    this->modulation->DefineBestModulation(callWork1.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork1->GetRoute(),
                     firstSlotIndexes.at(counterIndex).at(1),
                     firstSlotIndexes.at(counterIndex).at(1) +callWork1->GetNumberSlots() -1)) {
@@ -1052,8 +1052,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     callWork2->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(2));
-                    callWork2->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork2.get());
+                    //callWork2->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork2.get());
+                    this->modulation->DefineBestModulation(callWork2.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork2->GetRoute(),
                      firstSlotIndexes.at(counterIndex).at(2),
                      firstSlotIndexes.at(counterIndex).at(2) +callWork2->GetNumberSlots() -1)) {
@@ -1065,7 +1066,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
 
                     call->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(0));
-                    call->SetModulation(FixedModulation);
+                    call->SetModulation(callWork0->GetModulation());
                     call->SetFirstSlot(callWork0->GetFirstSlot());
                     call->SetLastSlot(callWork0->GetLastSlot());
                     call->SetStatus(Accepted);
@@ -1108,8 +1109,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     bool allocCallWork1Found = false;
                     sumFirstSlots = 0;
                     callWork0->SetRoute(group2.at(0));
-                    callWork0->SetModulation(FixedModulation);
-                    this->modulation->SetModulationParam(callWork0.get());
+                    //callWork0->SetModulation(FixedModulation);
+                    //this->modulation->SetModulationParam(callWork0.get());
+                    this->modulation->DefineBestModulation(callWork0.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
                         if (auxSlot + callWork0->GetNumberSlots() - 1 >= topNumSlots)
@@ -1124,8 +1126,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     if (allocCallWork0Found == true) {
                         callWork1->SetRoute(group2.at(1));
-                        callWork1->SetModulation(FixedModulation);
-                        this->modulation->SetModulationParam(callWork1.get());
+                        //callWork1->SetModulation(FixedModulation);
+                        //this->modulation->SetModulationParam(callWork1.get());
+                        this->modulation->DefineBestModulation(callWork1.get());
                         for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                             auxSlot = possibleSlots.at(s);
                             if (auxSlot + callWork1->GetNumberSlots() - 1 >= topNumSlots)
@@ -1159,8 +1162,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     if (index == minSlotIndexSum && index != Def::Max_Int) {
                         callWork0->SetRoute(resources->protectionAllRoutesGroups.at(
                                 nodePairIndex).back().at(counterIndex).at(0));
-                        callWork0->SetModulation(FixedModulation);
-                        this->modulation->SetModulationParam(callWork0.get());
+                        //callWork0->SetModulation(FixedModulation);
+                        //this->modulation->SetModulationParam(callWork0.get());
+                        this->modulation->DefineBestModulation(callWork0.get());
                         if (this->resDevAlloc->CheckSlotsDisp(callWork0->GetRoute(),
                           firstSlotIndexes.at(counterIndex).at(0),
                            firstSlotIndexes.at(counterIndex).at(0)+callWork0->GetNumberSlots() -1)) {
@@ -1173,8 +1177,9 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                         }
                         callWork1->SetRoute(resources->protectionAllRoutesGroups.at(
                                 nodePairIndex).back().at(counterIndex).at(1));
-                        callWork1->SetModulation(FixedModulation);
-                        this->modulation->SetModulationParam(callWork1.get());
+                        //callWork1->SetModulation(FixedModulation);
+                        //this->modulation->SetModulationParam(callWork1.get());
+                        this->modulation->DefineBestModulation(callWork1.get());
                         if (this->resDevAlloc->CheckSlotsDisp(callWork1->GetRoute(),
                          firstSlotIndexes.at(counterIndex).at(1),
                           firstSlotIndexes.at(counterIndex).at(1) +callWork1->GetNumberSlots() -1)) {
@@ -1187,7 +1192,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                         }
                         call->SetRoute(resources->protectionAllRoutesGroups.at(
                                 nodePairIndex).back().at(counterIndex).at(0));
-                        call->SetModulation(FixedModulation);
+                        call->SetModulation(callWork0->GetModulation());
                         call->SetFirstSlot(callWork0->GetFirstSlot());
                         call->SetLastSlot(callWork0->GetLastSlot());
                         call->SetStatus(Accepted);
@@ -1212,10 +1217,11 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 auxSlot = possibleSlots.at(s);
                 for(auto& route : resources->allRoutes.at(nodePairIndex)){
                     callWork0->SetRoute(route);
-                    callWork0->SetModulation(FixedModulation);
+                    //callWork0->SetModulation(FixedModulation);
 
                     //calculate number of slots for current of call
-                    this->modulation->SetModulationParam(callWork0.get());
+                    //this->modulation->SetModulationParam(callWork0.get());
+                    this->modulation->DefineBestModulation(callWork0.get());
 
                     if (auxSlot + callWork0->GetNumberSlots() - 1 >= topNumSlots)
                         continue;
@@ -1228,7 +1234,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                         callWork0->SetCore(0);
 
                         call->SetRoute(route);
-                        call->SetModulation(FixedModulation);
+                        call->SetModulation(callWork0->GetModulation());
                         call->SetFirstSlot(callWork0->GetFirstSlot());
                         call->SetLastSlot(callWork0->GetLastSlot());
                         call->SetStatus(Accepted);
