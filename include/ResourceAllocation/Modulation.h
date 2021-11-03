@@ -26,12 +26,13 @@ class CallDevices;
  */
 enum TypeModulation{
     InvalidModulation,
+    BPSK,
     QAM_4,
     QAM_8,
     QAM_16,
     QAM_32,
     QAM_64,
-    FirstModulation = QAM_4,
+    FirstModulation = BPSK,
     LastModulation = QAM_64,
     FixedModulation = QAM_4
 };

@@ -169,8 +169,7 @@ void Call::SetBitRate(double bitRate) {
 }
 
 void Call::SetModulation(TypeModulation modulation) {
-    assert(modulation >= FirstModulation && 
-           modulation <= LastModulation);
+    assert(modulation >= FirstModulation && modulation <= LastModulation);
     
     this->modulation = modulation;
 }

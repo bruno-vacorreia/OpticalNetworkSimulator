@@ -427,7 +427,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
     if(numSchProtRoutes == 2){
         this->CreateProtectionCalls(call); //loading transpsegments with calls
 
-        //setting 2 protection calls to allocation
+        //setting 2 calls to allocation
         std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
@@ -948,15 +948,11 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
             //computing the first slot indexes available of each group for current call and its sum
             for (auto &group3: resources->protectionAllRoutesGroups.at(
                     nodePairIndex).front()) {
-//                if(groupIndex == parameters->GetNumberRoutes())
-//                    break;
                 bool allocCallWork0Found = false;
                 bool allocCallWork1Found = false;
                 bool allocCallWork2Found = false;
                 sumFirstSlots = 0;
                 callWork0->SetRoute(group3.at(0));
-                //callWork0->SetModulation(FixedModulation);
-                //this->modulation->SetModulationParam(callWork0.get());
                 this->modulation->DefineBestModulation(callWork0.get());
                 for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                     auxSlot = possibleSlots.at(s);
@@ -972,8 +968,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 }
                 if (allocCallWork0Found == true) {
                     callWork1->SetRoute(group3.at(1));
-                    //callWork1->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork1.get());
                     this->modulation->DefineBestModulation(callWork1.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
@@ -990,8 +984,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 }
                 if (allocCallWork1Found == true) {
                     callWork2->SetRoute(group3.at(2));
-                    //callWork2->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork2.get());
                     this->modulation->DefineBestModulation(callWork2.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
@@ -1026,8 +1018,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 if (index == minSlotIndexSum && index != Def::Max_Int) {
                     callWork0->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(0));
-                    //callWork0->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork0.get());
                     this->modulation->DefineBestModulation(callWork0.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork0->GetRoute(),
                      firstSlotIndexes.at(counterIndex).at(0),
@@ -1039,8 +1029,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     callWork1->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(1));
-                    //callWork1->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork1.get());
                     this->modulation->DefineBestModulation(callWork1.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork1->GetRoute(),
                     firstSlotIndexes.at(counterIndex).at(1),
@@ -1052,8 +1040,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     callWork2->SetRoute(resources->protectionAllRoutesGroups.at(
                             nodePairIndex).front().at(counterIndex).at(2));
-                    //callWork2->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork2.get());
                     this->modulation->DefineBestModulation(callWork2.get());
                     if (this->resDevAlloc->CheckSlotsDisp(callWork2->GetRoute(),
                      firstSlotIndexes.at(counterIndex).at(2),
@@ -1103,14 +1089,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                 //computing the first slot indexes available of each group for current call and its sum
                 for (auto &group2: resources->protectionAllRoutesGroups.at(
                         nodePairIndex).back()) {
-//                    if(groupIndex == parameters->GetNumberRoutes())
-//                        break;
                     bool allocCallWork0Found = false;
                     bool allocCallWork1Found = false;
                     sumFirstSlots = 0;
                     callWork0->SetRoute(group2.at(0));
-                    //callWork0->SetModulation(FixedModulation);
-                    //this->modulation->SetModulationParam(callWork0.get());
                     this->modulation->DefineBestModulation(callWork0.get());
                     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                         auxSlot = possibleSlots.at(s);
@@ -1126,8 +1108,6 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     }
                     if (allocCallWork0Found == true) {
                         callWork1->SetRoute(group2.at(1));
-                        //callWork1->SetModulation(FixedModulation);
-                        //this->modulation->SetModulationParam(callWork1.get());
                         this->modulation->DefineBestModulation(callWork1.get());
                         for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                             auxSlot = possibleSlots.at(s);

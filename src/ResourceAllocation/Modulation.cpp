@@ -22,6 +22,7 @@
 const boost::unordered_map<TypeModulation, unsigned int> 
 Modulation::mapNumBitsModulation = boost::assign::map_list_of
     (InvalidModulation, 0)
+    (BPSK, 1)
     (QAM_4, 2)
     (QAM_8, 3)
     (QAM_16, 4)
@@ -76,7 +77,7 @@ void Modulation::DefineBestModulation(Call *call) {
     if(resourAlloc->options->GetResourAllocOption() == ResourAllocRMSA) {
         resourAlloc->phyLayerOption = PhyLayerEnabled;
         std::shared_ptr<Call> testCall = std::make_shared<Call>(call->GetOrNode(),
-                   call->GetOrNode(), call->GetBitRate(), 0.0);
+                   call->GetDeNode(), call->GetBitRate(), 0.0);
         testCall->SetRoute(call->GetRoutePtr());
 
         for (TypeModulation mod = LastModulation; mod >= FirstModulation;
@@ -205,6 +206,9 @@ double Modulation::GetSNRbQAM(unsigned int M) {
     
     if(this->BER == 1E-3){
         switch(M){
+            case 1:
+                return 0.0;
+                break;
             case 2:
                 return 6.79;
                 break;
@@ -227,6 +231,9 @@ double Modulation::GetSNRbQAM(unsigned int M) {
     }
     else if(this->BER == 3.8E-3){
         switch(M){
+            case 1:
+                return 0.0;
+                break;
             case 2:
                 return 5.52;
                 break;
