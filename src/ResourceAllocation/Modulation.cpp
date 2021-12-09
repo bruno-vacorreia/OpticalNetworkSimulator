@@ -68,6 +68,19 @@ void Modulation::SetModulationParam(CallDevices* call) {
     }
 }
 
+void Modulation::DefineBestModulation(CallDevices *call) {
+    std::vector<Call*> calls = call->GetTranspSegments();
+
+    if(!calls.empty()){
+        for(auto it: calls)
+            this->DefineBestModulation(it);
+    }
+    else{
+        Call* baseCall = dynamic_cast<Call*>(call);
+        this->DefineBestModulation(baseCall);
+    }
+}
+
 void Modulation::DefineBestModulation(Call *call) {
     if(resourAlloc->options->GetResourAllocOption() == ResourAllocRSA){
         call->SetModulation(FixedModulation);
@@ -91,19 +104,6 @@ void Modulation::DefineBestModulation(Call *call) {
                 break;
             }
         }
-    }
-}
-
-void Modulation::DefineBestModulation(CallDevices *call) {
-    std::vector<Call*> calls = call->GetTranspSegments();
-
-    if(!calls.empty()){
-        for(auto it: calls)
-            this->DefineBestModulation(it);
-    }
-    else{
-        Call* baseCall = dynamic_cast<Call*>(call);
-        this->DefineBestModulation(baseCall);
     }
 }
 

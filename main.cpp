@@ -25,12 +25,17 @@
  * @return 
  */
 int main(int argc, char** argv) {
-    
+
     std::cout << "\t----OPTICAL NETWORKS SIMULATOR----"  << std::endl;
+    clock_t start = clock();
 
     std::shared_ptr<Kernel> kernel = std::make_shared<Kernel>();
     kernel->Run();
     kernel.reset();
+
+    clock_t stop = clock();
+    double elapsed = (double) (stop - start) / CLOCKS_PER_SEC;
+    printf("\nTime elapsed: %.5f\n", elapsed);
 
     return 0;
 }

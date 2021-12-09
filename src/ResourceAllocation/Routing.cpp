@@ -880,38 +880,38 @@ void Routing::MultiPathRouting() {
     }
 
     //ordering groups in protectionAllRoutes vector by number of hops
-    int numTotalHopsG = 0;
-    std::vector<int> auxTotalHopGroupsVec;
+    double numTotalCostG = 0;
+    std::vector<int> auxTotalCostGroupsVec;
     std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
 
     for(auto& nodePair : auxProtectionAllRoutesGroups) {
         for (auto& groupType: nodePair) {
             if(groupType.empty())
                 break;
-            //Filling total hops and routes groups vectors of actual node pair
+            //Filling total cost and routes groups vectors of actual node pair
             for (auto& group : groupType) {
                 for(const auto& route : group){
-                numTotalHopsG += route->GetNumHops();
+                    numTotalCostG += route->GetCost();
                 }
-                auxTotalHopGroupsVec.push_back(numTotalHopsG);
+                auxTotalCostGroupsVec.push_back(numTotalCostG);
                 auxTotalRouteGroupsVec.push_back(group);
-                numTotalHopsG = 0;
+                numTotalCostG = 0;
             }
-            //ordering groups in aux vectors by hop number
-            for (int gi = 1; gi < auxTotalHopGroupsVec.size(); gi++) {
-                int Ci = auxTotalHopGroupsVec[gi];
+            //ordering groups in aux vectors by cost (hops or length)
+            for (int gi = 1; gi < auxTotalCostGroupsVec.size(); gi++) {
+                int Ci = auxTotalCostGroupsVec[gi];
                 std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
                 int gj;
-                for (gj = gi; gj > 0 && Ci < auxTotalHopGroupsVec[gj - 1]; gj--) {
-                    auxTotalHopGroupsVec[gj] = auxTotalHopGroupsVec[gj - 1];
+                for (gj = gi; gj > 0 && Ci < auxTotalCostGroupsVec[gj - 1]; gj--) {
+                    auxTotalCostGroupsVec[gj] = auxTotalCostGroupsVec[gj - 1];
                     auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
                 }
-                auxTotalHopGroupsVec[gj] = Ci;
+                auxTotalCostGroupsVec[gj] = Ci;
                 auxTotalRouteGroupsVec[gj] = Ri;
             }
             //updating type group in auxProtectionAllRoutesGroups with ordered group
             groupType = auxTotalRouteGroupsVec;
-            auxTotalHopGroupsVec.clear();
+            auxTotalCostGroupsVec.clear();
             auxTotalRouteGroupsVec.clear();
         }
     }

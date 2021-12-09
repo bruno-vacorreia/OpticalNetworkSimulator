@@ -228,6 +228,23 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
                         }             
                     }
                 }
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
             }
             else if(BR == 200000000000){
                 for(double a = BRdown; a <= BRup; a = a+10e9){
@@ -244,6 +261,23 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
                         }             
                     }
                 }
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
             }
             else if(BR == 400000000000){
                 for(double a = BRdown; a <= BRup; a = a+20e9){
@@ -260,6 +294,23 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
                         }             
                     }
                 }
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                auxBitRateOption.push_back(BRmin);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
+//
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(BRmin);
+//                auxBitRateOption.push_back(0.0);
+//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
+//                auxBitRateOption.clear();
             }
             else {
                 std::cout << "Invalid traffic option. Traffic option should be 100/200/400 GB";
