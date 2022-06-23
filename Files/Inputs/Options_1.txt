@@ -3,11 +3,11 @@
 2
 1
 1
-2
 1
+0
 2
 0
-1
+0
 1
 0
 0
@@ -22,7 +22,7 @@
     0 - Invalid
     1 - NSFNet
     2 - Ring
-    3 - Toroidal
+    3 - Toroidal 9N
     4 - Germany
     5 - EON-RT
     6 - Italy
@@ -32,6 +32,7 @@
     10- Waxman
     11- US Backbone
     12- European
+    13- Cost239
 2-Routing algorithm
     0 - Invalid
     1 - DJK

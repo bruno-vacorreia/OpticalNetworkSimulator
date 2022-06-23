@@ -212,22 +212,23 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
             double BRmin = ((it*(1 - beta)));
             double BRdown = ((it/2) - (0.2*it));
             double BRup = ((it/2) + (0.2*it));
-            
+
             if(BR == 100000000000){
                 for(double a = BRdown; a <= BRup; a = a+5e9){
-                    for(double b = BRdown; b <= BRup; b = b+5e9){                    
+                    for(double b = BRdown; b <= BRup; b = b+5e9){
                         for(double c = BRdown; c <= BRup; c = c+5e9){
-                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin 
+                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= 1.3*BR){
                                 auxBitRateOption.push_back(a);
                                 auxBitRateOption.push_back(b);
                                 auxBitRateOption.push_back(c);
-                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);                       
+                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
                                 auxBitRateOption.clear();
                             }
-                        }             
+                        }
                     }
                 }
+
 //                auxBitRateOption.push_back(0.0);
 //                auxBitRateOption.push_back(BRmin);
 //                auxBitRateOption.push_back(BRmin);

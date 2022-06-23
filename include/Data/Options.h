@@ -39,8 +39,9 @@ enum TopologyOption {
     TopologyWaxman,
     TopologyUS_Backbone,
     TopologyEuropean,
+    TopologyCost239,
     FirstTopology = TopologyNSFNet,
-    LastTopology = TopologyEuropean
+    LastTopology = TopologyCost239
 };
 
 /**

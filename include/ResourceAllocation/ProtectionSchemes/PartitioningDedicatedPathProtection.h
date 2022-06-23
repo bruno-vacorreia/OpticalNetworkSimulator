@@ -57,6 +57,14 @@ public:
     */
     void RoutingSpecPDPP_MP(CallDevices* call);
     /**
+    * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
+    * routes according with PDPP scheme for offline MP routing and no same set of slots
+    * between routes. This function analyses each group and try to allocate the one which
+    * demands a minimum number of slots.
+    * @param call Call request the function will try to allocate.
+    */
+    void RoutingSpecPDPP_MP_MinNumSlot(CallDevices* call);
+    /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with PDPP scheme for offline YEN routing and no same set of slots
      * between routes route.

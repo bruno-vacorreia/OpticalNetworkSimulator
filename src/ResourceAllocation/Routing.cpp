@@ -909,7 +909,7 @@ void Routing::MultiPathRouting() {
                 auxTotalCostGroupsVec[gj] = Ci;
                 auxTotalRouteGroupsVec[gj] = Ri;
             }
-            //updating type group in auxProtectionAllRoutesGroups with ordered group
+            //updating type group in auxProtectionAllRoutesGroups with ordered groups
             groupType = auxTotalRouteGroupsVec;
             auxTotalCostGroupsVec.clear();
             auxTotalRouteGroupsVec.clear();

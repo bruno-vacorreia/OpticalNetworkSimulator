@@ -31,7 +31,8 @@ Options::mapTopologyOptions = boost::assign::map_list_of
     (TopologySmallNet, "SmallNet")
     (TopologyWaxman, "Waxman")
     (TopologyUS_Backbone, "US_Backbone")
-    (TopologyEuropean, "European");
+    (TopologyEuropean, "European")
+    (TopologyCost239, "Cost239");
 
 const boost::unordered_map<RoutingOption, std::string>
 Options::mapRoutingOptions = boost::assign::map_list_of
