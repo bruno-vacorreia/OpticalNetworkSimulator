@@ -173,9 +173,9 @@ public:
      */
     //void MultiPathRouting();
     /**
-     * @brief Function to apply the link-disjoint path groups routing (DPGR) algorithm for all node pairs
-     * in the network. Groups of 2 and 3 disjoint routes are formed to be used in PDPP
-     * scheme.
+     * @brief Function to apply the link-disjoint path groups routing (DPGR) algorithm for
+     * all node pairs in the network. Groups of 2 and 3 disjoint routes are formed to be
+     * used in PDPP scheme with 4, 3 or 2 routes.
      */
     void DisjointPathGroupsRouting();
 

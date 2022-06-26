@@ -1021,13 +1021,13 @@ void Routing::DisjointPathGroupsRouting() {
     unsigned int numNodePair = numNodes * numNodes;
     auxProtectionAllRoutesGroups.resize(numNodePair);
 
-    //defining vector size for number of group types (2, 3 and 4)
+    //defining vector size for number of group types (4, 3 and 2)
     unsigned int numGroupTypes = 3;
     for(auto& groupTypes : auxProtectionAllRoutesGroups){
         groupTypes.resize(numGroupTypes);
     }
 
-    //generate groups of 2, 3 and 4 disjoint routes for each source-destination pair
+    //generate groups of 4, 3 and 2 disjoint routes for each source-destination pair
     for(auto& routesNodePair: resources->allRoutes) {
         int r1 = 0;
         for(const auto& route1: routesNodePair) {

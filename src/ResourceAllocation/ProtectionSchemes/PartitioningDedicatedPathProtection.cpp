@@ -123,7 +123,7 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
             if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
                 if(resDevAlloc->options->GetGaOption() == GaPDPPBO ||
                    resDevAlloc->options->GetProtectionOption() == ProtectionPDPPBO_GA)
-                    this->RoutingSpecPDPP_MP_MinNumSlot(call);
+                    this->RoutingSpecPDPP_DPGR_MinNumSlot(call);
                 else
                     this->RoutingSpecPDPP_DPGR(call);
             else
@@ -360,7 +360,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
 
                 //defining modulation format and number of slots for the vector of calls
                 this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 3 routes
+                //check if the number of slots are available in the 4 routes
                 this->resDevAlloc->specAlloc->SpecAllocation(call);
 
                 if (topology->IsValidLigthPath(call)) {
@@ -626,7 +626,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
     }
 }
 
-void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP_MinNumSlot(CallDevices *call) {
+void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDevices *call) {
     if(numSchProtRoutes == 3){
         this->CreateProtectionCalls(call); //loading transpsegments with protection calls
 
@@ -646,8 +646,8 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP_MinNumSlot(CallDevi
         std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
 
         //computing the total number of required slots from each group for current call
-        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).front().empty()){
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
                 callWork0->SetRoute(group3.at(0));
                 callWork1->SetRoute(group3.at(1));
                 callWork2->SetRoute(group3.at(2));
@@ -675,12 +675,12 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP_MinNumSlot(CallDevi
                 auxTotalRouteGroupsVec[gj] = Ri;
             }
             //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
-            resources->protectionAllRoutesGroups.at(nodePairIndex).front() = auxTotalRouteGroupsVec;
+            resources->protectionAllRoutesGroups.at(nodePairIndex).at(1) = auxTotalRouteGroupsVec;
             auxTotalSlotGroupsVec.clear();
             auxTotalRouteGroupsVec.clear();
 
             //trying allocate with 3 routes
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
                 callWork0->SetRoute(group3.at(0));
                 callWork1->SetRoute(group3.at(1));
                 callWork2->SetRoute(group3.at(2));
