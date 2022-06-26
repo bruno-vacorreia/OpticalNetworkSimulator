@@ -66,14 +66,14 @@ public:
     * between routes.
     * @param call Call request the function will try to allocate.
     */
-    void RoutingSpecDPP_MP(CallDevices* call);
+    void RoutingSpecDPP_DPGR(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with DPP scheme for offline MP routing and no same set of slots
     * between routes.
     * @param call Call request the function will try to allocate.
     */
-    void SpecRoutingDPP_MP(CallDevices* call);
+    void SpecRoutingDPP_DPGR(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with DPP scheme for offline routing and same set of slots for each

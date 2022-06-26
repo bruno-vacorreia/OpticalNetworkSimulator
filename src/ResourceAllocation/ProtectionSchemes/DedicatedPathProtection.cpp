@@ -41,7 +41,7 @@ void DedicatedPathProtection::CreateProtectionRoutes() {
             routing->ProtectionDisjointYEN();
             break;
         case RoutingMP:
-            this->routing->MultiPathRouting();
+            this->routing->DisjointPathGroupsRouting();
             break;
         default:
             std::cerr << "Invalid offline routing option" << std::endl;
@@ -60,9 +60,9 @@ void DedicatedPathProtection::ResourceAlloc(CallDevices* call) {
             break;
         case RoutingMP:
             if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
-                this->RoutingSpecDPP_MP(call);
+                this->RoutingSpecDPP_DPGR(call);
             else
-                this->SpecRoutingDPP_MP(call);
+                this->SpecRoutingDPP_DPGR(call);
             break;
         default:
             std::cerr << "Invalid offline routing option" << std::endl;
@@ -140,7 +140,7 @@ void DedicatedPathProtection::RoutingSpecDPP(CallDevices* call) {
     }*/
 }
 
-void DedicatedPathProtection::RoutingSpecDPP_MP(CallDevices* call) {
+void DedicatedPathProtection::RoutingSpecDPP_DPGR(CallDevices* call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //setting 2 calls to allocation
@@ -338,7 +338,7 @@ void DedicatedPathProtection::SpecRoutingDPP(CallDevices* call) {
     }*/
 }
 
-void DedicatedPathProtection::SpecRoutingDPP_MP(CallDevices *call) {
+void DedicatedPathProtection::SpecRoutingDPP_DPGR(CallDevices *call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //seting 2 protection calls to allocation

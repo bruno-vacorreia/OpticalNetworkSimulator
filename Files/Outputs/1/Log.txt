@@ -38,38 +38,38 @@ Beta Squeezing: 0
 Number of MPR Groups: 10
 
 DATA
-Simulation time:1997.23  Real simul time: 0.093724  Number of requests:100000
-Load point:50  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1997.23  Real simul time: 2.75442  Number of requests:100000
+Load point:50  ReqBP:0.00022  SlotsBP:0.000376895  HopsMed:2.1416
+NetOcc:2.5299e+06  NetUti:0.235574 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.63571
 
-Simulation time:1815.67  Real simul time: 0.10451  Number of requests:100000
-Load point:55  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1815.67  Real simul time: 2.51925  Number of requests:100000
+Load point:55  ReqBP:0.00067  SlotsBP:0.00113925  HopsMed:2.14144
+NetOcc:2.52808e+06  NetUti:0.258904 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.635561
 
-Simulation time:1664.36  Real simul time: 0.146434  Number of requests:100000
-Load point:60  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1664.36  Real simul time: 2.47784  Number of requests:100000
+Load point:60  ReqBP:0.00181  SlotsBP:0.00307512  HopsMed:2.14108
+NetOcc:2.5239e+06  NetUti:0.281945 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.635211
 
-Simulation time:1536.33  Real simul time: 0.148843  Number of requests:100000
-Load point:65  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1536.33  Real simul time: 2.90469  Number of requests:100000
+Load point:65  ReqBP:0.00416  SlotsBP:0.00705821  HopsMed:2.14026
+NetOcc:2.51446e+06  NetUti:0.304361 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.634695
 
-Simulation time:1426.59  Real simul time: 0.14683  Number of requests:100000
-Load point:70  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1426.59  Real simul time: 2.14396  Number of requests:100000
+Load point:70  ReqBP:0.0085  SlotsBP:0.014382  HopsMed:2.13891
+NetOcc:2.49734e+06  NetUti:0.325455 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.633712
 
-Simulation time:1331.49  Real simul time: 0.152716  Number of requests:100000
-Load point:75  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1331.49  Real simul time: 1.87293  Number of requests:100000
+Load point:75  ReqBP:0.01429  SlotsBP:0.0240185  HopsMed:2.13727
+NetOcc:2.47444e+06  NetUti:0.345367 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.632674
 
-Simulation time:1248.27  Real simul time: 0.15289  Number of requests:100000
-Load point:80  ReqBP:1  SlotsBP:1  HopsMed:-nan
-NetOcc:0  NetUti:0 NetFrag:0
-ProtRate:-nan  BetaAvrg:-nan   AlphaAvrg:-nan
+Simulation time:1248.27  Real simul time: 1.93234  Number of requests:100000
+Load point:80  ReqBP:0.02282  SlotsBP:0.0384647  HopsMed:2.13522
+NetOcc:2.43694e+06  NetUti:0.363012 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.630699
 

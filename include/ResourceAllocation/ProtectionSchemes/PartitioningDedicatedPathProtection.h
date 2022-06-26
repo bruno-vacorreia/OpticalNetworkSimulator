@@ -55,7 +55,7 @@ public:
     * between routes.
     * @param call Call request the function will try to allocate.
     */
-    void RoutingSpecPDPP_MP(CallDevices* call);
+    void RoutingSpecPDPP_DPGR(CallDevices* call);
     /**
     * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
     * routes according with PDPP scheme for offline MP routing and no same set of slots

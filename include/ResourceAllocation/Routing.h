@@ -171,7 +171,14 @@ public:
      * in the network. Groups of 2 and 3 disjoint routes are formed to be used in PDPP
      * scheme.
      */
-    void MultiPathRouting();
+    //void MultiPathRouting();
+    /**
+     * @brief Function to apply the link-disjoint path groups routing (DPGR) algorithm for all node pairs
+     * in the network. Groups of 2 and 3 disjoint routes are formed to be used in PDPP
+     * scheme.
+     */
+    void DisjointPathGroupsRouting();
+
     /**
     * @brief Function to get all routes between all source-destination pair on the topology.
      * These routes are stored in allRoutes vector.

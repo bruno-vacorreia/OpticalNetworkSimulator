@@ -46,7 +46,8 @@ void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
             routing->ProtectionDisjointYEN();
             break;
          case RoutingMP:
-            this->routing->MultiPathRouting();
+            //this->routing->MultiPathRouting();
+             this->routing->DisjointPathGroupsRouting();
             break;
         default:
             std::cerr << "Invalid offline routing option" << std::endl;
@@ -124,7 +125,7 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
                    resDevAlloc->options->GetProtectionOption() == ProtectionPDPPBO_GA)
                     this->RoutingSpecPDPP_MP_MinNumSlot(call);
                 else
-                    this->RoutingSpecPDPP_MP(call);
+                    this->RoutingSpecPDPP_DPGR(call);
             else
                 this->SpecRoutingPDPP_MP(call);
             break;
@@ -332,7 +333,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
     }
 }
 
-void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) {
+void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call) {
 
     if(numSchProtRoutes == 4){
         this->CreateProtectionCalls(call); //loading transpsegments with protection calls
@@ -351,7 +352,41 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
 
         //trying allocate with 4 routes
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).front().empty()){
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
+            for(auto& group4 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
+                callWork0->SetRoute(group4.at(0));
+                callWork1->SetRoute(group4.at(1));
+                callWork2->SetRoute(group4.at(2));
+                callWork3->SetRoute(group4.at(3));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 3 routes
+                this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+                if (topology->IsValidLigthPath(call)) {
+                    call->SetRoute(group4.at(0));
+                    call->SetModulation(callWork0->GetModulation());
+                    call->SetFirstSlot(callWork0->GetFirstSlot());
+                    call->SetLastSlot(callWork0->GetLastSlot());
+                    call->SetStatus(Accepted);
+                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
+                    CalcBetaAverage(call);
+                    CalcAlpha(call);
+                    return;
+                }
+            }
+        }
+        //Delete one route, recalculate Bit rate and try allocating with 3 routes
+        callsVec.pop_back();
+        double callBitRate = call->GetBitRate();
+        double beta = parameters->GetBeta();
+        double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
+        callWork0->SetBitRate(partialBitRate);
+        callWork1->SetBitRate(partialBitRate);
+        callWork2->SetBitRate(partialBitRate);
+        call->SetTranspSegments(callsVec);
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
                 callWork0->SetRoute(group3.at(0));
                 callWork1->SetRoute(group3.at(1));
                 callWork2->SetRoute(group3.at(2));
@@ -374,12 +409,11 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_MP(CallDevices* call) 
                 }
             }
         }
-
         //Delete one route, recalculate Bit rate and try allocating with 2 routes
         callsVec.pop_back();
-        double callBitRate = call->GetBitRate();
-        double beta = parameters->GetBeta();
-        double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
+        callBitRate = call->GetBitRate();
+        beta = parameters->GetBeta();
+        partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-3));
         callWork0->SetBitRate(partialBitRate);
         callWork1->SetBitRate(partialBitRate);
         call->SetTranspSegments(callsVec);
