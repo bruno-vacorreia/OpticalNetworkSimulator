@@ -51,7 +51,7 @@ void SA::SpecAllocation(Call* call) {
 
 void SA::SpecAllocation(CallDevices* call) {
     
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
     
     if(!calls.empty()){
         for(auto it: calls){

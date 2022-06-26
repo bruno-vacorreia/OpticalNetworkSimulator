@@ -55,7 +55,7 @@ void Modulation::SetModulationParam(Call* call) {
 }
 
 void Modulation::SetModulationParam(CallDevices* call) {
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
     
     if(!calls.empty()){
         for(auto it: calls)
@@ -69,7 +69,7 @@ void Modulation::SetModulationParam(CallDevices* call) {
 }
 
 void Modulation::DefineBestModulation(CallDevices *call) {
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
 
     if(!calls.empty()){
         for(auto it: calls)

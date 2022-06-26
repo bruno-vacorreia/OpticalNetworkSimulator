@@ -140,10 +140,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
         unsigned int numRoutes = call->GetNumRoutes();
 
-        this->CreateProtectionCalls(call); //loading transpsegments with protection calls
+        this->CreateProtectionCalls(call); //loading multiCall with protection calls
 
         //seting 3 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -202,8 +202,8 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
         double beta = parameters->GetBeta();
         double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
         callWork0->SetBitRate(partialBitRate);
-        callWork1->SetBitRate(partialBitRate);                
-        call->SetTranspSegments(callsVec);        
+        callWork1->SetBitRate(partialBitRate);
+        call->SetMultiCallVec(callsVec);
         
         for(unsigned int k = 0; k < numRoutes; k++){
         callWork0->SetRoute(call->GetRoute(k));
@@ -216,7 +216,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
                     callWork1->SetRoute(call->GetProtRoute(k, kd));
                     callWork1->SetModulation(FixedModulation);
 
-                    //calculate number of slots for the vector of calls (transpsegments)
+                    //calculate number of slots for the vector of calls (multiCall)
                     this->modulation->SetModulationParam(call);
 
                     this->resDevAlloc->specAlloc->SpecAllocation(call);
@@ -241,7 +241,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
         //route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);    
+        call->SetMultiCallVec(callsVec);
      
         for(unsigned int k = 0; k < numRoutes; k++){
             callWork0->SetRoute(call->GetRoute(k));
@@ -267,10 +267,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
         unsigned int numRoutes = call->GetNumRoutes();
 
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall with calls
 
         //setting 2 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -286,7 +286,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
                     callWork1->SetRoute(call->GetProtRoute(k, kd));
                     callWork1->SetModulation(FixedModulation);
 
-                    //calculate number of slots for the vector of calls (transpsegments)
+                    //calculate number of slots for the vector of calls (multiCall)
                     this->modulation->SetModulationParam(call);
 
                     this->resDevAlloc->specAlloc->SpecAllocation(call);
@@ -310,7 +310,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
         /*//Delete one route and try allocating just 1 route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);    
+        call->SetMultiCallVec(callsVec);
      
         for(unsigned int k = 0; k < numRoutes; k++){
             callWork0->SetRoute(call->GetRoute(k));
@@ -336,10 +336,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP(CallDevices* call) {
 void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call) {
 
     if(numSchProtRoutes == 4){
-        this->CreateProtectionCalls(call); //loading transpsegments with protection calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
 
         //setting 4 partitioned protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -384,7 +384,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
         callWork0->SetBitRate(partialBitRate);
         callWork1->SetBitRate(partialBitRate);
         callWork2->SetBitRate(partialBitRate);
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
             for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
                 callWork0->SetRoute(group3.at(0));
@@ -416,7 +416,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
         partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-3));
         callWork0->SetBitRate(partialBitRate);
         callWork1->SetBitRate(partialBitRate);
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
             for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
@@ -445,7 +445,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
          //route (without protection)
          callsVec.pop_back();
          callWork0->SetBitRate(call->GetBitRate());
-         call->SetTranspSegments(callsVec);
+         call->SetMultiCallVec(callsVec);
 
          for(auto& route : resources->allRoutes.at(nodePairIndex)){
              callWork0->SetRoute(route);
@@ -467,10 +467,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
     }
 
     if(numSchProtRoutes == 3){
-        this->CreateProtectionCalls(call); //loading transpsegments with protection calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
 
         //setting 3 partitioned protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -513,7 +513,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
         double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
         callWork0->SetBitRate(partialBitRate);
         callWork1->SetBitRate(partialBitRate);
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
             for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
@@ -542,7 +542,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
         //route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
         for(auto& route : resources->allRoutes.at(nodePairIndex)){
             callWork0->SetRoute(route);
@@ -564,10 +564,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
     }
 
     if(numSchProtRoutes == 2){
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //setting 2 calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -604,7 +604,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
          //route (without protection)
          callsVec.pop_back();
          callWork0->SetBitRate(call->GetBitRate());
-         call->SetTranspSegments(callsVec);
+         call->SetMultiCallVec(callsVec);
 
          for(auto& route : resources->allRoutes.at(nodePairIndex)){
              callWork0->SetRoute(route);
@@ -628,10 +628,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
 
 void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDevices *call) {
     if(numSchProtRoutes == 3){
-        this->CreateProtectionCalls(call); //loading transpsegments with protection calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
 
         //setting 3 partitioned protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -711,7 +711,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDe
         double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
         callWork0->SetBitRate(partialBitRate);
         callWork1->SetBitRate(partialBitRate);
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
         if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
             for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
@@ -772,7 +772,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDe
          //route (without protection)
          callsVec.pop_back();
          callWork0->SetBitRate(call->GetBitRate());
-         call->SetTranspSegments(callsVec);
+         call->SetMultiCallVec(callsVec);
 
          for(auto& route : resources->allRoutes.at(nodePairIndex)){
              callWork0->SetRoute(route);
@@ -794,10 +794,10 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDe
     }
 
     if(numSchProtRoutes == 2){
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //setting 2 calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -870,7 +870,7 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDe
          //route (without protection)
          callsVec.pop_back();
          callWork0->SetBitRate(call->GetBitRate());
-         call->SetTranspSegments(callsVec);
+         call->SetMultiCallVec(callsVec);
 
          for(auto& route : resources->allRoutes.at(nodePairIndex)){
              callWork0->SetRoute(route);
@@ -896,10 +896,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
     if(numSchProtRoutes == 3){
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
 
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 3 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -1031,7 +1031,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
                     ((1 - beta) * callBitRate) / (numSchProtRoutes - 2));
             callWork0->SetBitRate(partialBitRate);
             callWork1->SetBitRate(partialBitRate);
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             //slot loop for callWork0
             for (unsigned int s0 = 0; s0 < possibleSlots.size(); s0++) {
@@ -1113,7 +1113,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
             //Delete one route and try allocating just 1 route (without protection)
             callsVec.pop_back();
             callWork0->SetBitRate(call->GetBitRate());
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             for (unsigned int s0 = 0; s0 < possibleSlots.size(); s0++) {
                 auxSlot0 = possibleSlots.at(s0);
@@ -1165,10 +1165,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
     if(numSchProtRoutes == 2) {
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
 
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 2 protection calls to allocation
-        std::vector <std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector <std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr <Call> callWork0 = callsVec.at(0);
         std::shared_ptr <Call> callWork1 = callsVec.at(1);
 
@@ -1269,7 +1269,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
             //Delete one route and try allocating just 1 route (without protection)
             callsVec.pop_back();
             callWork0->SetBitRate(call->GetBitRate());
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             for (unsigned int s0 = 0; s0 < possibleSlots.size(); s0++) {
                 auxSlot0 = possibleSlots.at(s0);
@@ -1321,10 +1321,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
 
 void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) {
     if(numSchProtRoutes == 3) {
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 3 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -1480,7 +1480,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
                     ((1 - beta) * callBitRate) / (numSchProtRoutes - 2));
             callWork0->SetBitRate(partialBitRate);
             callWork1->SetBitRate(partialBitRate);
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
             groupIndex = 0;
 
             //trying allocate call with 2 routes
@@ -1596,7 +1596,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
             //Delete one route and try allocating just 1 route (without protection)
             callsVec.pop_back();
             callWork0->SetBitRate(call->GetBitRate());
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                 auxSlot = possibleSlots.at(s);
@@ -1638,10 +1638,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
         }*/
     }
     if(numSchProtRoutes == 2){
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 2 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -1773,7 +1773,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) 
             //Delete one route and try allocating just 1 route (without protection)
             callsVec.pop_back();
             callWork0->SetBitRate(call->GetBitRate());
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             for (unsigned int s = 0; s < possibleSlots.size(); s++) {
                 auxSlot = possibleSlots.at(s);
@@ -1820,10 +1820,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
         unsigned int numRoutes = call->GetNumRoutes();
 
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 3 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
         std::shared_ptr<Call> callWork2 = callsVec.at(2);
@@ -1937,7 +1937,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
                     ((1 - beta) * callBitRate) / (numSchProtRoutes - 2));
             callWork0->SetBitRate(partialBitRate);
             callWork1->SetBitRate(partialBitRate);
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
             //slot loop for callWork0
             for (unsigned int s = 0; s < possibleSlots.size(); s++) {
@@ -2013,7 +2013,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
         //Delete one route and try allocating just 1 route (without protection)
             callsVec.pop_back();
             callWork0->SetBitRate(call->GetBitRate());
-            call->SetTranspSegments(callsVec);
+            call->SetMultiCallVec(callsVec);
 
         for (unsigned int s = 0; s < possibleSlots.size(); s++) {
             auxSlot = possibleSlots.at(s);
@@ -2055,10 +2055,10 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
         unsigned int numRoutes = call->GetNumRoutes();
 
-        this->CreateProtectionCalls(call); //loading transpsegments with calls
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
 
         //seting 2 protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
         std::shared_ptr<Call> callWork0 = callsVec.at(0);
         std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -2144,7 +2144,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
     //Delete one route and try allocating just 1 route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
         auxSlot = possibleSlots.at(s);
@@ -2187,7 +2187,7 @@ void PartitioningDedicatedPathProtection::CreateProtectionCalls(CallDevices* cal
     unsigned int deN = call->GetDeNode()->GetNodeId();
     unsigned int numNodes = this->topology->GetNumNodes();
     unsigned int nodePairIndex = orN * numNodes + deN;
-    call->GetTranspSegments().clear();    
+    call->GetMultiCalls().clear();
     std::vector<double> VecTraffic = resDevAlloc->traffic->GetVecTraffic();
     double callBitRate = call->GetBitRate();
     unsigned int trafficIndex;
@@ -2206,7 +2206,7 @@ void PartitioningDedicatedPathProtection::CreateProtectionCalls(CallDevices* cal
         (trafficIndex).at(a), call->GetDeactivationTime());             
         auxVec.push_back(auxCall);
     }
-    call->SetTranspSegments(auxVec); 
+    call->SetMultiCallVec(auxVec);
 }
 
 std::vector<std::vector<std::vector<double>>> PartitioningDedicatedPathProtection::

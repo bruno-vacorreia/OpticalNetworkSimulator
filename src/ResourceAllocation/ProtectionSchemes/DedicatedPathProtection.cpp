@@ -77,7 +77,7 @@ void DedicatedPathProtection::RoutingSpecDPP(CallDevices* call) {
     
     this->CreateProtectionCalls(call); //loading transpsegments with calls
     
-    std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+    std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
     std::shared_ptr<Call> callWork = callsVec.front();
     std::shared_ptr<Call> callBackup = callsVec.back(); 
     unsigned int numRoutes = call->GetNumRoutes();
@@ -118,7 +118,7 @@ void DedicatedPathProtection::RoutingSpecDPP(CallDevices* call) {
     
     //Delete protection route
     //callsVec.pop_back();
-    //call->SetTranspSegments(callsVec);
+    //call->SetMultiCallVec(callsVec);
     
     /*//Try only work connection (without protection)
     for(unsigned int k = 0; k < numRoutes; k++){
@@ -144,7 +144,7 @@ void DedicatedPathProtection::RoutingSpecDPP_DPGR(CallDevices* call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //setting 2 calls to allocation
-    std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+    std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
     std::shared_ptr<Call> callWork0 = callsVec.at(0);
     std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -181,7 +181,7 @@ void DedicatedPathProtection::RoutingSpecDPP_DPGR(CallDevices* call) {
      //route (without protection)
      callsVec.pop_back();
      callWork0->SetBitRate(call->GetBitRate());
-     call->SetTranspSegments(callsVec);
+     call->SetMultiCallVec(callsVec);
 
      for(auto& route : resources->allRoutes.at(nodePairIndex)){
          callWork0->SetRoute(route);
@@ -208,7 +208,7 @@ void DedicatedPathProtection::SpecRoutingDPP(CallDevices* call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //seting 2 protection calls to allocation
-    std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+    std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
     std::shared_ptr<Call> callWork0 = callsVec.at(0);
     std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -302,7 +302,7 @@ void DedicatedPathProtection::SpecRoutingDPP(CallDevices* call) {
     //Delete one route and try allocating just 1 route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
         auxSlot = possibleSlots.at(s);
@@ -342,7 +342,7 @@ void DedicatedPathProtection::SpecRoutingDPP_DPGR(CallDevices *call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //seting 2 protection calls to allocation
-    std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+    std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
     std::shared_ptr<Call> callWork0 = callsVec.at(0);
     std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -474,7 +474,7 @@ void DedicatedPathProtection::SpecRoutingDPP_DPGR(CallDevices *call) {
         //Delete one route and try allocating just 1 route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
         for (unsigned int s = 0; s < possibleSlots.size(); s++) {
             auxSlot = possibleSlots.at(s);
@@ -523,7 +523,7 @@ void DedicatedPathProtection::SpecRoutingSameSlotDPP(CallDevices* call) {
     this->CreateProtectionCalls(call); //loading transpsegments with calls
 
     //seting 2 protection calls to allocation
-    std::vector<std::shared_ptr<Call>> callsVec = call->GetTranspSegmentsVec();
+    std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
     std::shared_ptr<Call> callWork0 = callsVec.at(0);
     std::shared_ptr<Call> callWork1 = callsVec.at(1);
 
@@ -610,7 +610,7 @@ void DedicatedPathProtection::SpecRoutingSameSlotDPP(CallDevices* call) {
     //Delete one route and try allocating just 1 route (without protection)
         callsVec.pop_back();
         callWork0->SetBitRate(call->GetBitRate());
-        call->SetTranspSegments(callsVec);
+        call->SetMultiCallVec(callsVec);
 
     for (unsigned int s = 0; s < possibleSlots.size(); s++) {
         auxSlot = possibleSlots.at(s);
@@ -647,7 +647,7 @@ void DedicatedPathProtection::SpecRoutingSameSlotDPP(CallDevices* call) {
 }
 
 void DedicatedPathProtection::CreateProtectionCalls(CallDevices* call) {
-    call->GetTranspSegments().clear();
+    call->GetMultiCalls().clear();
     std::shared_ptr<Call> auxCall;
     std::vector<std::shared_ptr<Call>> auxVec(0);
     numSchProtRoutes = 2;
@@ -666,7 +666,7 @@ void DedicatedPathProtection::CreateProtectionCalls(CallDevices* call) {
         
         auxVec.push_back(auxCall);
     }
-    call->SetTranspSegments(auxVec);
+    call->SetMultiCallVec(auxVec);
 }
 
 

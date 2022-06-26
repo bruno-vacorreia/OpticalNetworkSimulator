@@ -45,31 +45,31 @@ public:
      * container of Calls between regenerators.
      * @param subroutes Set of routes indicating the segments.
      */
-    void CreateTranspSegments(std::vector<std::shared_ptr<Route> > subroutes);
+    void CreateMultiCalls(std::vector<std::shared_ptr<Route> > subroutes);
     /**
      * @brief Function to set the modulation format for each transparent segment 
      * of the call request.
      * @param modulations Container of modulation formats.
      */
-    void SetTranspSegModulation(std::vector<TypeModulation> modulations);
+    void SetMultiCallsModulation(std::vector<TypeModulation> modulations);
     /**
      * @brief Function to get the container of the transparent segments, in 
      * which each call represents a lightpath between regenerators.
      * @return 
      */
-    std::vector<Call*> GetTranspSegments();
+    std::vector<Call*> GetMultiCalls();
     /**
      * @brief Function to get the container of calls pointers to transparent 
      * segments wich represents a lightpath between regenerators.
      * @return transpsegments
      */
-     std::vector<std::shared_ptr<Call>> GetTranspSegmentsVec();
+     std::vector<std::shared_ptr<Call>> GetMultiCallVec();
     /**
      * @brief Function to set the container of calls pointers to transparent 
      * segments wich represents a lightpath between regenerators.
      * @return transpsegments
      */
-    void SetTranspSegments(std::vector<std::shared_ptr<Call>> transpSeg);
+    void SetMultiCallVec(std::vector<std::shared_ptr<Call>> transpSeg);
     /**
      * @brief Function to get the total number of slots occupied by the 
      * lightpath.
@@ -126,7 +126,7 @@ private:
      * @brief Container of call request transparent segments. Used if the
      * simulation make use of regeneration.
      */
-    std::vector<std::shared_ptr<Call>> transpSegments;
+    std::vector<std::shared_ptr<Call>> multiCall;
     /**
      * @brief Container of virtualized regenerators used by the call request.
      */

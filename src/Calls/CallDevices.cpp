@@ -15,8 +15,8 @@
 #include "../../include/ResourceAllocation/Route.h"
 
 CallDevices::CallDevices(Node* orNode, Node* deNode, double bitRate, 
-TIME deacTime):Call(orNode, deNode, bitRate, deacTime), transpSegments(0),
-regenerators(0), useRegeneration(false), transponders(0) {
+TIME deacTime): Call(orNode, deNode, bitRate, deacTime), multiCall(0),
+                regenerators(0), useRegeneration(false), transponders(0) {
     
 }
 
@@ -24,9 +24,9 @@ CallDevices::~CallDevices() {
     
 }
 
-void CallDevices::CreateTranspSegments(std::vector<std::shared_ptr<Route> > 
+void CallDevices::CreateMultiCalls(std::vector<std::shared_ptr<Route> >
 subroutes) {
-    transpSegments.clear();
+    multiCall.clear();
     regenerators.clear();
     std::shared_ptr<Call> auxCall;
     
@@ -34,42 +34,42 @@ subroutes) {
         auxCall = std::make_shared<Call>(it->GetOrNode(), 
         it->GetDeNode(), this->GetBitRate(), this->GetDeactivationTime());
         auxCall->SetRoute(it);
-        transpSegments.push_back(auxCall);
+        multiCall.push_back(auxCall);
     }
     subroutes.clear();
 }
 
-void CallDevices::SetTranspSegModulation(std::vector<TypeModulation> 
+void CallDevices::SetMultiCallsModulation(std::vector<TypeModulation>
 modulations) {
-    assert(transpSegments.size() == modulations.size());
+    assert(multiCall.size() == modulations.size());
     
-    for(unsigned a = 0; a < transpSegments.size(); a++){
-        transpSegments.at(a)->SetModulation(modulations.at(a));
+    for(unsigned a = 0; a < multiCall.size(); a++){
+        multiCall.at(a)->SetModulation(modulations.at(a));
     }
 }
 
-std::vector<Call*> CallDevices::GetTranspSegments() {
+std::vector<Call*> CallDevices::GetMultiCalls() {
     std::vector<Call*> calls(0);
     
-    for(auto it: transpSegments)
+    for(auto it: multiCall)
         calls.push_back(it.get());
     
     return calls;
 }
 
-std::vector<std::shared_ptr<Call> > CallDevices::GetTranspSegmentsVec() {
-    return transpSegments;
+std::vector<std::shared_ptr<Call> > CallDevices::GetMultiCallVec() {
+    return multiCall;
 }
 
-void CallDevices::SetTranspSegments(std::vector<std::shared_ptr<Call> > 
+void CallDevices::SetMultiCallVec(std::vector<std::shared_ptr<Call> >
 transpSeg) {
-    transpSegments = transpSeg;
+    multiCall = transpSeg;
 }
 
 unsigned int CallDevices::GetTotalNumSlots() const {
     unsigned int totalNumSlots = 0;
     
-    for(auto it: transpSegments){
+    for(auto it: multiCall){
         totalNumSlots += it->GetTotalNumSlots();
     }
     
@@ -79,8 +79,8 @@ unsigned int CallDevices::GetTotalNumSlots() const {
 void CallDevices::SetTotalNumSlots() {
     unsigned int totalNumSlots = 0;
     
-    if(!transpSegments.empty()){
-        for(auto it: transpSegments){
+    if(!multiCall.empty()){
+        for(auto it: multiCall){
             totalNumSlots += it->GetTotalNumSlots();
         }
         Call::SetTotalNumSlots(totalNumSlots);

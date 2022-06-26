@@ -367,7 +367,7 @@ bool Topology::IsValidLigthPath(Call* call) {
 }
 
 bool Topology::IsValidLigthPath(CallDevices* call) {
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
     
     if(!calls.empty()){
         for(auto it: calls){
@@ -389,7 +389,7 @@ bool Topology::CheckInsertFreeRegenerators(CallDevices* call) {
     NodeDevices* auxNode;
     std::vector<std::shared_ptr<Regenerator>> vecReg(0);
     std::vector<std::shared_ptr<Regenerator>> auxVecReg(0);
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
     
     for(unsigned int a = 0; a < calls.size()-1; a++){
         auxNode = dynamic_cast<NodeDevices*>(calls.at(a)->GetDeNode());
@@ -502,7 +502,7 @@ void Topology::ConnectWithDevices(Call* call) {
     }
     
     //Connect the transparent segments
-    std::vector<Call*> transpSeg = callDev->GetTranspSegments();
+    std::vector<Call*> transpSeg = callDev->GetMultiCalls();
     for(auto it: transpSeg){
         this->ConnectWithoutDevices(it);
     }
@@ -565,7 +565,7 @@ void Topology::ReleaseWithDevices(Call* call) {
     }
     
     //Release the transparent segments
-    std::vector<Call*> transpSeg = callDev->GetTranspSegments();
+    std::vector<Call*> transpSeg = callDev->GetMultiCalls();
     for(auto it: transpSeg){
         this->ReleaseWithoutDevices(it);
     }

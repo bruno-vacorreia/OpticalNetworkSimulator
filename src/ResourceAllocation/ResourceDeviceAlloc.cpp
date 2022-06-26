@@ -88,13 +88,13 @@ void ResourceDeviceAlloc::RoutingOffVirtRegSpecAlloc(CallDevices* call) {
     for(unsigned int a = 0; a < routeSubIndexes.size(); a++){
         call->SetRoute(std::get<0>(routeSubIndexes.at(a)));
         unsigned int regOptionIndex = std::get<1>(routeSubIndexes.at(a));
-        call->CreateTranspSegments(resources->GetRoutesTranspSegments(call, 
-        regOptionIndex));
+        call->CreateMultiCalls(resources->GetRoutesTranspSegments(call,
+                                                                  regOptionIndex));
         
         if(!topology->CheckInsertFreeRegenerators(call))
             continue;
-        call->SetTranspSegModulation(resources->GetTranspSegmentsModulation(
-        call, regOptionIndex));
+        call->SetMultiCallsModulation(resources->GetTranspSegmentsModulation(
+                call, regOptionIndex));
         this->modulation->SetModulationParam(call);
         
         if(!this->CheckOSNR(call))
@@ -123,11 +123,11 @@ void ResourceDeviceAlloc::RoutingOnVirtRegSpecAlloc(CallDevices* call) {
         
         if(regAssAlgorithm->CreateRegOption(call, routeIndex, vecRoutes, 
         vecModulation)){
-            call->CreateTranspSegments(vecRoutes);
+            call->CreateMultiCalls(vecRoutes);
             
             if(!topology->CheckInsertFreeRegenerators(call))
                 continue;
-            call->SetTranspSegModulation(vecModulation);
+            call->SetMultiCallsModulation(vecModulation);
             this->modulation->SetModulationParam(call);
             
             if(!this->CheckOSNR(call))
@@ -181,7 +181,7 @@ ProtectionScheme* ResourceDeviceAlloc::GetProtectionScheme() const {
 }
 
 bool ResourceDeviceAlloc::CheckOSNR(CallDevices* call) {
-    std::vector<Call*> calls = call->GetTranspSegments();
+    std::vector<Call*> calls = call->GetMultiCalls();
     
     if(phyLayerOption == PhyLayerEnabled){
         if(!calls.empty()){
