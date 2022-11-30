@@ -10,7 +10,7 @@ Traffic requests(Gbps): 100-200-400
 Resource Allocation: RMSA
 Physical Layer: Enabled
 Network Type: EON
-RSA Order: Routing-SA
+RSA Order: SA-Routing
 GA: GA Disabled
 Devices: Enabled
 Transponders: Disabled
@@ -24,8 +24,8 @@ PARAMETERS
 Number of slots per fiber: 128
 Number of cores per link: 1
 Mu: 1
-Minimum load point(erlang): 90
-Maximum load point(erlang): 160
+Minimum load point(erlang): 45
+Maximum load point(erlang): 75
 Number of points: 7
 Total number of requisitions: 100000
 Maximum blocked requests: 500
@@ -34,42 +34,42 @@ Maximum section length (km): 80
 Number of polarizations: 2
 Guard band size (slots): 1
 Number of PDPP Routes: 3
-Beta Squeezing: 0.2
-Number of MPR Groups: 10
+Beta Squeezing: 0
+Number of MPR Groups: 20
 
 DATA
-Simulation time:1109.57  Real simul time: 3.16573  Number of requests:100000
-Load point:90  ReqBP:0.03266  SlotsBP:0.0538146  HopsMed:2.39682
-NetOcc:2.11739e+06  NetUti:0.354819 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.595389
+Simulation time:2219.15  Real simul time: 57.2163  Number of requests:100000
+Load point:45  ReqBP:9e-05  SlotsBP:0.000154184  HopsMed:2.40514
+NetOcc:2.91265e+06  NetUti:0.243962 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.637582
 
-Simulation time:982.245  Real simul time: 3.77072  Number of requests:100000
-Load point:101.667  ReqBP:0.05609  SlotsBP:0.091928  HopsMed:2.38383
-NetOcc:2.02624e+06  NetUti:0.383788 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.595288
+Simulation time:1997.23  Real simul time: 57.506  Number of requests:100000
+Load point:50  ReqBP:0.00024  SlotsBP:0.000411158  HopsMed:2.40487
+NetOcc:2.90383e+06  NetUti:0.270049 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.637533
 
-Simulation time:881.132  Real simul time: 4.48759  Number of requests:100000
-Load point:113.333  ReqBP:0.08068  SlotsBP:0.132346  HopsMed:2.37457
-NetOcc:1.92714e+06  NetUti:0.406252 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.595166
+Simulation time:1815.67  Real simul time: 57.392  Number of requests:100000
+Load point:55  ReqBP:0.00098  SlotsBP:0.00166605  HopsMed:2.40526
+NetOcc:2.89875e+06  NetUti:0.296055 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.63731
 
-Simulation time:798.893  Real simul time: 5.19471  Number of requests:100000
-Load point:125  ReqBP:0.10718  SlotsBP:0.174665  HopsMed:2.36091
-NetOcc:1.82379e+06  NetUti:0.424521 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.595063
+Simulation time:1664.36  Real simul time: 58.1676  Number of requests:100000
+Load point:60  ReqBP:0.00287  SlotsBP:0.0049082  HopsMed:2.40542
+NetOcc:2.88141e+06  NetUti:0.321351 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.636803
 
-Simulation time:730.695  Real simul time: 5.91278  Number of requests:100000
-Load point:136.667  ReqBP:0.13126  SlotsBP:0.213087  HopsMed:2.34906
-NetOcc:1.72792e+06  NetUti:0.438643 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.594926
+Simulation time:1536.33  Real simul time: 58.9049  Number of requests:100000
+Load point:65  ReqBP:0.00647  SlotsBP:0.0109556  HopsMed:2.40505
+NetOcc:2.86408e+06  NetUti:0.346105 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.635849
 
-Simulation time:673.224  Real simul time: 6.41351  Number of requests:100000
-Load point:148.333  ReqBP:0.15508  SlotsBP:0.250476  HopsMed:2.33931
-NetOcc:1.63457e+06  NetUti:0.451239 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.59484
+Simulation time:1426.59  Real simul time: 59.4321  Number of requests:100000
+Load point:70  ReqBP:0.01225  SlotsBP:0.0206735  HopsMed:2.40337
+NetOcc:2.82228e+06  NetUti:0.367381 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.634584
 
-Simulation time:624.135  Real simul time: 6.9972  Number of requests:100000
-Load point:160  ReqBP:0.17772  SlotsBP:0.285755  HopsMed:2.32848
-NetOcc:1.5508e+06  NetUti:0.46131 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.594761
+Simulation time:1331.49  Real simul time: 59.8729  Number of requests:100000
+Load point:75  ReqBP:0.02037  SlotsBP:0.0342075  HopsMed:2.40129
+NetOcc:2.77829e+06  NetUti:0.386937 NetFrag:0
+ProtRate:1  BetaAvrg:0   AlphaAvrg:0.632688
 

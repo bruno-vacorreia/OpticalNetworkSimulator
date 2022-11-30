@@ -481,8 +481,8 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
         unsigned int nodePairIndex = orN * numNodes + deN;
 
         //trying allocate with 3 routes
-        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).front().empty()){
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).front()) {
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
                 callWork0->SetRoute(group3.at(0));
                 callWork1->SetRoute(group3.at(1));
                 callWork2->SetRoute(group3.at(2));
