@@ -53,9 +53,9 @@ enum RoutingOption {
      RoutingYEN,
      RoutingBSR,
      RoutingBSR_YEN,
-     RoutingMP,
+     RoutingDPGR,
      FirstRoutingOption = RoutingDJK,
-     LastRoutingOption = RoutingMP
+     LastRoutingOption = RoutingDPGR
 };
 
 /**
@@ -157,11 +157,12 @@ enum GAOption {
 };
 
 /**
- * @brief Option responsible to allow Devices in the network.
+ * @brief Option responsible to enable the schemes which use Multicall approach, like
+ * Devices or Protection in the network.
  */
-enum DevicesOption {
-    DevicesDisabled,
-    DevicesEnabled
+enum MultiCallOption {
+    MultiCallDisabled,
+    MultiCallEnabled
 };
 
 /**
@@ -239,10 +240,9 @@ enum ProtectionOption {
     ProtectionDisable,
     ProtectionDPP,
     ProtectionPDPP,
-    ProtectionPDPPBO_GA,
-    ProtectionPDPPSO_GA,
+    ProtectionOPDPP_GA,
     FirstProtectionOption = ProtectionDisable,
-    LastProtectionOption = ProtectionPDPPSO_GA
+    LastProtectionOption = ProtectionOPDPP_GA
 };
 
 enum FragMeasureOption {
@@ -455,11 +455,11 @@ public:
      */
     void SetGaOption(GAOption GaOption);
     
-    DevicesOption GetDevicesOption() const;
+    MultiCallOption GetDevicesOption() const;
     
     std::string GetDevicesOptionName() const;
 
-    void SetDevicesOption(DevicesOption devicesOption);
+    void SetDevicesOption(MultiCallOption devicesOption);
     
     TransponderOption GetTransponderOption() const;
 
@@ -557,7 +557,7 @@ private:
     /**
      * @brief Option that allows the use of devices in the simulation.
      */
-    DevicesOption devicesOption;
+    MultiCallOption devicesOption;
     /**
      * @brief Option that allows the use of transponders in the simulation.
      */
@@ -649,7 +649,7 @@ private:
     /**
      * @brief Map the device options and their respective names.
      */
-    static const boost::unordered_map<DevicesOption,
+    static const boost::unordered_map<MultiCallOption,
     std::string> mapDevicesOption;
     /**
      * @brief Map the transponder options and their respective names.

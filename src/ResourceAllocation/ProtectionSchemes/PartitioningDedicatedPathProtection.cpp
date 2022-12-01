@@ -45,8 +45,7 @@ void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
          case RoutingYEN:
             routing->ProtectionDisjointYEN();
             break;
-         case RoutingMP:
-            //this->routing->MultiPathRouting();
+         case RoutingDPGR:
              this->routing->DisjointPathGroupsRouting();
             break;
         default:
@@ -66,7 +65,7 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
         case ProtectionPDPP:
             LoadPDPPBitRateOptions();
             break;
-        case ProtectionPDPPBO_GA:
+        case ProtectionOPDPP_GA:
             break;
         default:
             std::cerr << "Invalid Protection Option" << std::endl;
@@ -101,7 +100,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
                 PDPPBitRateNodePairsDist.at(a) = PDPPBitRateDistOptions;
             }
             break;
-        case ProtectionPDPPBO_GA:
+        case ProtectionOPDPP_GA:
             this->SetPDPPBitRateNodePairDistGA();
             break;
         default:
@@ -119,10 +118,10 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
             else
                 this->SpecRoutingPDPP(call);
             break;
-        case RoutingMP:
+        case RoutingDPGR:
             if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
                 if(resDevAlloc->options->GetGaOption() == GaPDPPBO ||
-                   resDevAlloc->options->GetProtectionOption() == ProtectionPDPPBO_GA)
+                   resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
                     this->RoutingSpecPDPP_DPGR_MinNumSlot(call);
                 else
                     this->RoutingSpecPDPP_DPGR(call);

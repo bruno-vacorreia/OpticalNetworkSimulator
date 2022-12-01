@@ -81,7 +81,7 @@
     2 - GA Core Order
     3 - GA Number of Interfering Routes Check
     4 - GA PDPP Bit rate Optimization
-11-Devices Option
+11-MultiCall Option
     0 - Disabled
     1 - Enabled
 12-Transponder Option
@@ -123,7 +123,7 @@
     0 - Protection Disable
     1 - DPP
     2 - PDPP
-    3 - PDPPBO_GA
+    3 - OPDPP_GA
     4 - PDPPSO_GA
 19-Fragmentation Measure Option
     0 - Disable

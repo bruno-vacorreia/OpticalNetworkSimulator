@@ -41,7 +41,7 @@ Options::mapRoutingOptions = boost::assign::map_list_of
     (RoutingYEN, "YEN")
     (RoutingBSR, "BSR")
     (RoutingBSR_YEN, "BSR_YEN")
-     (RoutingMP, "MPR");
+     (RoutingDPGR, "MPR");
 
 const boost::unordered_map<SpectrumAllocationOption, std::string>
 Options::mapSpecAlgOptions = boost::assign::map_list_of
@@ -101,10 +101,10 @@ Options::mapGaOption = boost::assign::map_list_of
     (GaNumRoutesCheckMSCL, "GA Number of Interfering Routes Check")
     (GaPDPPBO, "GA PDPP Bit Rate Optimization");
 
-const boost::unordered_map<DevicesOption, std::string>
+const boost::unordered_map<MultiCallOption, std::string>
 Options::mapDevicesOption = boost::assign::map_list_of
-    (DevicesDisabled, "Disabled")
-    (DevicesEnabled, "Enabled");
+    (MultiCallDisabled, "Disabled")
+    (MultiCallEnabled, "Enabled");
 
 const boost::unordered_map<TransponderOption, std::string>
 Options::mapTransponderOption = boost::assign::map_list_of
@@ -159,8 +159,7 @@ Options::mapProtectionOption = boost::assign::map_list_of
     (ProtectionDisable, "No Protection")
     (ProtectionDPP, "Dedicated Path Protection")
     (ProtectionPDPP, "Partitioning Dedicated Path Protection")
-    (ProtectionPDPPBO_GA, "Partitioning Dedicated Path Protection Bit Rate Optimization(GA)")
-    (ProtectionPDPPSO_GA, "Partitioning Dedicated Path Protection Squeezing Optimizagion(GA)");
+    (ProtectionOPDPP_GA, "Optimized Partitioning Dedicated Path Protection (GA)");
 
 const boost::unordered_map<FragMeasureOption, std::string>
 Options::mapFragMeasureOption = boost::assign::map_list_of
@@ -222,7 +221,7 @@ routingOption(RoutingInvalid), specAllOption(SpecAllInvalid),
 linkCostType(Invalid), trafficOption(TrafficInvalid), 
 resourAllocOption(ResourAllocInvalid), phyLayerOption(PhyLayerDisabled),
 networkOption(NetworkInvalid), orderRSA(OrderRoutingSa),
-GaOption(GaOptionDisabled), devicesOption(DevicesDisabled),
+GaOption(GaOptionDisabled), devicesOption(MultiCallDisabled),
 transponderOption(TransponderDisabled), regenerationOption(RegenerationDisabled), 
 regPlacOption(RegPlacInvalid), regAssOption(RegAssInvalid), 
 stopCriteria(NumCallRequestsMaximum), generationOption(GenerationSame),
@@ -327,14 +326,14 @@ void Options::Load() {
     this->SetGaOption((GAOption) auxInt);
     
     std::cout << "Devices Option" << std::endl;
-    for(DevicesOption a = DevicesDisabled; a <= DevicesEnabled;
-    a = DevicesOption(a+1)){
+    for(MultiCallOption a = MultiCallDisabled; a <= MultiCallEnabled;
+    a = MultiCallOption(a + 1)){
         std::cout << a << "-" << this->mapDevicesOption.at(a)
                   << std::endl;
     }
     std::cout << "Insert the Devices option: ";
     std::cin >> auxInt;
-    this->SetDevicesOption((DevicesOption) auxInt);
+    this->SetDevicesOption((MultiCallOption) auxInt);
     
     std::cout << "Transponder Option" << std::endl;
     for(TransponderOption a = TransponderDisabled; a <= TransponderEnabled;
@@ -420,7 +419,7 @@ void Options::LoadFile() {
     auxIfstream >> auxInt;
     this->SetGaOption((GAOption) auxInt);
     auxIfstream >> auxInt;
-    this->SetDevicesOption((DevicesOption) auxInt);
+    this->SetDevicesOption((MultiCallOption) auxInt);
     auxIfstream >> auxInt;
     this->SetTransponderOption((TransponderOption) auxInt);
     auxIfstream >> auxInt;
@@ -612,7 +611,7 @@ void Options::SetGaOption(GAOption GaOption) {
     this->GaOption = GaOption;
 }
 
-DevicesOption Options::GetDevicesOption() const {
+MultiCallOption Options::GetDevicesOption() const {
     return devicesOption;
 }
 
@@ -620,7 +619,7 @@ std::string Options::GetDevicesOptionName() const {
     return this->mapDevicesOption.at(this->devicesOption);
 }
 
-void Options::SetDevicesOption(DevicesOption devicesOption) {
+void Options::SetDevicesOption(MultiCallOption devicesOption) {
     this->devicesOption = devicesOption;
 }
 

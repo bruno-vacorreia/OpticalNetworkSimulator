@@ -85,7 +85,7 @@ void Topology::LoadFile() {
     
     this->CreateLinks(auxIfstream);
     
-    if(options->GetDevicesOption() != DevicesDisabled)
+    if(options->GetDevicesOption() != MultiCallDisabled)
         this->SetFixedNumberOfDevices();
 }
 
@@ -106,7 +106,7 @@ void Topology::CreateNodes(std::ifstream& ifstream) {
     
     for(unsigned int a = 0; a < this->GetNumNodes(); ++a){
         
-        if(options->GetDevicesOption() == DevicesEnabled)
+        if(options->GetDevicesOption() == MultiCallEnabled)
             node = std::make_shared<NodeDevices>(this, a);
         else
             node = std::make_shared<Node>(this, a);
@@ -460,10 +460,10 @@ unsigned int Topology::GetNumSlots(Route* route) const {
 void Topology::Connect(Call* call) {
     
     switch(options->GetDevicesOption()){
-        case DevicesDisabled:
+        case MultiCallDisabled:
             this->ConnectWithoutDevices(call);
             break;
-        case DevicesEnabled:
+        case MultiCallEnabled:
             this->ConnectWithDevices(call);
             break;
         default:
@@ -524,10 +524,10 @@ void Topology::ConnectWithDevices(Call* call) {
 void Topology::Release(Call* call) {
     
     switch(options->GetDevicesOption()){
-        case DevicesDisabled:
+        case MultiCallDisabled:
             this->ReleaseWithoutDevices(call);
             break;
-        case DevicesEnabled:
+        case MultiCallEnabled:
             this->ReleaseWithDevices(call);
             break;
         default:
@@ -603,14 +603,14 @@ void Topology::SetFixedNumberOfDevices() {
 }
 
 void Topology::SetNumRegenerators(unsigned int numRegenerators) {
-    assert((options->GetDevicesOption() != DevicesDisabled) && 
+    assert((options->GetDevicesOption() != MultiCallDisabled) &&
             options->GetRegenerationOption() != RegenerationDisabled);
     
     this->numRegenerators = numRegenerators;
 }
 
 void Topology::SetNumTransponders(unsigned int numTransponders) {
-    assert((options->GetDevicesOption() != DevicesDisabled) && 
+    assert((options->GetDevicesOption() != MultiCallDisabled) &&
            (options->GetTransponderOption() != TransponderDisabled));
     
     this->numTransponders = numTransponders;

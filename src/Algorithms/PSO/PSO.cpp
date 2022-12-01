@@ -261,7 +261,7 @@ void PSO::SetMaxVelocity(double maxVelocity) {
 }
 
 void PSO::CreateParticles() {
-    assert(options->GetDevicesOption() == DevicesEnabled);
+    assert(options->GetDevicesOption() == MultiCallEnabled);
     assert(options->GetRegenerationOption() != RegenerationDisabled);
     RegAssignmentOption regAssOpt = options->GetRegAssOption();
     assert(regAssOpt == RegAssSCRA1 || regAssOpt == RegAssSCRA2 ||

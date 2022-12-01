@@ -27,7 +27,7 @@ PDPPBitRateAllDistOption(0), indexDistOption(0) {
     resource_alloc = dynamic_cast<ResourceDeviceAlloc*>(simul->GetResourceAlloc());
     pdppbo = dynamic_cast<PartitioningDedicatedPathProtection*>(resource_alloc->GetProtectionScheme());
     // Include asserts (Simulation is protection is active, if the protection is the right one, etc.)
-   // assert(this->GetSimul()->GetOptions()->GetProtectionOption() == ProtectionPDPPBO_GA);
+   // assert(this->GetSimul()->GetOptions()->GetProtectionOption() == ProtectionOPDPP_GA);
 }
 
 GA_PDPPBO::~GA_PDPPBO() {

@@ -40,7 +40,7 @@ void DedicatedPathProtection::CreateProtectionRoutes() {
         case RoutingYEN:
             routing->ProtectionDisjointYEN();
             break;
-        case RoutingMP:
+        case RoutingDPGR:
             this->routing->DisjointPathGroupsRouting();
             break;
         default:
@@ -58,7 +58,7 @@ void DedicatedPathProtection::ResourceAlloc(CallDevices* call) {
             else
                 this->SpecRoutingDPP(call);
             break;
-        case RoutingMP:
+        case RoutingDPGR:
             if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
                 this->RoutingSpecDPP_DPGR(call);
             else

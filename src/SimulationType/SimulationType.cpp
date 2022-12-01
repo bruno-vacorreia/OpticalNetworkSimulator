@@ -166,7 +166,7 @@ void SimulationType::FinalizeAll() {
 void SimulationType::CreateLoadResourceAlloc() {
     this->resourceAlloc.reset();
 
-    if(this->options->GetDevicesOption() == DevicesDisabled)
+    if(this->options->GetDevicesOption() == MultiCallDisabled)
         this->resourceAlloc = std::make_shared<ResourceAlloc>(this);
     else
         this->resourceAlloc = std::make_shared<ResourceDeviceAlloc>(this);
@@ -180,7 +180,6 @@ void SimulationType::SimulateNumTotalReq() {
     unsigned int countEvent = 0;
     double countBand = 1E8;
     FragMeasureOption fragOption = options->GetFragMeasureOption();
-    ProtectionOption protOption = options->GetProtectionOption();
     
     while(this->numberRequests < numReqMax){
         evt = this->callGenerator->GetNextEvent();

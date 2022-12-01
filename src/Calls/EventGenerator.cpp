@@ -164,11 +164,11 @@ unsigned deNodeIndex, unsigned trafficIndex, TIME deactTime) {
     double traffic = this->traffic->GetTraffic(trafficIndex);
     
     switch(this->simulType->GetOptions()->GetDevicesOption()){
-        case DevicesDisabled:
+        case MultiCallDisabled:
             newCall = std::make_shared<Call>(orNode, deNode, traffic, 
                                              deactTime);
             break;
-        case DevicesEnabled:
+        case MultiCallEnabled:
             newCall = std::make_shared<CallDevices>(orNode, deNode, traffic, 
                                                     deactTime);
             break;

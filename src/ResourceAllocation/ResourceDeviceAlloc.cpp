@@ -270,7 +270,7 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
             protScheme = std::make_shared<DedicatedPathProtection>(this);
             break;
         case ProtectionPDPP:
-        case ProtectionPDPPBO_GA:
+        case ProtectionOPDPP_GA:
             protScheme = std::make_shared<PartitioningDedicatedPathProtection>
             (this);
             break;
