@@ -240,6 +240,11 @@ enum ProtectionOption {
     ProtectionDisable,
     ProtectionDPP,
     ProtectionPDPP,
+    ProtectionPDPP_MinHop,
+    ProtectionPDPP_MinLength,
+    ProtectionPDPP_MinSumSlotIndex,
+    ProtectionPDPP_MinMaxSlotIndex,
+    ProtectionPDPP_MinNumSlot,
     ProtectionOPDPP_GA,
     FirstProtectionOption = ProtectionDisable,
     LastProtectionOption = ProtectionOPDPP_GA

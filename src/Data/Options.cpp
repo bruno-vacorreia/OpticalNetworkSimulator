@@ -41,7 +41,7 @@ Options::mapRoutingOptions = boost::assign::map_list_of
     (RoutingYEN, "YEN")
     (RoutingBSR, "BSR")
     (RoutingBSR_YEN, "BSR_YEN")
-     (RoutingDPGR, "MPR");
+     (RoutingDPGR, "DPGR");
 
 const boost::unordered_map<SpectrumAllocationOption, std::string>
 Options::mapSpecAlgOptions = boost::assign::map_list_of
@@ -159,6 +159,11 @@ Options::mapProtectionOption = boost::assign::map_list_of
     (ProtectionDisable, "No Protection")
     (ProtectionDPP, "Dedicated Path Protection")
     (ProtectionPDPP, "Partitioning Dedicated Path Protection")
+    (ProtectionPDPP_MinHop, "Partitioning Dedicated Path Protection MinHop")
+    (ProtectionPDPP_MinLength, "Partitioning Dedicated Path Protection MinLength ")
+    (ProtectionPDPP_MinSumSlotIndex, "Partitioning Dedicated Path Protection MinSumSlotIndex")
+    (ProtectionPDPP_MinMaxSlotIndex, "Partitioning Dedicated Path Protection MinMaxSlotIndex")
+    (ProtectionPDPP_MinNumSlot, "Partitioning Dedicated Path Protection MinNumSlot")
     (ProtectionOPDPP_GA, "Optimized Partitioning Dedicated Path Protection (GA)");
 
 const boost::unordered_map<FragMeasureOption, std::string>

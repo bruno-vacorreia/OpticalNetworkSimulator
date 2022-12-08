@@ -51,19 +51,11 @@ public:
     void RoutingSpecPDPP(CallDevices* call);
     /**
     * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
-    * routes according with PDPP scheme for offline MP routing and no same set of slots
-    * between routes.
+    * routes according with PDPP scheme for offline DPGR routing (fixed-alternate groups
+     * of disjoint routes) and no same set of slots between routes.
     * @param call Call request the function will try to allocate.
     */
     void RoutingSpecPDPP_DPGR(CallDevices* call);
-    /**
-    * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
-    * routes according with PDPP scheme for offline MP routing and no same set of slots
-    * between routes. This function analyses each group and try to allocate the one which
-    * demands a minimum number of slots.
-    * @param call Call request the function will try to allocate.
-    */
-    void RoutingSpecPDPP_DPGR_MinNumSlot(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with PDPP scheme for offline YEN routing and no same set of slots
@@ -73,11 +65,11 @@ public:
     void SpecRoutingPDPP(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
-    * routes according with PDPP scheme for offline MP routing and no same set of slots
-     * between routes route.
+    * routes according with PDPP scheme for offline DPGR routing (fixed-alternate groups
+     * of disjoint routes) and no same set of slots between routes.
     * @param call Call request the function will try to allocate.
     */
-    void SpecRoutingPDPP_MP(CallDevices* call);
+    void SpecRoutingPDPP_DPGR(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with PDPP scheme for offline routing and same set of slots
@@ -85,6 +77,29 @@ public:
     * @param call Call request the function will try to allocate.
     */
     void SpecRoutingSameSlotPDPP(CallDevices* call);
+    /**
+* @brief Function which performs RSA for multipath protected Calls by PDPP scheme using
+* offline DPGR routing. This function analyses each group of link-disfoint paths and
+ * try to allocate the partitions in the one which demands a minimum number of slots.
+* @param call Call request the function will try to allocate.
+*/
+    void ResourceAllocProtectionPDPP_MinNumSlot(CallDevices* call);
+    /**
+    * @brief Function which performs RSA for all Partitioned routes according with PDPP
+     * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
+     * are ordered by minimal sum of its lower slot index available to allocate each
+     * partition in each route.
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocProtectionPDPP_MinSumSlotIndex(CallDevices* call);
+    /**
+    * @brief Function which performs RSA for all Partitioned routes according with PDPP
+    * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
+    * are ordered by lower slot index among the maximum slot indexes available to allocate
+     * each partition in each route..
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocProtectionPDPP_MinMaxSlotIndex(CallDevices* call);
     /**
      * @brief Function which compute a partial bit rate distribution for all 
       * source-destination pair and for all incoming traffic demand possibilities.

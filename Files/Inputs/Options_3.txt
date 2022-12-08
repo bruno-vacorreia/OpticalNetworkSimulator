@@ -1,4 +1,4 @@
-9
+1
 5
 2
 2
@@ -15,7 +15,7 @@
 0
 0
 0
-2
+5
 0
 
 1-Topology
@@ -38,7 +38,7 @@
     2 - YEN
     3 - BSR
     4 - BSR-YEN
-    5 - MPRouting
+    5 - DPGR
 3-Spectral allocation algorithm
     0 - Invalid
     1 - Random
@@ -123,8 +123,12 @@
     0 - Protection Disable
     1 - DPP
     2 - PDPP
-    3 - PDPPBO_GA
-    4 - PDPPSO_GA
+    3 - PDPP_MinHop
+    4 - PDPP_MinLength
+    5 - PDPP_MinSumSlotIndex
+    6 - PDPP_MinMaxSlotIndex
+    7 - PDPP_MinNumSlot
+    8 - OPDPP_GA
 19-Fragmentation Measure Option
     0 - Disable
     1 - Fragmentation Ratio (FR)

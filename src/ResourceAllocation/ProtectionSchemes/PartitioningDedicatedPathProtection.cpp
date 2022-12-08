@@ -41,16 +41,39 @@ PartitioningDedicatedPathProtection::~PartitioningDedicatedPathProtection() {
 
 void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
 
-    switch(this->routing->GetRoutingOption()){
-         case RoutingYEN:
-            routing->ProtectionDisjointYEN();
-            break;
-         case RoutingDPGR:
-             this->routing->DisjointPathGroupsRouting();
-            break;
-        default:
-            std::cerr << "Invalid offline routing option" << std::endl;
-            std::abort();
+    if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP) {
+        switch (this->routing->GetRoutingOption()) {
+            case RoutingYEN:
+                routing->ProtectionDisjointYEN();
+                break;
+            case RoutingDPGR:
+                this->routing->DisjointPathGroupsRouting();
+                break;
+            default:
+                std::cerr << "Invalid offline routing option" << std::endl;
+                std::abort();
+        }
+    }
+    else {
+        switch (resDevAlloc->options->GetProtectionOption()) {
+            case ProtectionPDPP_MinMaxSlotIndex:
+            case ProtectionPDPP_MinSumSlotIndex:
+            case ProtectionPDPP_MinNumSlot:
+            case ProtectionPDPP_MinHop:
+                resDevAlloc->options->SetLinkCostType(LinkCostHop);
+                this->routing->DisjointPathGroupsRouting();
+                break;
+            case ProtectionPDPP_MinLength:
+                resDevAlloc->options->SetLinkCostType(LinkCostLength);
+                this->routing->DisjointPathGroupsRouting();
+                break;
+            case ProtectionOPDPP_GA:
+                this->routing->DisjointPathGroupsRouting();
+                break;
+            default:
+                std::cerr << "Invalid offline routing option" << std::endl;
+                std::abort();
+        }
     }
 
     this->CreatePDPPBitRateOptions();
@@ -62,13 +85,18 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
     numSchProtRoutes = parameters->GetNumberPDPPprotectionRoutes();
 
     switch(resDevAlloc->options->GetProtectionOption()){
+        case ProtectionPDPP_MinHop:
+        case ProtectionPDPP_MinLength:
+        case ProtectionPDPP_MinSumSlotIndex:
+        case ProtectionPDPP_MinMaxSlotIndex:
+        case ProtectionPDPP_MinNumSlot:
         case ProtectionPDPP:
             LoadPDPPBitRateOptions();
             break;
         case ProtectionOPDPP_GA:
             break;
         default:
-            std::cerr << "Invalid Protection Option" << std::endl;
+            std::cerr << "Invalid Protection Option for PDPPBitRate option" << std::endl;
             std::abort();
     }
     LoadPDPPBitRateNodePairDist();
@@ -95,6 +123,11 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
     PDPPBitRateNodePairsDist.resize(NumNodes * NumNodes);
 
     switch(resDevAlloc->options->GetProtectionOption()){
+        case ProtectionPDPP_MinHop:
+        case ProtectionPDPP_MinLength:
+        case ProtectionPDPP_MinSumSlotIndex:
+        case ProtectionPDPP_MinMaxSlotIndex:
+        case ProtectionPDPP_MinNumSlot:
         case ProtectionPDPP:
             for(int a = 0; a < PDPPBitRateNodePairsDist.size(); a++){
                 PDPPBitRateNodePairsDist.at(a) = PDPPBitRateDistOptions;
@@ -104,33 +137,55 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
             this->SetPDPPBitRateNodePairDistGA();
             break;
         default:
-            std::cerr << "Invalid Protection Option" << std::endl;
+            std::cerr << "Invalid Protection Option for DPPBitRateNodePairDist" << std::endl;
             std::abort();
     }
 }
 
 void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
 
-    switch(this->routing->GetRoutingOption()){
-        case RoutingYEN:
-            if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
-                this->RoutingSpecPDPP(call);
-            else
-                this->SpecRoutingPDPP(call);
-            break;
-        case RoutingDPGR:
-            if(resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
-                if(resDevAlloc->options->GetGaOption() == GaPDPPBO ||
-                   resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
-                    this->RoutingSpecPDPP_DPGR_MinNumSlot(call);
+    if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP || ProtectionOPDPP_GA) {
+        switch (this->routing->GetRoutingOption()) {
+            case RoutingYEN:
+                if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
+                    this->RoutingSpecPDPP(call);
                 else
-                    this->RoutingSpecPDPP_DPGR(call);
-            else
-                this->SpecRoutingPDPP_MP(call);
-            break;
-        default:
-            std::cerr << "Invalid offline routing option" << std::endl;
-            std::abort();
+                    this->SpecRoutingPDPP(call);
+                break;
+            case RoutingDPGR:
+                if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
+                    if (resDevAlloc->options->GetGaOption() == GaPDPPBO ||
+                        resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
+                        this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                    else
+                        this->RoutingSpecPDPP_DPGR(call);
+                else
+                    this->SpecRoutingPDPP_DPGR(call);
+                break;
+            default:
+                std::cerr << "Invalid offline routing option" << std::endl;
+                std::abort();
+        }
+    }
+    else{
+        switch (resDevAlloc->options->GetProtectionOption()) {
+            case ProtectionPDPP_MinHop:
+            case ProtectionPDPP_MinLength:
+                this->RoutingSpecPDPP_DPGR(call);
+                break;
+            case ProtectionPDPP_MinSumSlotIndex:
+                this->ResourceAllocProtectionPDPP_MinSumSlotIndex(call);
+                break;
+            case ProtectionPDPP_MinMaxSlotIndex:
+                this->ResourceAllocProtectionPDPP_MinMaxSlotIndex(call);
+                break;
+            case ProtectionPDPP_MinNumSlot:
+                this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                break;
+            default:
+                std::cerr << "Invalid Protection option" << std::endl;
+                std::abort();
+        }
     }
 }
 
@@ -625,272 +680,6 @@ void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR(CallDevices* call
     }
 }
 
-void PartitioningDedicatedPathProtection::RoutingSpecPDPP_DPGR_MinNumSlot(CallDevices *call) {
-    if(numSchProtRoutes == 3){
-        this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
-
-        //setting 3 partitioned protection calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
-        std::shared_ptr<Call> callWork0 = callsVec.at(0);
-        std::shared_ptr<Call> callWork1 = callsVec.at(1);
-        std::shared_ptr<Call> callWork2 = callsVec.at(2);
-
-        unsigned int orN = call->GetOrNode()->GetNodeId();
-        unsigned int deN = call->GetDeNode()->GetNodeId();
-        unsigned int numNodes = this->topology->GetNumNodes();
-        unsigned int nodePairIndex = orN * numNodes + deN;
-
-        int numTotalSlotG = 0;
-        std::vector<int> auxTotalSlotGroupsVec;
-        std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
-
-        //computing the total number of required slots from each group for current call
-        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
-                callWork0->SetRoute(group3.at(0));
-                callWork1->SetRoute(group3.at(1));
-                callWork2->SetRoute(group3.at(2));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 3 routes
-                for (const auto &partition: callsVec) {
-                    numTotalSlotG += partition->GetTotalNumSlots();
-                }
-                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
-                auxTotalRouteGroupsVec.push_back(group3);
-                numTotalSlotG = 0;
-            }
-            //ordering groups in aux vectors by total number of required slots
-            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
-                int Ci = auxTotalSlotGroupsVec[gi];
-                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
-                int gj;
-                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
-                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
-                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
-                }
-                auxTotalSlotGroupsVec[gj] = Ci;
-                auxTotalRouteGroupsVec[gj] = Ri;
-            }
-            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
-            resources->protectionAllRoutesGroups.at(nodePairIndex).at(1) = auxTotalRouteGroupsVec;
-            auxTotalSlotGroupsVec.clear();
-            auxTotalRouteGroupsVec.clear();
-
-            //trying allocate with 3 routes
-            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
-                callWork0->SetRoute(group3.at(0));
-                callWork1->SetRoute(group3.at(1));
-                callWork2->SetRoute(group3.at(2));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 3 routes
-                this->resDevAlloc->specAlloc->SpecAllocation(call);
-
-                if (topology->IsValidLigthPath(call)) {
-                    call->SetRoute(group3.at(0));
-                    call->SetModulation(callWork0->GetModulation());
-                    call->SetFirstSlot(callWork0->GetFirstSlot());
-                    call->SetLastSlot(callWork0->GetLastSlot());
-                    call->SetStatus(Accepted);
-                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
-                    CalcBetaAverage(call);
-                    CalcAlpha(call);
-                    return;
-                }
-            }
-        }
-
-        //Delete one route, recalculate Bit rate and try allocating with 2 routes
-        callsVec.pop_back();
-        double callBitRate = call->GetBitRate();
-        double beta = parameters->GetBeta();
-        double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
-        callWork0->SetBitRate(partialBitRate);
-        callWork1->SetBitRate(partialBitRate);
-        call->SetMultiCallVec(callsVec);
-
-        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
-            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
-                callWork0->SetRoute(group2.at(0));
-                callWork1->SetRoute(group2.at(1));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 3 routes
-                for (const auto &partition: callsVec) {
-                    numTotalSlotG += partition->GetTotalNumSlots();
-                }
-                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
-                auxTotalRouteGroupsVec.push_back(group2);
-                numTotalSlotG = 0;
-            }
-            //ordering groups in aux vectors by total number of required slots
-            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
-                int Ci = auxTotalSlotGroupsVec[gi];
-                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
-                int gj;
-                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
-                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
-                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
-                }
-                auxTotalSlotGroupsVec[gj] = Ci;
-                auxTotalRouteGroupsVec[gj] = Ri;
-            }
-            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
-            resources->protectionAllRoutesGroups.at(nodePairIndex).back() = auxTotalRouteGroupsVec;
-            auxTotalSlotGroupsVec.clear();
-            auxTotalRouteGroupsVec.clear();
-
-            //trying allocate with 2 routes
-            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
-                callWork0->SetRoute(group2.at(0));
-                callWork1->SetRoute(group2.at(1));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 2 routes
-                this->resDevAlloc->specAlloc->SpecAllocation(call);
-
-                if (topology->IsValidLigthPath(call)) {
-                    call->SetRoute(group2.at(0));
-                    call->SetModulation(callWork0->GetModulation());
-                    call->SetFirstSlot(callWork0->GetFirstSlot());
-                    call->SetLastSlot(callWork0->GetLastSlot());
-                    call->SetStatus(Accepted);
-                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
-                    CalcBetaAverage(call);
-                    CalcAlpha(call);
-                    return;
-                }
-            }
-        }
-        /* //Delete one route again, recalculate Bit rate and try allocating just 1
-         //route (without protection)
-         callsVec.pop_back();
-         callWork0->SetBitRate(call->GetBitRate());
-         call->SetMultiCallVec(callsVec);
-
-         for(auto& route : resources->allRoutes.at(nodePairIndex)){
-             callWork0->SetRoute(route);
-             //callWork0->SetModulation(FixedModulation);
-             //this->modulation->SetModulationParam(call);
-             this->modulation->DefineBestModulation(call);
-             this->resDevAlloc->specAlloc->SpecAllocation(call);
-
-             if(topology->IsValidLigthPath(call)){
-                 call->SetRoute(route);
-                 call->SetModulation(callWork0->GetModulation());
-                 call->SetFirstSlot(callWork0->GetFirstSlot());
-                 call->SetLastSlot(callWork0->GetLastSlot());
-                 call->SetStatus(Accepted);
-                 resDevAlloc->simulType->GetData()->SetNonProtectedCalls();
-                 return;
-             }
-         }*/
-    }
-
-    if(numSchProtRoutes == 2){
-        this->CreateProtectionCalls(call); //loading multiCall vector with calls
-
-        //setting 2 calls to allocation
-        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
-        std::shared_ptr<Call> callWork0 = callsVec.at(0);
-        std::shared_ptr<Call> callWork1 = callsVec.at(1);
-
-        unsigned int orN = call->GetOrNode()->GetNodeId();
-        unsigned int deN = call->GetDeNode()->GetNodeId();
-        unsigned int numNodes = this->topology->GetNumNodes();
-        unsigned int nodePairIndex = orN * numNodes + deN;
-
-        int numTotalSlotG = 0;
-        std::vector<int> auxTotalSlotGroupsVec;
-        std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
-
-        //trying to allocate with 2 routes
-        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
-            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
-                callWork0->SetRoute(group2.at(0));
-                callWork1->SetRoute(group2.at(1));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 3 routes
-                for (const auto &partition: callsVec) {
-                    numTotalSlotG += partition->GetTotalNumSlots();
-                }
-                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
-                auxTotalRouteGroupsVec.push_back(group2);
-                numTotalSlotG = 0;
-            }
-            //ordering groups in aux vectors by total number of required slots
-            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
-                int Ci = auxTotalSlotGroupsVec[gi];
-                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
-                int gj;
-                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
-                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
-                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
-                }
-                auxTotalSlotGroupsVec[gj] = Ci;
-                auxTotalRouteGroupsVec[gj] = Ri;
-            }
-            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
-            resources->protectionAllRoutesGroups.at(nodePairIndex).back() = auxTotalRouteGroupsVec;
-            auxTotalSlotGroupsVec.clear();
-            auxTotalRouteGroupsVec.clear();
-
-            //trying to allocate with 2 routes
-            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
-                callWork0->SetRoute(group2.at(0));
-                callWork1->SetRoute(group2.at(1));
-
-                //defining modulation format and number of slots for the vector of calls
-                this->modulation->DefineBestModulation(call);
-                //check if the number of slots are available in the 2 routes
-                this->resDevAlloc->specAlloc->SpecAllocation(call);
-
-                if (topology->IsValidLigthPath(call)) {
-                    call->SetRoute(group2.at(0));
-                    call->SetModulation(callWork0->GetModulation());
-                    call->SetFirstSlot(callWork0->GetFirstSlot());
-                    call->SetLastSlot(callWork0->GetLastSlot());
-                    call->SetStatus(Accepted);
-                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
-                    CalcBetaAverage(call);
-                    CalcAlpha(call);
-                    return;
-                }
-            }
-        }
-        /* //Delete one route again, recalculate Bit rate and try allocating just 1
-         //route (without protection)
-         callsVec.pop_back();
-         callWork0->SetBitRate(call->GetBitRate());
-         call->SetMultiCallVec(callsVec);
-
-         for(auto& route : resources->allRoutes.at(nodePairIndex)){
-             callWork0->SetRoute(route);
-             //callWork0->SetModulation(FixedModulation);
-             //this->modulation->SetModulationParam(call);
-             this->modulation->DefineBestModulation(call);
-             this->resDevAlloc->specAlloc->SpecAllocation(call);
-
-             if(topology->IsValidLigthPath(call)){
-                 call->SetRoute(route);
-                 call->SetModulation(callWork0->GetModulation());
-                 call->SetFirstSlot(callWork0->GetFirstSlot());
-                 call->SetLastSlot(callWork0->GetLastSlot());
-                 call->SetStatus(Accepted);
-                 resDevAlloc->simulType->GetData()->SetNonProtectedCalls();
-                 return;
-             }
-         }*/
-    }
-}
-
 void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
     if(numSchProtRoutes == 3){
         this->routing->RoutingCall(call); //loading trialRoutes and trialprotRoutes
@@ -1318,7 +1107,7 @@ void PartitioningDedicatedPathProtection::SpecRoutingPDPP(CallDevices* call) {
     }
 }
 
-void PartitioningDedicatedPathProtection::SpecRoutingPDPP_MP(CallDevices* call) {
+void PartitioningDedicatedPathProtection::SpecRoutingPDPP_DPGR(CallDevices* call) {
 
     if(numSchProtRoutes == 4) {
         this->CreateProtectionCalls(call); //loading multiCall vector with calls
@@ -2742,6 +2531,283 @@ void PartitioningDedicatedPathProtection::SpecRoutingSameSlotPDPP(CallDevices* c
     }*/
 }
 
+void PartitioningDedicatedPathProtection::ResourceAllocProtectionPDPP_MinNumSlot(CallDevices *call) {
+    if(numSchProtRoutes == 3){
+        this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
+
+        //setting 3 partitioned protection calls to allocation
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
+        std::shared_ptr<Call> callWork0 = callsVec.at(0);
+        std::shared_ptr<Call> callWork1 = callsVec.at(1);
+        std::shared_ptr<Call> callWork2 = callsVec.at(2);
+
+        unsigned int orN = call->GetOrNode()->GetNodeId();
+        unsigned int deN = call->GetDeNode()->GetNodeId();
+        unsigned int numNodes = this->topology->GetNumNodes();
+        unsigned int nodePairIndex = orN * numNodes + deN;
+
+        int numTotalSlotG = 0;
+        std::vector<int> auxTotalSlotGroupsVec;
+        std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
+
+        //computing the total number of required slots from each group for current call
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).at(1).empty()){
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
+                callWork0->SetRoute(group3.at(0));
+                callWork1->SetRoute(group3.at(1));
+                callWork2->SetRoute(group3.at(2));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 3 routes
+                for (const auto &partition: callsVec) {
+                    numTotalSlotG += partition->GetTotalNumSlots();
+                }
+                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
+                auxTotalRouteGroupsVec.push_back(group3);
+                numTotalSlotG = 0;
+            }
+            //ordering groups in aux vectors by total number of required slots
+            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
+                int Ci = auxTotalSlotGroupsVec[gi];
+                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
+                int gj;
+                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
+                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
+                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
+                }
+                auxTotalSlotGroupsVec[gj] = Ci;
+                auxTotalRouteGroupsVec[gj] = Ri;
+            }
+            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
+            resources->protectionAllRoutesGroups.at(nodePairIndex).at(1) = auxTotalRouteGroupsVec;
+            auxTotalSlotGroupsVec.clear();
+            auxTotalRouteGroupsVec.clear();
+
+            //trying allocate with 3 routes
+            for(auto& group3 : resources->protectionAllRoutesGroups.at(nodePairIndex).at(1)) {
+                callWork0->SetRoute(group3.at(0));
+                callWork1->SetRoute(group3.at(1));
+                callWork2->SetRoute(group3.at(2));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 3 routes
+                this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+                if (topology->IsValidLigthPath(call)) {
+                    call->SetRoute(group3.at(0));
+                    call->SetModulation(callWork0->GetModulation());
+                    call->SetFirstSlot(callWork0->GetFirstSlot());
+                    call->SetLastSlot(callWork0->GetLastSlot());
+                    call->SetStatus(Accepted);
+                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
+                    CalcBetaAverage(call);
+                    CalcAlpha(call);
+                    return;
+                }
+            }
+        }
+
+        //Delete one route, recalculate Bit rate and try allocating with 2 routes
+        callsVec.pop_back();
+        double callBitRate = call->GetBitRate();
+        double beta = parameters->GetBeta();
+        double partialBitRate = ceil (((1 - beta) * callBitRate) / (numSchProtRoutes-2));
+        callWork0->SetBitRate(partialBitRate);
+        callWork1->SetBitRate(partialBitRate);
+        call->SetMultiCallVec(callsVec);
+
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
+            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
+                callWork0->SetRoute(group2.at(0));
+                callWork1->SetRoute(group2.at(1));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 3 routes
+                for (const auto &partition: callsVec) {
+                    numTotalSlotG += partition->GetTotalNumSlots();
+                }
+                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
+                auxTotalRouteGroupsVec.push_back(group2);
+                numTotalSlotG = 0;
+            }
+            //ordering groups in aux vectors by total number of required slots
+            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
+                int Ci = auxTotalSlotGroupsVec[gi];
+                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
+                int gj;
+                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
+                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
+                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
+                }
+                auxTotalSlotGroupsVec[gj] = Ci;
+                auxTotalRouteGroupsVec[gj] = Ri;
+            }
+            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
+            resources->protectionAllRoutesGroups.at(nodePairIndex).back() = auxTotalRouteGroupsVec;
+            auxTotalSlotGroupsVec.clear();
+            auxTotalRouteGroupsVec.clear();
+
+            //trying allocate with 2 routes
+            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
+                callWork0->SetRoute(group2.at(0));
+                callWork1->SetRoute(group2.at(1));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 2 routes
+                this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+                if (topology->IsValidLigthPath(call)) {
+                    call->SetRoute(group2.at(0));
+                    call->SetModulation(callWork0->GetModulation());
+                    call->SetFirstSlot(callWork0->GetFirstSlot());
+                    call->SetLastSlot(callWork0->GetLastSlot());
+                    call->SetStatus(Accepted);
+                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
+                    CalcBetaAverage(call);
+                    CalcAlpha(call);
+                    return;
+                }
+            }
+        }
+        /* //Delete one route again, recalculate Bit rate and try allocating just 1
+         //route (without protection)
+         callsVec.pop_back();
+         callWork0->SetBitRate(call->GetBitRate());
+         call->SetMultiCallVec(callsVec);
+
+         for(auto& route : resources->allRoutes.at(nodePairIndex)){
+             callWork0->SetRoute(route);
+             //callWork0->SetModulation(FixedModulation);
+             //this->modulation->SetModulationParam(call);
+             this->modulation->DefineBestModulation(call);
+             this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+             if(topology->IsValidLigthPath(call)){
+                 call->SetRoute(route);
+                 call->SetModulation(callWork0->GetModulation());
+                 call->SetFirstSlot(callWork0->GetFirstSlot());
+                 call->SetLastSlot(callWork0->GetLastSlot());
+                 call->SetStatus(Accepted);
+                 resDevAlloc->simulType->GetData()->SetNonProtectedCalls();
+                 return;
+             }
+         }*/
+    }
+
+    if(numSchProtRoutes == 2){
+        this->CreateProtectionCalls(call); //loading multiCall vector with calls
+
+        //setting 2 calls to allocation
+        std::vector<std::shared_ptr<Call>> callsVec = call->GetMultiCallVec();
+        std::shared_ptr<Call> callWork0 = callsVec.at(0);
+        std::shared_ptr<Call> callWork1 = callsVec.at(1);
+
+        unsigned int orN = call->GetOrNode()->GetNodeId();
+        unsigned int deN = call->GetDeNode()->GetNodeId();
+        unsigned int numNodes = this->topology->GetNumNodes();
+        unsigned int nodePairIndex = orN * numNodes + deN;
+
+        int numTotalSlotG = 0;
+        std::vector<int> auxTotalSlotGroupsVec;
+        std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
+
+        //trying to allocate with 2 routes
+        if(!resources->protectionAllRoutesGroups.at(nodePairIndex).back().empty()){
+            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
+                callWork0->SetRoute(group2.at(0));
+                callWork1->SetRoute(group2.at(1));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 3 routes
+                for (const auto &partition: callsVec) {
+                    numTotalSlotG += partition->GetTotalNumSlots();
+                }
+                auxTotalSlotGroupsVec.push_back(numTotalSlotG);
+                auxTotalRouteGroupsVec.push_back(group2);
+                numTotalSlotG = 0;
+            }
+            //ordering groups in aux vectors by total number of required slots
+            for (int gi = 1; gi < auxTotalSlotGroupsVec.size(); gi++) {
+                int Ci = auxTotalSlotGroupsVec[gi];
+                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
+                int gj;
+                for (gj = gi; gj > 0 && Ci < auxTotalSlotGroupsVec[gj - 1]; gj--) {
+                    auxTotalSlotGroupsVec[gj] = auxTotalSlotGroupsVec[gj - 1];
+                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
+                }
+                auxTotalSlotGroupsVec[gj] = Ci;
+                auxTotalRouteGroupsVec[gj] = Ri;
+            }
+            //updating the set of groups in ProtectionAllRoutesGroups with ordered groups
+            resources->protectionAllRoutesGroups.at(nodePairIndex).back() = auxTotalRouteGroupsVec;
+            auxTotalSlotGroupsVec.clear();
+            auxTotalRouteGroupsVec.clear();
+
+            //trying to allocate with 2 routes
+            for(auto& group2 : resources->protectionAllRoutesGroups.at(nodePairIndex).back()) {
+                callWork0->SetRoute(group2.at(0));
+                callWork1->SetRoute(group2.at(1));
+
+                //defining modulation format and number of slots for the vector of calls
+                this->modulation->DefineBestModulation(call);
+                //check if the number of slots are available in the 2 routes
+                this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+                if (topology->IsValidLigthPath(call)) {
+                    call->SetRoute(group2.at(0));
+                    call->SetModulation(callWork0->GetModulation());
+                    call->SetFirstSlot(callWork0->GetFirstSlot());
+                    call->SetLastSlot(callWork0->GetLastSlot());
+                    call->SetStatus(Accepted);
+                    resDevAlloc->simulType->GetData()->SetProtectedCalls();
+                    CalcBetaAverage(call);
+                    CalcAlpha(call);
+                    return;
+                }
+            }
+        }
+        /* //Delete one route again, recalculate Bit rate and try allocating just 1
+         //route (without protection)
+         callsVec.pop_back();
+         callWork0->SetBitRate(call->GetBitRate());
+         call->SetMultiCallVec(callsVec);
+
+         for(auto& route : resources->allRoutes.at(nodePairIndex)){
+             callWork0->SetRoute(route);
+             //callWork0->SetModulation(FixedModulation);
+             //this->modulation->SetModulationParam(call);
+             this->modulation->DefineBestModulation(call);
+             this->resDevAlloc->specAlloc->SpecAllocation(call);
+
+             if(topology->IsValidLigthPath(call)){
+                 call->SetRoute(route);
+                 call->SetModulation(callWork0->GetModulation());
+                 call->SetFirstSlot(callWork0->GetFirstSlot());
+                 call->SetLastSlot(callWork0->GetLastSlot());
+                 call->SetStatus(Accepted);
+                 resDevAlloc->simulType->GetData()->SetNonProtectedCalls();
+                 return;
+             }
+         }*/
+    }
+}
+
+
+void PartitioningDedicatedPathProtection::ResourceAllocProtectionPDPP_MinSumSlotIndex(
+        CallDevices *call) {
+
+}
+
+void PartitioningDedicatedPathProtection::ResourceAllocProtectionPDPP_MinMaxSlotIndex(
+        CallDevices *call) {
+
+}
+
 void PartitioningDedicatedPathProtection::CreateProtectionCalls(CallDevices* call) {   
     unsigned int orN = call->GetOrNode()->GetNodeId();
     unsigned int deN = call->GetDeNode()->GetNodeId();
@@ -2804,6 +2870,10 @@ void PartitioningDedicatedPathProtection::SetPDPPBitRateNodePairDistGA(){
     }
     this->SetPDPPBitRateNodePairsDist(auxPDPPBitRateNodePairsDist);
 }
+
+
+
+
 
 
 
