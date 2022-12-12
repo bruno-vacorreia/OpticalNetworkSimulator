@@ -40,12 +40,14 @@ void ProtectionScheme::CalcBetaAverage(CallDevices* call) {
         double BR2 = call->GetMultiCalls().at(2)->GetBitRate();
         double BRR = call->GetBitRate(); //Bit Rate requested
         double BRmin = call->GetBitRate()*(1-parameters->GetBeta());
-        //getting number of links of each route (numLink = numHop)
+        //getting topology number of links
+        unsigned int L = topology->GetNumLinks();
+        //getting number of links=hops of each route
         double NL0 = (call->GetMultiCalls().at(0)->GetRoute()->GetNumHops());
         double NL1 = (call->GetMultiCalls().at(1)->GetRoute()->GetNumHops());
         double NL2 = (call->GetMultiCalls().at(2)->GetRoute()->GetNumHops());
         double NLT = NL0+NL1+NL2;
-        //getting beta result from failure of each route
+        //getting beta resulting from failure of each route
         double betaR0 = 0;   //beta result due route 0 failure
         double betaR1 = 0;
         double betaR2 = 0;
@@ -61,8 +63,14 @@ void ProtectionScheme::CalcBetaAverage(CallDevices* call) {
             betaR2 = (1 - ((BR1 + BR2) / BRR));
         else if(BR0+BR1 >= BRR)
             betaR2 = 0;
+        //getting failure probability of each route
+        double P0 = (1-pow(1-(1/L),NL0)); //failure probability of route 0
+        double P1 = (1-pow(1-(1/L),NL1));
+        double P2 = (1-pow(1-(1/L),NL1));
 
-        callBetaAverage = (betaR0*(NL0/NLT)) + (betaR1*(NL1/NLT)) + (betaR2*(NL2/NLT));
+        //callBetaAverage = (betaR0*(NL0/NLT)) + (betaR1*(NL1/NLT)) + (betaR2*(NL2/NLT));
+
+        callBetaAverage = ((betaR0*P0) + (betaR1*P1) + (betaR2*P2))/(P0 + P1 + P2);
 
         this->callBetaAverage.push_back(callBetaAverage);
         resDevAlloc->simulType->GetData()->SetSumCallsBetaAverage(callBetaAverage);

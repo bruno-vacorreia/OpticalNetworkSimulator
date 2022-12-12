@@ -144,7 +144,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
 
 void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
 
-    if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP || ProtectionOPDPP_GA) {
+    if(resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA) {
         switch (this->routing->GetRoutingOption()) {
             case RoutingYEN:
                 if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
@@ -157,6 +157,31 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
                     if (resDevAlloc->options->GetGaOption() == GaPDPPBO ||
                         resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
                         this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                        //this->RoutingSpecPDPP_DPGR(call);
+                    else
+                        this->RoutingSpecPDPP_DPGR(call);
+                else
+                    this->SpecRoutingPDPP_DPGR(call);
+                break;
+            default:
+                std::cerr << "Invalid offline routing option" << std::endl;
+                std::abort();
+        }
+    }
+    else if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP ) {
+        switch (this->routing->GetRoutingOption()) {
+            case RoutingYEN:
+                if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
+                    this->RoutingSpecPDPP(call);
+                else
+                    this->SpecRoutingPDPP(call);
+                break;
+            case RoutingDPGR:
+                if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
+                    if (resDevAlloc->options->GetGaOption() == GaPDPPBO ||
+                        resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
+                        this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                        //this->RoutingSpecPDPP_DPGR(call);
                     else
                         this->RoutingSpecPDPP_DPGR(call);
                 else
@@ -2796,7 +2821,6 @@ void PartitioningDedicatedPathProtection::ResourceAllocProtectionPDPP_MinNumSlot
          }*/
     }
 }
-
 
 void PartitioningDedicatedPathProtection::ResourceAllocProtectionPDPP_MinSumSlotIndex(
         CallDevices *call) {

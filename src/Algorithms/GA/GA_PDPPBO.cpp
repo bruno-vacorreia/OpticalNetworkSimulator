@@ -229,91 +229,118 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
                         }
                     }
                 }
-
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
             }
+//            //nova proposta (prof.Daniel)
+//            if(BR == 100000000000){
+//                for(double a = BRdown; a <= BRup; a = a+5e9){
+//                    for(double b = BRdown; b <= BRup; b = b+5e9) {
+//                        for (double c = BRdown; c <= BRup; c = c + 5e9) {
+//                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin) {
+//                                if ((a - 5e9 + b >= BRmin && b + c >= BRmin &&
+//                                     a - 5e9 + c >= BRmin) ||
+//                                    (a + b - 5e9 >= BRmin && b - 5e9 + c >= BRmin &&
+//                                     a + c >= BRmin) ||
+//                                    (a + b >= BRmin && b + c - 5e9 >= BRmin &&
+//                                     a + c - 5e9 >= BRmin))
+//                                    continue;
+//                                else {
+//                                    auxBitRateOption.push_back(a);
+//                                    auxBitRateOption.push_back(b);
+//                                    auxBitRateOption.push_back(c);
+//                                    PDPPBitRateAllDistOption.at(trIndex).push_back(
+//                                            auxBitRateOption);
+//                                    auxBitRateOption.clear();
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
             else if(BR == 200000000000){
                 for(double a = BRdown; a <= BRup; a = a+10e9){
-                    for(double b = BRdown; b <= BRup; b = b+10e9){                    
+                    for(double b = BRdown; b <= BRup; b = b+10e9){
                         for(double c = BRdown; c <= BRup; c = c+10e9){
-                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin 
+                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= ((1+alfaMax)*BR)){
                                 auxBitRateOption.push_back(a);
                                 auxBitRateOption.push_back(b);
                                 auxBitRateOption.push_back(c);
-                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);                       
+                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
                                 auxBitRateOption.clear();
                             }
-                        }             
+                        }
                     }
                 }
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
             }
+//            //nova proposta (prof.Daniel)
+//            else if(BR == 200000000000){
+//                for(double a = BRdown; a <= BRup; a = a+10e9){
+//                    for(double b = BRdown; b <= BRup; b = b+10e9) {
+//                        for (double c = BRdown; c <= BRup; c = c + 10e9) {
+//                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin) {
+//                                if ((a - 10e9 + b >= BRmin && b + c >= BRmin &&
+//                                     a - 10e9 + c >= BRmin) ||
+//                                    (a + b - 10e9 >= BRmin && b - 10e9 + c >= BRmin &&
+//                                     a + c >= BRmin) ||
+//                                    (a + b >= BRmin && b + c - 10e9 >= BRmin &&
+//                                     a + c - 10e9 >= BRmin))
+//                                    continue;
+//                                else {
+//                                    auxBitRateOption.push_back(a);
+//                                    auxBitRateOption.push_back(b);
+//                                    auxBitRateOption.push_back(c);
+//                                    PDPPBitRateAllDistOption.at(trIndex).push_back(
+//                                            auxBitRateOption);
+//                                    auxBitRateOption.clear();
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
             else if(BR == 400000000000){
                 for(double a = BRdown; a <= BRup; a = a+20e9){
-                    for(double b = BRdown; b <= BRup; b = b+20e9){                    
+                    for(double b = BRdown; b <= BRup; b = b+20e9){
                         for(double c = BRdown; c <= BRup; c = c+20e9){
-                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin 
+                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= ((1+alfaMax)*BR)){
                                 auxBitRateOption.push_back(a);
                                 auxBitRateOption.push_back(b);
                                 auxBitRateOption.push_back(c);
-                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);                       
+                                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
                                 auxBitRateOption.clear();
                             }
-                        }             
+                        }
                     }
                 }
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                auxBitRateOption.push_back(BRmin);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
-//
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(BRmin);
-//                auxBitRateOption.push_back(0.0);
-//                PDPPBitRateAllDistOption.at(trIndex).push_back(auxBitRateOption);
-//                auxBitRateOption.clear();
             }
+//            //nova proposta (prof.Daniel)
+//            else if(BR == 400000000000){
+//                for(double a = BRdown; a <= BRup; a = a+20e9){
+//                    for(double b = BRdown; b <= BRup; b = b+20e9) {
+//                        for (double c = BRdown; c <= BRup; c = c + 20e9) {
+//                            if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin) {
+//                                if ((a - 20e9 + b >= BRmin && b + c >= BRmin &&
+//                                     a - 20e9 + c >= BRmin) ||
+//                                    (a + b - 20e9 >= BRmin && b - 20e9 + c >= BRmin &&
+//                                     a + c >= BRmin) ||
+//                                    (a + b >= BRmin && b + c - 20e9 >= BRmin &&
+//                                     a + c - 20e9 >= BRmin))
+//                                    continue;
+//                                else {
+//                                    auxBitRateOption.push_back(a);
+//                                    auxBitRateOption.push_back(b);
+//                                    auxBitRateOption.push_back(c);
+//                                    PDPPBitRateAllDistOption.at(trIndex).push_back(
+//                                            auxBitRateOption);
+//                                    auxBitRateOption.clear();
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
             else {
                 std::cout << "Invalid traffic option. Traffic option should be 100/200/400 GB";
             }
