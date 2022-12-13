@@ -31,7 +31,7 @@ ProtectionScheme::~ProtectionScheme() {
 }
 
 void ProtectionScheme::CalcBetaAverage(CallDevices* call) {
-    double callBetaAverage;
+    double callBetaAverage = 0;
  
     if(call->GetMultiCallVec().size() == 3){
         //getting bit rate of each route
@@ -41,12 +41,12 @@ void ProtectionScheme::CalcBetaAverage(CallDevices* call) {
         double BRR = call->GetBitRate(); //Bit Rate requested
         double BRmin = call->GetBitRate()*(1-parameters->GetBeta());
         //getting topology number of links
-        unsigned int L = topology->GetNumLinks();
+        double L = (topology->GetNumLinks())/2;
         //getting number of links=hops of each route
         double NL0 = (call->GetMultiCalls().at(0)->GetRoute()->GetNumHops());
         double NL1 = (call->GetMultiCalls().at(1)->GetRoute()->GetNumHops());
         double NL2 = (call->GetMultiCalls().at(2)->GetRoute()->GetNumHops());
-        double NLT = NL0+NL1+NL2;
+        //double NLT = NL0+NL1+NL2;
         //getting beta resulting from failure of each route
         double betaR0 = 0;   //beta result due route 0 failure
         double betaR1 = 0;
@@ -60,13 +60,13 @@ void ProtectionScheme::CalcBetaAverage(CallDevices* call) {
         else if(BR0+BR2 >= BRR)
             betaR1 = 0;
         if(BRmin <= BR0+BR1 < BRR)
-            betaR2 = (1 - ((BR1 + BR2) / BRR));
+            betaR2 = (1 - ((BR0 + BR1) / BRR));
         else if(BR0+BR1 >= BRR)
             betaR2 = 0;
         //getting failure probability of each route
         double P0 = (1-pow(1-(1/L),NL0)); //failure probability of route 0
         double P1 = (1-pow(1-(1/L),NL1));
-        double P2 = (1-pow(1-(1/L),NL1));
+        double P2 = (1-pow(1-(1/L),NL2));
 
         //callBetaAverage = (betaR0*(NL0/NLT)) + (betaR1*(NL1/NLT)) + (betaR2*(NL2/NLT));
 
