@@ -886,7 +886,7 @@ void Routing::DisjointPathGroupsRouting() {
         }
     }
 
-    //ordering groups in protectionAllRoutes vector by number of hops
+    //ordering groups in protectionAllRoutes vector by cost (hops or length)
     double numTotalCostG = 0;
     std::vector<int> auxTotalCostGroupsVec;
     std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
