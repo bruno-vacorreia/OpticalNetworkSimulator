@@ -19,7 +19,7 @@
 
 Route::Route(ResourceAlloc* rsaAlg, const std::vector<int>& path)
 :resourceAlloc(rsaAlg), topology(rsaAlg->GetTopology()), path(path),
-pathNodes(0), pathLinks(0), cost(0.0) {
+pathNodes(0), pathLinks(0), cost(0.0), costHop(0.0), costLength(0.0) {
 
     if(path.size() != 0) {
         for (auto it: this->path) {
@@ -32,6 +32,8 @@ pathNodes(0), pathLinks(0), cost(0.0) {
         }
 
         this->SetCost();
+        this->SetCostHop();
+        this->SetCostLength();
     }
 
 }
@@ -143,6 +145,50 @@ void Route::SetCost() {
     this->SetCost(cost);
 }
 
+double Route::GetCostHop() const {
+    return costHop;
+}
+
+void Route::SetCostHop(double costHop) {
+    assert(cost >= 0.0);
+
+    Route::costHop = costHop;
+}
+
+void Route::SetCostHop() {
+    Link *link;
+    double costH = 0.0;
+
+    for(unsigned int a = 0; a < this->GetNumHops(); a++){
+        link = this->topology->GetLink(this->path.at(a), this->path.at(a+1));
+        costH += link->GetCostHop();
+    }
+
+    this->SetCostHop(costH);
+}
+
+double Route::GetCostLength() const {
+    return costLength;
+}
+
+void Route::SetCostLength(double costLength) {
+    assert(cost >= 0.0);
+
+    Route::costLength = costLength;
+}
+
+void Route::SetCostLength() {
+    Link *link;
+    double costL = 0.0;
+
+    for(unsigned int a = 0; a < this->GetNumHops(); a++){
+        link = this->topology->GetLink(this->path.at(a), this->path.at(a+1));
+        costL += link->GetCostLength();
+    }
+
+    this->SetCostLength(costL);
+}
+
 Link* Route::GetLink(unsigned int index) const {
     assert(index < this->GetNumHops());
     
@@ -212,3 +258,9 @@ void Route::AddNodeAtEnd(NodeIndex node) {
         pathLinks.push_back(topology->GetLink(pathNodes.at(pathNodes.size()-2)->GetNodeId(),
                                           pathNodes.at(pathNodes.size()-1)->GetNodeId()));
 }
+
+
+
+
+
+

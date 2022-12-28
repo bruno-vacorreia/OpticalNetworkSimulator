@@ -271,6 +271,18 @@ void Topology::SetLinksIniCost() {
             std::cerr << "Invalid link cost type" << std::endl;
             std::abort();
     }
+
+    //setting initial costs for Link vector by hops and Length for DPGR use
+    for(auto it : vecLinks){
+        if(it == nullptr)
+            continue;
+        it->SetCostHop(1.0);
+    }
+    for(auto it : vecLinks){
+        if(it == nullptr)
+            continue;
+        it->SetCostLength(it->GetLength());
+    }
 }
 
 void Topology::SetNodesNeighbors() {

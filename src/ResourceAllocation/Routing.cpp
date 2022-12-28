@@ -977,6 +977,8 @@ void Routing::AllRoutes(NodeIndex curNode, NodeIndex deNode, std::shared_ptr<Rou
         route->AddNodeAtEnd(curNode);
         if(deNode == route->GetDeNodeId()){   //check if destine was reached;
             route->SetCost();
+            route->SetCostHop();
+            route->SetCostLength();
             vRoutes.push_back(route);
             this->auxNodePairAllRoutes.push_back(route);
         }

@@ -94,6 +94,26 @@ public:
      */
     void SetCost(double cost);
     /**
+    * @brief Get the cost of the link in terms of Hops.
+    * @return Cost of the link.
+    */
+    double GetCostHop() const;
+    /**
+     * @brief Set the cost of the link in terms of Hop.
+     * @param cost cost of the link.
+     */
+    void SetCostHop(double costHop);
+    /**
+     * @brief Get the cost of the link in terms of Length.
+     * @return Cost of the link.
+     */
+    double GetCostLength() const;
+    /**
+     * @brief Set the cost of the link in terms of Length.
+     * @param cost cost of the link.
+     */
+    void SetCostLength(double costLength);
+    /**
      * @brief Checks if the link is functional.
      * @return True if the link is working.
      */
@@ -244,10 +264,18 @@ private:
      */
     const unsigned int numberSections;
     /**
-     * @brief Cost of this link, based in the 
-     * selected metric
+     * @brief Cost of this link, based in the selected metric
      */
     double cost;
+    /**
+    * @brief Cost of this link, in terms of Hops
+    */
+    double costHop;
+    /**
+    * @brief Cost of this link, in terms of Length
+    */
+    double costLength;
+
     /**
      * @brief Container with the cores of the link.
      */

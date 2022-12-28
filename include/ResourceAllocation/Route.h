@@ -118,10 +118,38 @@ public:
      */
     void SetCost(double cost);
     /**
+     * @brief Get the total cost of this route in terms of Hops.
+     * @return Route cost.
+     */
+    double GetCostHop() const;
+    /**
+     * @brief Set the total cost of this route in terms of Hops.
+     * @param cost Route cost.
+     */
+    void SetCostHop(double costHop);
+    /**
+     * @brief Get the total cost of this route in terms of Length.
+     * @return Route cost.
+     */
+    double GetCostLength() const;
+    /**
+     * @brief Set the total cost of this route in terms of Length
+     * @param cost Route cost.
+     */
+    void SetCostLength(double costLength);
+    /**
      * @brief Set the total cost of this route. The cost is calculated based on
      * the cost of links that compose the route.
      */
     void SetCost();
+    /**
+    * @brief Set the total cost of this route in terms of Hops.
+    */
+    void SetCostHop();
+    /**
+    * @brief Set the total cost of this route in terms of Lenth.
+    */
+    void SetCostLength();
     /**
      * @brief Function that return a specified link of this route.
      * @param index Link index.
@@ -192,6 +220,14 @@ private:
      * @brief Cost of the route.
      */
     double cost;
+    /**
+     * @brief Cost of the route in terms of Hops.
+     */
+    double costHop;
+    /**
+     * @brief Cost of the route in terms of Length.
+     */
+    double costLength;
 };
 
 #endif /* ROUTE_H */

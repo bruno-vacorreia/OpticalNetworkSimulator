@@ -330,6 +330,9 @@ private:
      */
     std::vector<std::shared_ptr<Link>> vecLinks;
     /**
+    * @brief Vector with all topology links with Hop as cost
+     */
+    /**
      * @brief Total number of nodes in the topology
      */
     unsigned int numNodes;

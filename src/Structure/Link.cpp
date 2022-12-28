@@ -40,8 +40,8 @@ NodeIndex destinationNode, double length, unsigned int numberSections,
 unsigned int numberCores, unsigned int numberSlots)
 :topPointer(topPointer), origimNode(origimNode), 
 destinationNode(destinationNode), length(length), 
-numberSections(numberSections), cost(0.0), cores(0), linkState(working), 
-utilization(0), use(0) {
+numberSections(numberSections), cost(0.0), costHop(0.0), costLength(0.0),cores(0),
+linkState(working), utilization(0), use(0) {
     
     for(unsigned int a = 0; a < numberCores; a++)
         cores.push_back(std::make_shared<Core>(this, a, numberSlots));
@@ -89,6 +89,22 @@ double Link::GetCost() const {
 
 void Link::SetCost(double cost) {
     this->cost = cost;
+}
+
+double Link::GetCostHop() const {
+    return costHop;
+}
+
+void Link::SetCostHop(double costHop) {
+    Link::costHop = costHop;
+}
+
+double Link::GetCostLength() const {
+    return costLength;
+}
+
+void Link::SetCostLength(double costLength) {
+    Link::costLength = costLength;
 }
 
 bool Link::IsLinkWorking() const {
@@ -244,3 +260,5 @@ std::vector<SlotState> Link::GetVecDisp(const CoreIndex coreId) const {
 Topology* Link::GetTopology() const {
     return this->topPointer;
 }
+
+
