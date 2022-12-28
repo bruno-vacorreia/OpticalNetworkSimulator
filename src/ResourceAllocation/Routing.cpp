@@ -886,42 +886,94 @@ void Routing::DisjointPathGroupsRouting() {
         }
     }
 
-    //ordering groups in protectionAllRoutes vector by cost (hops or length)
-    double numTotalCostG = 0;
-    std::vector<int> auxTotalCostGroupsVec;
-    std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
-
-    for(auto& nodePair : auxProtectionAllRoutesGroups) {
-        for (auto& groupType: nodePair) {
-            if(groupType.empty())
-                break;
-            //Filling total cost and routes groups vectors of actual node pair
-            for (auto& group : groupType) {
-                for(const auto& route : group){
-                    numTotalCostG += route->GetCost();
-                }
-                auxTotalCostGroupsVec.push_back(numTotalCostG);
-                auxTotalRouteGroupsVec.push_back(group);
-                numTotalCostG = 0;
-            }
-            //ordering groups in aux vectors by cost (hops or length)
-            for (int gi = 1; gi < auxTotalCostGroupsVec.size(); gi++) {
-                int Ci = auxTotalCostGroupsVec[gi];
-                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
-                int gj;
-                for (gj = gi; gj > 0 && Ci < auxTotalCostGroupsVec[gj - 1]; gj--) {
-                    auxTotalCostGroupsVec[gj] = auxTotalCostGroupsVec[gj - 1];
-                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
-                }
-                auxTotalCostGroupsVec[gj] = Ci;
-                auxTotalRouteGroupsVec[gj] = Ri;
-            }
-            //updating type group in auxProtectionAllRoutesGroups with ordered groups
-            groupType = auxTotalRouteGroupsVec;
-            auxTotalCostGroupsVec.clear();
-            auxTotalRouteGroupsVec.clear();
-        }
-    }
+//    //ordering groups in protectionAllRoutes vector by cost (hops or length)
+//    double numTotalCostG = 0;
+//    double numTotalCostHopG = 0;
+//    double numTotalCostLengthG = 0;
+//    std::vector<int> auxTotalCostGroupsVec;
+//    std::vector<int> auxTotalCostHopGroupsVec;
+//    std::vector<int> auxTotalCostLengthGroupsVec;
+//    std::vector<std::vector<std::shared_ptr<Route>>> auxTotalRouteGroupsVec;
+//
+//    for(auto& nodePair : auxProtectionAllRoutesGroups) {
+//        for (auto& groupType: nodePair) {
+//            if(groupType.empty())
+//                break;
+//            //Filling total cost and routes groups vectors of actual node pair
+//            for (auto& group : groupType) {
+//                for(const auto& route : group){
+//                    numTotalCostG += route->GetCost();
+//                    numTotalCostHopG += route->GetCostHop();
+//                    numTotalCostLengthG += route->GetCostLength();
+//                }
+//                auxTotalCostGroupsVec.push_back(numTotalCostG);
+//                auxTotalCostHopGroupsVec.push_back(numTotalCostHopG);
+//                auxTotalCostLengthGroupsVec.push_back(numTotalCostLengthG);
+//                auxTotalRouteGroupsVec.push_back(group);
+//                numTotalCostG = 0;
+//                numTotalCostHopG = 0;
+//                numTotalCostLengthG = 0;
+//            }
+//            //ordering groups in aux vectors by cost (hops or length)
+//            for (int gi = 1; gi < auxTotalCostGroupsVec.size(); gi++) {
+//                int Ci = auxTotalCostGroupsVec[gi];
+//                std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
+//                int gj;
+//                for (gj = gi; gj > 0 && Ci < auxTotalCostGroupsVec[gj - 1]; gj--) {
+//                    auxTotalCostGroupsVec[gj] = auxTotalCostGroupsVec[gj - 1];
+//                    auxTotalCostHopGroupsVec[gj] = auxTotalCostHopGroupsVec[gj - 1];
+//                    auxTotalCostLengthGroupsVec[gj] = auxTotalCostLengthGroupsVec[gj - 1];
+//                    auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
+//                }
+//                auxTotalCostGroupsVec[gj] = Ci;
+//                auxTotalRouteGroupsVec[gj] = Ri;
+//            }
+//            //breaking ties
+//            if(resourceAlloc->options->GetLinkCostType() == LinkCostHop){
+//                for (int gi = 1; gi < auxTotalCostGroupsVec.size(); gi++) {
+//                    int Ci = auxTotalCostGroupsVec[gi];
+//                    int Li = auxTotalCostLengthGroupsVec[gi];
+//                    std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[gi];
+//                    int gj;
+//                    for (gj = gi; gj > 0 && Ci == auxTotalCostGroupsVec[gj - 1]; gj--) {
+//                        if(Li < auxTotalCostLengthGroupsVec[gj - 1]) {
+//                            auxTotalCostGroupsVec[gj] = auxTotalCostGroupsVec[gj - 1];
+//                            auxTotalCostLengthGroupsVec[gj] = auxTotalCostLengthGroupsVec[gj - 1];
+//                            auxTotalRouteGroupsVec[gj] = auxTotalRouteGroupsVec[gj - 1];
+//                        }
+//                    }
+//                    auxTotalCostGroupsVec[gj] = Ci;
+//                    auxTotalCostLengthGroupsVec[gj] = Li;
+//                    auxTotalRouteGroupsVec[gj] = Ri;
+//                }
+//            }
+//            //breaking ties
+//            if(resourceAlloc->options->GetLinkCostType() == LinkCostHop){
+//                for(int i = 0; i < auxTotalCostGroupsVec.size(); i++){
+//                    for(int j = 0; j < auxTotalCostGroupsVec.size(); j++){
+//                        if(i == j)
+//                            continue;
+//                        if(auxTotalCostGroupsVec[i] == auxTotalCostGroupsVec[j]){
+//                            int Li = auxTotalCostLengthGroupsVec[i];
+//                            std::vector<std::shared_ptr<Route>> Ri = auxTotalRouteGroupsVec[i];
+//                            if(auxTotalCostLengthGroupsVec[j] < auxTotalCostLengthGroupsVec[i]){
+//                                auxTotalCostLengthGroupsVec[i] = auxTotalCostLengthGroupsVec[j];
+//                                auxTotalCostLengthGroupsVec[j] = Li;
+//                                auxTotalRouteGroupsVec[i] = auxTotalRouteGroupsVec[j];
+//                                auxTotalRouteGroupsVec[j] = Ri;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            //updating type group in auxProtectionAllRoutesGroups with ordered groups
+//            groupType = auxTotalRouteGroupsVec;
+//            auxTotalCostGroupsVec.clear();
+//            auxTotalCostLengthGroupsVec.clear();
+//            auxTotalCostHopGroupsVec.clear();
+//            auxTotalRouteGroupsVec.clear();
+//        }
+//    }
 
     resources->protectionAllRoutesGroups = auxProtectionAllRoutesGroups;
 }
@@ -945,7 +997,7 @@ void Routing::AllRoutes() {
         }
     }
 
-    //sorting AllRoutes vector by number of hops
+    //sorting AllRoutes vector by hops or length
     for(auto& nodeIndex : resources->allRoutes){
         if(nodeIndex.empty())
             continue;
@@ -963,6 +1015,25 @@ void Routing::AllRoutes() {
                     nodeIndex.at(j) = route1;
                     nodeIndex.at(i) = routeAux;
                     route1 = route2;
+                }
+                //breaking ties in terms of Hop or Length
+                else if (resourceAlloc->options->GetLinkCostType() == LinkCostHop &&
+                route2->GetCost() == route1->GetCost()) {
+                    if (route2->GetCostLength() < route1->GetCostLength()) {
+                        routeAux = route2;
+                        nodeIndex.at(j) = route1;
+                        nodeIndex.at(i) = routeAux;
+                        route1 = route2;
+                    }
+                }
+                else if (resourceAlloc->options->GetLinkCostType() == LinkCostLength &&
+                route2->GetCost() == route1->GetCost()) {
+                    if (route2->GetCostHop() < route1->GetCostHop()) {
+                        routeAux = route2;
+                        nodeIndex.at(j) = route1;
+                        nodeIndex.at(i) = routeAux;
+                        route1 = route2;
+                    }
                 }
             }
         }
