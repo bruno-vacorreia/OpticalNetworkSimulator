@@ -205,19 +205,23 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
     std::vector<double> auxBitRateOption;
     double beta = this->GetSimul()->GetParameters()->GetBeta();
     unsigned int trIndex = 0;
-    double alfaMax = 0.3;
+    double alfaMax = 0.4;
   
     if(beta != 0){     
         for(auto it : VecTraffic){
             double BR = it;
             double BRmin = ((it*(1 - beta)));
-            double BRdown = ((it/2) - (0.2*it));
-            double BRup = ((it/2) + (0.2*it));
+            double BRdown = ((it/2) - (0.3*it));
+            double BRup = ((it/2) + (0.3*it));
 
             if(BR == 100000000000){
                 for(double a = BRdown; a <= BRup; a = a+5e9){
                     for(double b = BRdown; b <= BRup; b = b+5e9){
+                        if(b > a)
+                            continue;
                         for(double c = BRdown; c <= BRup; c = c+5e9){
+                            if(c > b)
+                                continue;
                             if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= ((1+alfaMax)*BR)){
                                 auxBitRateOption.push_back(a);
@@ -259,7 +263,11 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
             else if(BR == 200000000000){
                 for(double a = BRdown; a <= BRup; a = a+10e9){
                     for(double b = BRdown; b <= BRup; b = b+10e9){
+                        if(b > a)
+                            continue;
                         for(double c = BRdown; c <= BRup; c = c+10e9){
+                            if(c > b)
+                                continue;
                             if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= ((1+alfaMax)*BR)){
                                 auxBitRateOption.push_back(a);
@@ -301,7 +309,11 @@ void GA_PDPPBO::LoadPDPPBitRateAllDistOption() {
             else if(BR == 400000000000){
                 for(double a = BRdown; a <= BRup; a = a+20e9){
                     for(double b = BRdown; b <= BRup; b = b+20e9){
+                        if(b > a)
+                            continue;
                         for(double c = BRdown; c <= BRup; c = c+20e9){
+                            if(c > b)
+                                continue;
                             if (a + b >= BRmin && b + c >= BRmin && a + c >= BRmin
                                 && a + b + c <= ((1+alfaMax)*BR)){
                                 auxBitRateOption.push_back(a);

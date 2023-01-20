@@ -180,8 +180,8 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
                 if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
                     if (resDevAlloc->options->GetGaOption() == GaPDPPBO ||
                         resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA)
-                        this->ResourceAllocProtectionPDPP_MinNumSlot(call);
-                        //this->RoutingSpecPDPP_DPGR(call);
+                        //this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                        this->RoutingSpecPDPP_DPGR(call);
                     else
                         this->RoutingSpecPDPP_DPGR(call);
                 else
