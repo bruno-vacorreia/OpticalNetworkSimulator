@@ -270,6 +270,7 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
             protScheme = std::make_shared<DedicatedPathProtection>(this);
             break;
         case ProtectionPDPP:
+        case ProtectionPDPP_MultiP:
         case ProtectionPDPP_MinHop:
         case ProtectionPDPP_MinLength:
         case ProtectionPDPP_MinSumSlotIndex:

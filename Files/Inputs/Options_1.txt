@@ -1,4 +1,4 @@
-1
+13
 5
 2
 1
@@ -7,7 +7,7 @@
 1
 2
 0
-4
+0
 1
 0
 0
@@ -124,12 +124,13 @@
     0 - Protection Disable
     1 - DPP
     2 - PDPP
-    3 - PDPP_MinHop
-    4 - PDPP_MinLength
-    5 - PDPP_MinSumSlotIndex
-    6 - PDPP_MinMaxSlotIndex
-    7 - PDPP_MinNumSlot
-    8 - OPDPP_GA
+    3 - PDPP_Multi-P
+    4 - PDPP_MinHop
+    5 - PDPP_MinLength
+    6 - PDPP_MinSumSlotIndex
+    7 - PDPP_MinMaxSlotIndex
+    8 - PDPP_MinNumSlot
+    9 - OPDPP_GA
 
 19-Fragmentation Measure Option
     0 - Disable

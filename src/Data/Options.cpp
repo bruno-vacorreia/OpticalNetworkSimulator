@@ -159,6 +159,7 @@ Options::mapProtectionOption = boost::assign::map_list_of
     (ProtectionDisable, "No Protection")
     (ProtectionDPP, "Dedicated Path Protection")
     (ProtectionPDPP, "Partitioning Dedicated Path Protection")
+    (ProtectionPDPP_MultiP, "Partitioning Dedicated Path Protection Multi-P")
     (ProtectionPDPP_MinHop, "Partitioning Dedicated Path Protection MinHop")
     (ProtectionPDPP_MinLength, "Partitioning Dedicated Path Protection MinLength ")
     (ProtectionPDPP_MinSumSlotIndex, "Partitioning Dedicated Path Protection MinSumSlotIndex")

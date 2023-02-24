@@ -50,12 +50,21 @@ public:
      */
     void RoutingSpecPDPP(CallDevices* call);
     /**
-    * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
-    * routes according with PDPP scheme for offline DPGR routing (fixed-alternate groups
-     * of disjoint routes) and no same set of slots between routes.
+* @brief Function which performs Routing-Spectrum RSA ordering for all groups
+* of disjoint routes provided by offline DPGR routing (fixed-alternate) according
+* with PDPP scheme. If the allocation has not succed using a set of groups of P
+* disjoint routes, a set of P-1 is not tryed (Original PDPP).
+* @param call Call request the function will try to allocate.
+*/
+    void RoutingSpecPDPP_DPGR(CallDevices* call);
+    /**
+    * @brief Function which performs Routing-Spectrum RSA ordering for all groups
+     * of disjoint routes provided by offline DPGR routing (fixed-alternate) according
+     * with PDPP scheme. If the allocation has not succed using a set of groups of P
+     * disjoint routes, a set of P-1 is tryed (Multi-P).
     * @param call Call request the function will try to allocate.
     */
-    void RoutingSpecPDPP_DPGR(CallDevices* call);
+    void RoutingSpecPDPP_DPGR_MultiP(CallDevices* call);
     /**
     * @brief Function which performs Spectrum-Routing RSA ordering for all Partitioned
     * routes according with PDPP scheme for offline YEN routing and no same set of slots
