@@ -1,0 +1,55 @@
+MULTIPLE LOADS SIMULATION
+This type of simulation varies the network load and analyzes the network performance. 
+
+OPTIONS
+Topology: NSFNet
+Routing algorithm: DPGR
+Spectral allocation algorithm: First Fit
+Links cost type: Hops
+Traffic requests(Gbps): 100-200-400
+Resource Allocation: RMSA
+Physical Layer: Enabled
+Network Type: EON
+RSA Order: Routing-SA
+GA: GA Disabled
+Devices: Enabled
+Transponders: Disabled
+Regeneration: Disabled
+Stop criteria: Number of call requests
+Random generation: Random generation
+Protection: Partitioning Dedicated Path Protection
+Fragmentation Option: Disabled
+
+PARAMETERS
+Number of slots per fiber: 128
+Number of cores per link: 1
+Mu: 1
+Minimum load point(erlang): 35
+Maximum load point(erlang): 65
+Number of points: 3
+Total number of requisitions: 1e+06
+Maximum blocked requests: 500
+Slot bandwidth (GHz): 12.5
+Maximum section length (km): 80
+Number of polarizations: 1
+Guard band size (slots): 0
+Number of PDPP Routes: 3
+Beta Squeezing: 0.2
+Number of MPR Groups: 10
+
+DATA
+Simulation time:28592.3  Real simul time: 24.0227  Number of requests:1e+06
+Load point:35  ReqBP:2.8e-05  SlotsBP:4.79624e-05  HopsMed:2.14424
+NetOcc:2.53521e+07  NetUti:0.164942 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.309552
+
+Simulation time:19958.7  Real simul time: 26.1822  Number of requests:1e+06
+Load point:50  ReqBP:0.001398  SlotsBP:0.00238532  HopsMed:2.14185
+NetOcc:2.529e+07  NetUti:0.235213 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.309436
+
+Simulation time:15401.5  Real simul time: 28.7951  Number of requests:1e+06
+Load point:65  ReqBP:0.011599  SlotsBP:0.0198057  HopsMed:2.14104
+NetOcc:2.47652e+07  NetUti:0.298808 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.307119
+

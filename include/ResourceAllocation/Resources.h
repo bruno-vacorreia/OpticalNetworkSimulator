@@ -288,9 +288,18 @@ private:
     unsigned GetRouteIndex(Route* route, unsigned orNode, unsigned deNode);
 public:
     /**
-     * @brief Vector of all routes for all network node pairs.
+     * @brief Vector of all routes for all network node pairs ordered by
+     * link cost selection.
      */
     std::vector<std::vector<std::shared_ptr<Route>>> allRoutes;
+    /**
+    * @brief Vector of all routes for all network node pairs ordered by number of Hops.
+    */
+    std::vector<std::vector<std::shared_ptr<Route>>> allRoutesHops;
+    /**
+    * @brief Vector of all routes for all network node pairs ordered by Length.
+    */
+    std::vector<std::vector<std::shared_ptr<Route>>> allRoutesLength;
     /**
      * @brief Vector that contain Kd protection routes for each one k route of 
      * vector allRoutes (working routes). This vector is made according of
@@ -300,11 +309,25 @@ public:
     protectionAllRoutes;
     /**
     * @brief Vector that contain all groups of 2 or 3 disjoint routes for each
-    * origin-destine pair ordered by Hops. This 4 dimension vector (1-pair, 2-groupType,
-     * 3-group, 4-routes) is used in Multi path Routing Option.
+    * origin-destine pair ordered by link cost selection. This 4 dimension vector
+    * (1-pair, 2-groupType, 3-group, 4-routes) is used in Multi path Routing Option.
     */
     std::vector<std::vector<std::vector<std::vector<std::shared_ptr<Route>>>>>
-            protectionAllRoutesGroups;
+    protectionAllRoutesGroups;
+    /**
+    * @brief Vector that contain all groups of 2 or 3 disjoint routes for each
+    * origin-destine pair ordered by link cost selection. This 4 dimension vector
+    * (1-pair, 2-groupType, 3-group, 4-routes) is used in Multi path Routing Option.
+    */
+    std::vector<std::vector<std::vector<std::vector<std::shared_ptr<Route>>>>>
+    protectionAllRoutesGroupsHops;
+    /**
+    * @brief Vector that contain all groups of 2 or 3 disjoint routes for each
+    * origin-destine pair ordered by link cost selection. This 4 dimension vector
+    * (1-pair, 2-groupType, 3-group, 4-routes) is used in Multi path Routing Option.
+    */
+    std::vector<std::vector<std::vector<std::vector<std::shared_ptr<Route>>>>>
+    protectionAllRoutesGroupsLength;
     /**
      *@brief Vector of vector of vector of route pointers to store interfering 
      * routes of all routes in the network

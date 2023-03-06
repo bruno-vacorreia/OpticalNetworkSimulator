@@ -168,11 +168,18 @@ public:
     std::vector<std::shared_ptr<Route>> routes);
     /**
      * @brief Function to apply the link-disjoint path groups routing (DPGR) algorithm for
-     * all node pairs in the network. Groups of 2 and 3 disjoint routes are formed to be
+     * all node pairs in the network. Groups of 2, 3 and 4 disjoint routes are formed to be
      * used in PDPP scheme with 4, 3 or 2 routes.
      */
     void DisjointPathGroupsRouting();
-
+    /**
+     * @brief Function to generate groups of disjoint routes groups for all node
+     * pairs from an AllRoutes vector ordered by hops or length. Groups of 2, 3 and 4
+     * disjoint routes are formed.
+     */
+    std::vector<std::vector<std::vector<std::vector<std::shared_ptr<Route>>>>>
+    GenerateDisjointRoutesGroups(std::vector<std::vector<std::shared_ptr<Route>>>
+    allRoutes);
     /**
     * @brief Function to get all routes between all source-destination pair on the topology.
      * These routes are stored in allRoutes vector.

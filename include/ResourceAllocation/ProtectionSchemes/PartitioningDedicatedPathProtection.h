@@ -36,13 +36,22 @@ public:
      * 
      */
     void CreateProtectionCalls(CallDevices* call) override;
-       /**
-     * @brief Function which perform RSA for Working and protection paths 
-     * according with PDPP scheme.
-     * @param Call vector which contain working and protection paths.
-     */
+    /**
+    * @brief Function which perform RSA for Working and protection paths
+    * according with PDPP scheme.
+    * @param Call vector which contain working and protection paths.
+    */
     void ResourceAlloc(CallDevices* call) override;
-     /**
+    /**
+    * @brief Function which performs RSA using for all ordered groups of disjoint routes
+    * provided by offline DPGR routing (fixed-alternate) according with PDPP scheme.
+    * Only if there is not a set of groups of P disjoint routes, a set of P-1 is used
+    * (Original PDPP).
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP(CallDevices* call);
+
+    /**
      * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
      * routes according with PDPP scheme for offline YEN routing and no same set of slots
      * between routes.
@@ -50,12 +59,12 @@ public:
      */
     void RoutingSpecPDPP(CallDevices* call);
     /**
-* @brief Function which performs Routing-Spectrum RSA ordering for all groups
-* of disjoint routes provided by offline DPGR routing (fixed-alternate) according
-* with PDPP scheme. If the allocation has not succed using a set of groups of P
-* disjoint routes, a set of P-1 is not tryed (Original PDPP).
-* @param call Call request the function will try to allocate.
-*/
+    * @brief Function which performs Routing-Spectrum RSA ordering for all groups
+    * of disjoint routes provided by offline DPGR routing (fixed-alternate) according
+    * with PDPP scheme. If the allocation has not succed using a set of groups of P
+    * disjoint routes, a set of P-1 is not tryed (Original PDPP).
+    * @param call Call request the function will try to allocate.
+    */
     void RoutingSpecPDPP_DPGR(CallDevices* call);
     /**
     * @brief Function which performs Routing-Spectrum RSA ordering for all groups
@@ -87,11 +96,11 @@ public:
     */
     void SpecRoutingSameSlotPDPP(CallDevices* call);
     /**
-* @brief Function which performs RSA for multipath protected Calls by PDPP scheme using
-* offline DPGR routing. This function analyses each group of link-disfoint paths and
- * try to allocate the partitions in the one which demands a minimum number of slots.
-* @param call Call request the function will try to allocate.
-*/
+    * @brief Function which performs RSA for multipath protected Calls by PDPP scheme using
+    * offline DPGR routing. This function analyses each group of link-disfoint paths and
+    * try to allocate the partitions in the one which demands a minimum number of slots.
+    * @param call Call request the function will try to allocate.
+    */
     void ResourceAllocProtectionPDPP_MinNumSlot(CallDevices* call);
     /**
     * @brief Function which performs RSA for all Partitioned routes according with PDPP
@@ -138,10 +147,16 @@ public:
     PDPPBitRateNodePairsDist);
     /**
     * @brief Set the container that indicate the PDPP Bit rate distribution option for
-     * each node pair in the network of the output of the first simulation.
+    * each node pair in the network of the output of the first simulation.
     */
     void SetPDPPBitRateNodePairDistGA();
-
+    /**
+    * @brief Function which performs RSA for all PDPP partitions according with the
+    * number of routes defined in parameters.
+    *  * @param call Call request, .
+    */
+    void RSA_ProtectionCalls(CallDevices *call, std::vector<std::shared_ptr<Route>> group,
+                             std::shared_ptr<Call> firstPartition);
       
 private:
     /**

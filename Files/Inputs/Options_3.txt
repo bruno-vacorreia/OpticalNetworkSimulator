@@ -1,7 +1,7 @@
 1
 5
 2
-2
+1
 1
 2
 1
@@ -14,8 +14,8 @@
 0
 0
 0
-0
-5
+2
+2
 0
 
 1-Topology
@@ -32,6 +32,7 @@
     10- Waxman
     11- US Backbone
     12- European
+    13- Cost239
 2-Routing algorithm
     0 - Invalid
     1 - DJK
@@ -81,7 +82,7 @@
     2 - GA Core Order
     3 - GA Number of Interfering Routes Check
     4 - GA PDPP Bit rate Optimization
-11-Devices Option
+11-MultiCall Option
     0 - Disabled
     1 - Enabled
 12-Transponder Option
@@ -123,12 +124,14 @@
     0 - Protection Disable
     1 - DPP
     2 - PDPP
-    3 - PDPP_MinHop
-    4 - PDPP_MinLength
-    5 - PDPP_MinSumSlotIndex
-    6 - PDPP_MinMaxSlotIndex
-    7 - PDPP_MinNumSlot
-    8 - OPDPP_GA
+    3 - PDPP_Multi-P
+    4 - PDPP_MinHop
+    5 - PDPP_MinLength
+    6 - PDPP_MinSumSlotIndex
+    7 - PDPP_MinMaxSlotIndex
+    8 - PDPP_MinNumSlot
+    9 - OPDPP_GA
+
 19-Fragmentation Measure Option
     0 - Disable
     1 - Fragmentation Ratio (FR)
