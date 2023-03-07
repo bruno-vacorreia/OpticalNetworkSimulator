@@ -37,19 +37,47 @@ public:
      */
     void CreateProtectionCalls(CallDevices* call) override;
     /**
-    * @brief Function which perform RSA for Working and protection paths
-    * according with PDPP scheme.
-    * @param Call vector which contain working and protection paths.
+    * @brief Function which perform RSA for the call works (partitions) according with
+    * PDPP scheme defined in options.
+    * @param Call vector which contain PDPPs call works (partitions).
     */
     void ResourceAlloc(CallDevices* call) override;
     /**
-    * @brief Function which performs RSA using for all ordered groups of disjoint routes
-    * provided by offline DPGR routing (fixed-alternate) according with PDPP scheme.
+    * @brief Function which performs RSA considering all groups of disjoint routes ordered
+    * according link cost type defined in options and provided by offline DPGR routing
+    * (fixed-alternate) according with PDPP scheme.
     * Only if there is not a set of groups of P disjoint routes, a set of P-1 is used
     * (Original PDPP).
     * @param call Call request the function will try to allocate.
     */
     void ResourceAllocPDPP(CallDevices* call);
+    /**
+    * @brief Function which performs RSA considering all groups of disjoint routes ordered
+    * according link cost type defined in options, provided by offline DPGR routing
+    * (fixed-alternate) according with PDPP scheme.
+    * If there is not a set of groups of P disjoint routes or or the allocation was not
+    * possible in one of them, a set of P-1 is used (Multi-P concept).
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP_MultiP(CallDevices* call);
+    /**
+    * @brief Function which performs RSA considering all groups of disjoint routes ordered
+    * by sum of hops of its disjoint routes, provided by offline DPGR routing
+    * (fixed-alternate) according with PDPP scheme.
+    * If there is not a set of groups of P disjoint routes or or the allocation was not
+     * possible in one of them, a set of P-1 is used (Multi-P concept).
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP_MultiP_MinHop(CallDevices* call);
+    /**
+    * @brief Function which performs RSA considering all groups of disjoint routes ordered
+    * by sum of length of its disjoint routes, provided by offline DPGR routing
+    * (fixed-alternate) according with PDPP scheme.
+    * If there is not a set of groups of P disjoint routes or or the allocation was not
+     * possible in one of them, a set of P-1 is used (Multi-P concept).
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP_MultiP_MinLength(CallDevices* call);
 
     /**
      * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
