@@ -79,16 +79,28 @@ public:
     */
     void ResourceAllocPDPP_MultiP_MinLength(CallDevices* call);
     /**
+    * @brief Function which performs RSA for all Partitioned routes according with PDPP
+    * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
+    * are ordered by minimal sum of its lowest slot indexes available to allocate each
+    * partition in each route.
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP_MinSumSlotIndexes(CallDevices* call);
+    /**
+    * @brief Function which performs RSA for all Partitioned routes according with PDPP
+    * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
+    * are ordered by lowest slot index among the highest slot indexes available to allocate
+     * each partition in each route..
+    * @param call Call request the function will try to allocate.
+    */
+    void ResourceAllocPDPP_LowHighSlotIndex(CallDevices* call);
+    /**
     * @brief Function which performs RSA for multipath protected Calls by PDPP scheme using
     * offline DPGR routing. This function analyses each group of link-disfoint paths and
     * allocate the partitions in the one which demands a minimum number of slots.
     * @param call Call request the function will try to allocate.
     */
-    void ResourceAllocPDPP_MultiP_MinNumSlot(CallDevices* call);
-
-
-
-
+    void ResourceAllocPDPP_MinNumSlot(CallDevices* call);
     /**
      * @brief Function which performs Routing-Spectrum RSA ordering for all Partitioned
      * routes according with PDPP scheme for offline YEN routing and no same set of slots
@@ -140,22 +152,8 @@ public:
     * @param call Call request the function will try to allocate.
     */
     void ResourceAllocProtectionPDPP_MinNumSlot(CallDevices* call);
-    /**
-    * @brief Function which performs RSA for all Partitioned routes according with PDPP
-     * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
-     * are ordered by minimal sum of its lower slot index available to allocate each
-     * partition in each route.
-    * @param call Call request the function will try to allocate.
-    */
-    void ResourceAllocProtectionPDPP_MinSumSlotIndex(CallDevices* call);
-    /**
-    * @brief Function which performs RSA for all Partitioned routes according with PDPP
-    * scheme for fixed-alternate groups of disjoint routes routing (DPGR) which the groups
-    * are ordered by lower slot index among the maximum slot indexes available to allocate
-     * each partition in each route..
-    * @param call Call request the function will try to allocate.
-    */
-    void ResourceAllocProtectionPDPP_MinMaxSlotIndex(CallDevices* call);
+
+
     /**
      * @brief Function which compute a partial bit rate distribution for all 
       * source-destination pair and for all incoming traffic demand possibilities.
