@@ -17,7 +17,7 @@ Transponders: Disabled
 Regeneration: Disabled
 Stop criteria: Number of call requests
 Random generation: Same pseudo-random generation
-Protection: Partitioning Dedicated Path Protection MinLength 
+Protection: Partitioning Dedicated Path Protection MinNumSlot
 Fragmentation Option: Disabled
 
 PARAMETERS
@@ -38,18 +38,18 @@ Beta Squeezing: 0.2
 Number of MPR Groups: 10
 
 DATA
-Simulation time:28588.4  Real simul time: 24.5091  Number of requests:1e+06
-Load point:35  ReqBP:6.3e-05  SlotsBP:0.000107128  HopsMed:2.41702
-NetOcc:2.64447e+07  NetUti:0.17212 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.31005
+Simulation time:28588.4  Real simul time: 188.926  Number of requests:1e+06
+Load point:35  ReqBP:2.4e-05  SlotsBP:4.11372e-05  HopsMed:2.14177
+NetOcc:2.52759e+07  NetUti:0.164487 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.310059
 
-Simulation time:20011.9  Real simul time: 25.5686  Number of requests:1e+06
-Load point:50  ReqBP:0.00274  SlotsBP:0.00468107  HopsMed:2.41658
-NetOcc:2.6279e+07  NetUti:0.244284 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.309383
+Simulation time:20011.9  Real simul time: 177.912  Number of requests:1e+06
+Load point:50  ReqBP:0.001416  SlotsBP:0.00242109  HopsMed:2.14137
+NetOcc:2.52116e+07  NetUti:0.2344 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.309701
 
-Simulation time:15393.7  Real simul time: 31.7533  Number of requests:1e+06
-Load point:65  ReqBP:0.016292  SlotsBP:0.0277453  HopsMed:2.4137
-NetOcc:2.54723e+07  NetUti:0.307736 NetFrag:0
-ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.306412
+Simulation time:15393.7  Real simul time: 183.753  Number of requests:1e+06
+Load point:65  ReqBP:0.011071  SlotsBP:0.0188661  HopsMed:2.1395
+NetOcc:2.4752e+07  NetUti:0.299208 NetFrag:0
+ProtRate:1  BetaAvrg:0.2   AlphaAvrg:0.307522
 
