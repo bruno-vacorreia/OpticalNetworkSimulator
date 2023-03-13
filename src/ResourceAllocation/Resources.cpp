@@ -28,8 +28,8 @@ Resources::Resources(ResourceAlloc* resourceAlloc, Modulation* modulation)
 protectionAllRoutesGroups(0), protectionAllRoutesGroupsHops(0),
 protectionAllRoutesGroupsLength(0), interRoutes(0), numInterRoutesToCheck(0),
 subRoutes(0), numReg(0), numSlots(0), numSlotsPerSubRoute(0), 
-subRoutesModulation(0), resourceAllocOrder(0), numSlotsTraffic(0), 
-resourceAlloc(resourceAlloc), modulation(modulation) {
+subRoutesModulation(0), resourceAllocOrder(0), resourceAllocOrderProtection(0),
+numSlotsTraffic(0), resourceAlloc(resourceAlloc), modulation(modulation) {
     
 }
 

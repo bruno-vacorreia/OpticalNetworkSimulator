@@ -378,6 +378,11 @@ public:
      */
     std::vector<ResAllocOrder> resourceAllocOrder;
     /**
+    * @brief Vector that contain the RSA order, by node pair, for protection schemes
+    * simulations.
+    */
+    std::vector<ResAllocOrderProtection> resourceAllocOrderProtection;
+    /**
      * @brief Container of the possible number of slots the simulation may
      * have. It is used in MSCL SA for find the capacity loss.
      */

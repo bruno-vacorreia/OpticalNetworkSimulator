@@ -191,6 +191,14 @@ public:
      */
     void SetResourceAllocOrder(std::vector<ResAllocOrder> resourceAllocOrder);
     /**
+     * @brief Set the container that indicate the RSA order (MinHop, Minlength,
+     * MinSumSlotIndex or MinMaxSlotIndex) for each node pair in the network, for
+     * protection schemes simulations.
+     * @param resourceAllocOrderProtection Container of RSA order for all node pairs.
+     */
+    void SetResourceAllocOrderProtection(std::vector<ResAllocOrderProtection>
+    resourceAllocOrderProtection);
+    /**
      * @brief Set the container that indicate the RSA order (R-SA or SA-R) for
      * each node pair in the network of the output of the first simulation.
      */

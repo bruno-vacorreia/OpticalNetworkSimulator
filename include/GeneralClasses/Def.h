@@ -30,6 +30,12 @@ typedef bool ResAllocOrder;
 #define r_sa false
 #define sa_r true
 
+typedef int ResAllocOrderProtection;
+#define MinHop 1
+#define MinLength 2
+#define MinSumSlotIndex 3
+#define MinMaxSlotIndex 4
+
 typedef double TIME;
 
 typedef bool UseRegeneration;

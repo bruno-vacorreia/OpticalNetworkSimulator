@@ -433,6 +433,14 @@ resourceAllocOrder) {
     this->resources->resourceAllocOrder = resourceAllocOrder;
 }
 
+void ResourceAlloc::SetResourceAllocOrderProtection(std::vector<ResAllocOrderProtection>
+resourceAllocOrderProtection) {
+    assert(resourceAllocOrderProtection.size() == this->resources->
+            resourceAllocOrderProtection.size());
+
+    this->resources->resourceAllocOrderProtection = resourceAllocOrderProtection;
+}
+
 void ResourceAlloc::SetResourceAllocOrderGA() {
     std::ifstream auxIfstream;
     std::vector<bool> vecBool;
@@ -950,3 +958,5 @@ void ResourceAlloc::UpdateRoutesCosts() {
         }
     }
 }
+
+
