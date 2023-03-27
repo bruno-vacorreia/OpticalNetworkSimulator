@@ -72,6 +72,15 @@ public:
      * each node pair in the network of the output of the first PDPP (protection) simulation.
      */
     void SetResourceAllocOrderProtectionGA();
+    /**
+     * @brief Check if this ResourceAlloc will apply R-SA or SA-R, depending
+     * on the order vector.
+     * @param call Call request.
+     * @return 1 or 2 if will apply R-SA Minhop or MinLength or 3 or 4 if will apply SA-R
+     * MinSumSlotIndex or LowHighslotIndex.
+     */
+    int CheckResourceAllocOrderProtection(Call* call);
+
 
 private:
     /**

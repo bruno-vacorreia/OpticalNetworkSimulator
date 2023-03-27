@@ -115,7 +115,7 @@ void SimulationGA::CreateGA() {
         case GaPDPPBO:
             this->gaAlgorithm = std::make_shared<GA_PDPPBO>(this);
             break;
-        case GaRsaOrderProtection:
+        case GaHPDPP:
             this->gaAlgorithm = std::make_shared<GA_RsaOrderProtection>(this);
             break;
         default:

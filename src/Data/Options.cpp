@@ -100,7 +100,7 @@ Options::mapGaOption = boost::assign::map_list_of
     (GaCoreOrder, "GA Core Order")
     (GaNumRoutesCheckMSCL, "GA Number of Interfering Routes Check")
     (GaPDPPBO, "GA PDPP Bit Rate Optimization")
-    (GaRsaOrderProtection, "GA RSA Order Protection");
+    (GaHPDPP, "GA RSA Order Protection HPDPP");
 
 const boost::unordered_map<MultiCallOption, std::string>
 Options::mapDevicesOption = boost::assign::map_list_of

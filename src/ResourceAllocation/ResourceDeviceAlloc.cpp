@@ -277,6 +277,7 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
         case ProtectionPDPP_LowHighSlotIndex:
         case ProtectionPDPP_MinNumSlot:
         case ProtectionOPDPP_GA:
+        case ProtectionHPDPP_GA:
             protScheme = std::make_shared<PartitioningDedicatedPathProtection>
             (this);
             break;
@@ -323,4 +324,9 @@ void ResourceDeviceAlloc::SetResourceAllocOrderProtectionGA() {
         vecInt.push_back(auxInt);
     }
     this->SetResourceAllocOrderProtection(vecInt);
+}
+
+int ResourceDeviceAlloc::CheckResourceAllocOrderProtection(Call *call) {
+    return this->resources->resourceAllocOrderProtection.at( call->GetOrNode()->
+            GetNodeId()*this->topology->GetNumNodes()+call->GetDeNode()->GetNodeId() );
 }

@@ -31,18 +31,20 @@ void GA_RsaOrderProtection::InitializePopulation() {
 
     for(unsigned int a = 0; a < this->GetNumberIndividuals(); a++){
 
-        if(a == 0){
+/*        if(a == 0){
             this->selectedPopulation.push_back(std::make_shared
-                                                       <IndividualRsaOrderProtection>(this, r_sa));
+                                                       <IndividualRsaOrderProtection>(this, r_sa_MinHop));
         }
         else if(a == 1){
             this->selectedPopulation.push_back(std::make_shared
-                                                       <IndividualRsaOrderProtection>(this, sa_r));
+                                                       <IndividualRsaOrderProtection>(this, sa_r_LowHighSlotIndex));
         }
         else{
             this->selectedPopulation.push_back(std::make_shared
                                                        <IndividualRsaOrderProtection>(this));
-        }
+        }*/
+        this->selectedPopulation.push_back(std::make_shared
+         <IndividualRsaOrderProtection>(this));
     }
 }
 
@@ -94,8 +96,7 @@ ResAllocOrderProtection GA_RsaOrderProtection::GetIntDistribution() {
 
 void GA_RsaOrderProtection::ApplyIndividual(Individual* ind) {
     IndividualRsaOrderProtection* indInt = dynamic_cast<IndividualRsaOrderProtection*>(ind);
-    this->GetSimul()->GetResourceAlloc()
-            ->SetResourceAllocOrderProtection(indInt->GetGenes());
+    this->GetSimul()->GetResourceAlloc()->SetResourceAllocOrderProtection(indInt->GetGenes());
 }
 
 void GA_RsaOrderProtection::SetIndParameters(Individual* ind) {

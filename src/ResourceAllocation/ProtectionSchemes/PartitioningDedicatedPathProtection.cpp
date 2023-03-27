@@ -89,6 +89,7 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
             LoadPDPPBitRateOptions();
             break;
         case ProtectionOPDPP_GA:
+        case ProtectionHPDPP_GA:
             break;
         default:
             std::cerr << "Invalid Protection Option for PDPPBitRate option" << std::endl;
@@ -125,6 +126,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
         case ProtectionPDPP_MinNumSlot:
         case ProtectionPDPP_MultiP:
         case ProtectionPDPP:
+        case ProtectionHPDPP_GA:
             for(int a = 0; a < PDPPBitRateNodePairsDist.size(); a++){
                 PDPPBitRateNodePairsDist.at(a) = PDPPBitRateDistOptions;
             }
@@ -140,7 +142,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
 
 void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
 
-    if(resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA) {
+/*    if(resDevAlloc->options->GetProtectionOption() == ProtectionOPDPP_GA) {
         switch (this->routing->GetRoutingOption()) {
             case RoutingYEN:
                 if (resDevAlloc->CheckResourceAllocOrder(call) == r_sa)
@@ -208,6 +210,57 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
                 break;
             case ProtectionPDPP_MinNumSlot:
                 //this->ResourceAllocProtectionPDPP_MinNumSlot(call);
+                this->ResourceAllocPDPP_MinNumSlot(call);
+                break;
+            default:
+                std::cerr << "Invalid Protection option" << std::endl;
+                std::abort();
+        }
+    }*/
+
+    if (resDevAlloc->options->GetGaOption() == GaHPDPP ||
+    resDevAlloc->options->GetGaOption() == GaPDPPBO ||
+    resDevAlloc->options->GetProtectionOption() == ProtectionHPDPP_GA) {
+        switch (resDevAlloc->CheckResourceAllocOrderProtection(call)) {
+            case r_sa_MinHop:
+                this->ResourceAllocPDPP_MultiP_MinHop(call);
+                break;
+            case r_sa_MinLength:
+                this->ResourceAllocPDPP_MultiP_MinLength(call);
+                break;
+            case sa_r_MinSumSlotIndex:
+                this->ResourceAllocPDPP_MinSumSlotIndexes(call);
+                break;
+            case sa_r_LowHighSlotIndex:
+                this->ResourceAllocPDPP_LowHighSlotIndex(call);
+                break;
+            default:
+                std::cerr << "Invalid Rsa Order Protection option" << std::endl;
+                std::abort();
+        }
+    }
+    else if (resDevAlloc->options->GetProtectionOption() != ProtectionDisable){
+        switch (resDevAlloc->options->GetProtectionOption()) {
+            case ProtectionPDPP:
+                this->ResourceAllocPDPP(call);
+                break;
+            case ProtectionPDPP_MultiP:
+            case ProtectionOPDPP_GA:
+                this->ResourceAllocPDPP_MultiP(call);
+                break;
+            case ProtectionPDPP_MinHop:
+                this->ResourceAllocPDPP_MultiP_MinHop(call);
+                break;
+            case ProtectionPDPP_MinLength:
+                this->ResourceAllocPDPP_MultiP_MinLength(call);
+                break;
+            case ProtectionPDPP_MinSumSlotIndex:
+                this->ResourceAllocPDPP_MinSumSlotIndexes(call);
+                break;
+            case ProtectionPDPP_LowHighSlotIndex:
+                this->ResourceAllocPDPP_LowHighSlotIndex(call);
+                break;
+            case ProtectionPDPP_MinNumSlot:
                 this->ResourceAllocPDPP_MinNumSlot(call);
                 break;
             default:
