@@ -13,6 +13,7 @@
 
 #include "../../include/SimulationType/SimulationGA.h"
 #include "../../include/Algorithms/GA/GA_RsaOrder.h"
+#include "../../include/Algorithms/GA/GA_RsaOrderProtection.h"
 #include "../../include/Algorithms/GA/GA_NumInterRoutesMSCL.h"
 #include "../../include/Algorithms/GA/GA_PDPPBO.h"
 #include "../../include/SimulationType/SimulationType.h"
@@ -113,6 +114,9 @@ void SimulationGA::CreateGA() {
             break;
         case GaPDPPBO:
             this->gaAlgorithm = std::make_shared<GA_PDPPBO>(this);
+            break;
+        case GaRsaOrderProtection:
+            this->gaAlgorithm = std::make_shared<GA_RsaOrderProtection>(this);
             break;
         default:
             std::cerr << "Invalid GA option" << std::endl;

@@ -23,7 +23,7 @@ GA_RsaOrderProtection::~GA_RsaOrderProtection() {
 void GA_RsaOrderProtection::Initialize() {
     GA_SO::Initialize();
     this->SetNumNodes(this->GetSimul()->GetTopology()->GetNumNodes());
-    this->intDistribution = std::uniform_int_distribution<int>(MinHop, MinMaxSlotIndex);
+    this->intDistribution = std::uniform_int_distribution<int>(r_sa_MinHop, sa_r_LowHighSlotIndex);
 }
 
 void GA_RsaOrderProtection::InitializePopulation() {

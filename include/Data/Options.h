@@ -152,8 +152,9 @@ enum GAOption {
     GaCoreOrder,
     GaNumRoutesCheckMSCL,
     GaPDPPBO,
+    GaRsaOrderProtection,
     FirstGaOption = GaRsaOrder,
-    LastGaOption = GaPDPPBO
+    LastGaOption = GaRsaOrderProtection
 };
 
 /**
@@ -244,9 +245,10 @@ enum ProtectionOption {
     ProtectionPDPP_MinHop,
     ProtectionPDPP_MinLength,
     ProtectionPDPP_MinSumSlotIndex,
-    ProtectionPDPP_MinMaxSlotIndex,
+    ProtectionPDPP_LowHighSlotIndex,
     ProtectionPDPP_MinNumSlot,
     ProtectionOPDPP_GA,
+    ProtectionHPDPP_GA,
     FirstProtectionOption = ProtectionDisable,
     LastProtectionOption = ProtectionOPDPP_GA
 };

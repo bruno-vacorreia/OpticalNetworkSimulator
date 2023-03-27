@@ -58,9 +58,9 @@ void ResourceDeviceAlloc::AdditionalSettings() {
         // Put functions to create the offline
         if(options->GetProtectionOption() != ProtectionDisable){
            protScheme->CreateProtectionRoutes();
-           
         }
     }
+    this->CreateRsaOrderProtection();
 }
 
 void ResourceDeviceAlloc::ResourAlloc(Call* call) {
@@ -274,7 +274,7 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
         case ProtectionPDPP_MinHop:
         case ProtectionPDPP_MinLength:
         case ProtectionPDPP_MinSumSlotIndex:
-        case ProtectionPDPP_MinMaxSlotIndex:
+        case ProtectionPDPP_LowHighSlotIndex:
         case ProtectionPDPP_MinNumSlot:
         case ProtectionOPDPP_GA:
             protScheme = std::make_shared<PartitioningDedicatedPathProtection>
@@ -284,4 +284,43 @@ void ResourceDeviceAlloc::CreateProtectionScheme() {
             std::cerr << "Invalid Protection Option" << std::endl;
             std::abort();
     }
+}
+
+void ResourceDeviceAlloc::CreateRsaOrderProtection() {
+    unsigned int numNodes = this->topology->GetNumNodes();
+    resources->resourceAllocOrderProtection.resize(numNodes * numNodes);
+
+    switch(this->simulType->GetOptions()->GetProtectionOption()){
+        case ProtectionPDPP_MinHop:
+            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinHop);
+            break;
+        case ProtectionPDPP_MinLength:
+            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinLength);
+            break;
+        case ProtectionPDPP_MinSumSlotIndex:
+            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_MinSumSlotIndex);
+            break;
+        case ProtectionPDPP_LowHighSlotIndex:
+            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_LowHighSlotIndex);
+            break;
+        case ProtectionHPDPP_GA:
+            this->SetResourceAllocOrderProtectionGA();
+            break;
+        default:
+            break;
+    }
+}
+
+void ResourceDeviceAlloc::SetResourceAllocOrderProtectionGA() {
+    std::ifstream auxIfstream;
+    std::vector<int> vecInt;
+    int auxInt;
+    unsigned int numNodes = this->topology->GetNumNodes();
+    this->simulType->GetInputOutput()->LoadRsaOrderFirstSimul(auxIfstream);
+
+    for(unsigned int a = 0; a < numNodes*numNodes; a++){
+        auxIfstream >> auxInt;
+        vecInt.push_back(auxInt);
+    }
+    this->SetResourceAllocOrderProtection(vecInt);
 }

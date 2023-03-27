@@ -63,7 +63,7 @@ public:
      */
     void SetNumNodes(unsigned int numNodes);
     /**
-     * @brief Gets a randomly boolean value.
+     * @brief Gets a randomly integer value.
      * @return Boolean value.
      */
     ResAllocOrderProtection GetIntDistribution();

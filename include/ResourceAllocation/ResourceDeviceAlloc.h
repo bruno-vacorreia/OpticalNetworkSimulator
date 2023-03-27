@@ -66,6 +66,13 @@ public:
     RegeneratorAssignment* GetRegeneratorAssignment() const;
 
     ProtectionScheme* GetProtectionScheme() const;
+    /**
+     * @brief Set the container that indicate the RSA order (R-SA Minhop, R-SA MinLength
+     * SA-R MinSumSlotIndex or SA-R LowHighSlotIndex) for
+     * each node pair in the network of the output of the first PDPP (protection) simulation.
+     */
+    void SetResourceAllocOrderProtectionGA();
+
 private:
     /**
      * @brief Function to check the OSNR for a call request with devices.
@@ -73,16 +80,9 @@ private:
      * @return True if the OSNR is acceptable.
      */
     bool CheckOSNR(CallDevices* call);
-    
     void CreateRegeneratorAssignment();
-    
     void CreateProtectionScheme();
-    /**
-     * @brief Carried out the vector PDPPBitRateDistribution which stores the 
-     * distribution Bit Rate option of each node pair. 
-     * @return
-     */
-    //void CreatePDPPBitRateOptions();
+    void CreateRsaOrderProtection();
     
 private:    
     /**

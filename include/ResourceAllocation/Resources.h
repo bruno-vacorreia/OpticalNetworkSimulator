@@ -388,9 +388,6 @@ public:
      */
     std::vector<unsigned int> numSlotsTraffic;
     
-
-    
-    
 private:
     /**
      * @brief ResourceAlloc object that owns these resources.

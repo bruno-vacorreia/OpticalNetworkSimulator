@@ -56,7 +56,7 @@ void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
     }
     else {
         switch (resDevAlloc->options->GetProtectionOption()) {
-            case ProtectionPDPP_MinMaxSlotIndex:
+            case ProtectionPDPP_LowHighSlotIndex:
             case ProtectionPDPP_MinSumSlotIndex:
             case ProtectionPDPP_MinNumSlot:
             case ProtectionPDPP_MinHop:
@@ -82,7 +82,7 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
         case ProtectionPDPP_MinHop:
         case ProtectionPDPP_MinLength:
         case ProtectionPDPP_MinSumSlotIndex:
-        case ProtectionPDPP_MinMaxSlotIndex:
+        case ProtectionPDPP_LowHighSlotIndex:
         case ProtectionPDPP_MinNumSlot:
         case ProtectionPDPP_MultiP:
         case ProtectionPDPP:
@@ -121,7 +121,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
         case ProtectionPDPP_MinHop:
         case ProtectionPDPP_MinLength:
         case ProtectionPDPP_MinSumSlotIndex:
-        case ProtectionPDPP_MinMaxSlotIndex:
+        case ProtectionPDPP_LowHighSlotIndex:
         case ProtectionPDPP_MinNumSlot:
         case ProtectionPDPP_MultiP:
         case ProtectionPDPP:
@@ -203,7 +203,7 @@ void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
             case ProtectionPDPP_MinSumSlotIndex:
                 this->ResourceAllocPDPP_MinSumSlotIndexes(call);
                 break;
-            case ProtectionPDPP_MinMaxSlotIndex:
+            case ProtectionPDPP_LowHighSlotIndex:
                 this->ResourceAllocPDPP_LowHighSlotIndex(call);
                 break;
             case ProtectionPDPP_MinNumSlot:
@@ -1025,6 +1025,7 @@ void PartitioningDedicatedPathProtection::ResourceAllocPDPP_MultiP_MinLength(Cal
 
 void PartitioningDedicatedPathProtection::ResourceAllocPDPP_MinSumSlotIndexes(CallDevices *call) {
     this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
+    resDevAlloc->options->SetSpecAllOption(SpecAllFF); //setting FirstFit option
 
     unsigned int orN = call->GetOrNode()->GetNodeId();
     unsigned int deN = call->GetDeNode()->GetNodeId();
@@ -1431,6 +1432,7 @@ void PartitioningDedicatedPathProtection::ResourceAllocPDPP_MinSumSlotIndexes(Ca
 
 void PartitioningDedicatedPathProtection::ResourceAllocPDPP_LowHighSlotIndex(CallDevices *call) {
     this->CreateProtectionCalls(call); //loading multiCall vector with protection calls
+    resDevAlloc->options->SetSpecAllOption(SpecAllFF); //setting FirstFit option for SA function
 
     unsigned int orN = call->GetOrNode()->GetNodeId();
     unsigned int deN = call->GetDeNode()->GetNodeId();

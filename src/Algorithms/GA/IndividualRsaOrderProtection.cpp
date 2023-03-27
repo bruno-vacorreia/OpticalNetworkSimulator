@@ -11,7 +11,7 @@ IndividualRsaOrderProtection::IndividualRsaOrderProtection(GA_RsaOrderProtection
     const unsigned int numNodes = this->ga->GetNumNodes();
 
     for(unsigned int a = 0; a < numNodes*numNodes; a++){
-        this->genes.push_back(this->ga->GetBoolDistribution());
+        this->genes.push_back(this->ga->GetIntDistribution());
     }
 }
 

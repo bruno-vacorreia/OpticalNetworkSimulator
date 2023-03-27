@@ -99,7 +99,8 @@ Options::mapGaOption = boost::assign::map_list_of
     (GaRsaOrder, "GA RSA Order")
     (GaCoreOrder, "GA Core Order")
     (GaNumRoutesCheckMSCL, "GA Number of Interfering Routes Check")
-    (GaPDPPBO, "GA PDPP Bit Rate Optimization");
+    (GaPDPPBO, "GA PDPP Bit Rate Optimization")
+    (GaRsaOrderProtection, "GA RSA Order Protection");
 
 const boost::unordered_map<MultiCallOption, std::string>
 Options::mapDevicesOption = boost::assign::map_list_of
@@ -160,12 +161,13 @@ Options::mapProtectionOption = boost::assign::map_list_of
     (ProtectionDPP, "Dedicated Path Protection")
     (ProtectionPDPP, "Partitioning Dedicated Path Protection")
     (ProtectionPDPP_MultiP, "Partitioning Dedicated Path Protection Multi-P")
-    (ProtectionPDPP_MinHop, "Partitioning Dedicated Path Protection MinHop")
-    (ProtectionPDPP_MinLength, "Partitioning Dedicated Path Protection MinLength ")
-    (ProtectionPDPP_MinSumSlotIndex, "Partitioning Dedicated Path Protection MinSumSlotIndex")
-    (ProtectionPDPP_MinMaxSlotIndex, "Partitioning Dedicated Path Protection MinMaxSlotIndex")
+    (ProtectionPDPP_MinHop, "Partitioning Dedicated Path Protection r_sa_MinHop")
+    (ProtectionPDPP_MinLength, "Partitioning Dedicated Path Protection r_sa_MinLength ")
+    (ProtectionPDPP_MinSumSlotIndex, "Partitioning Dedicated Path Protection sa_r_MinSumSlotIndex")
+    (ProtectionPDPP_LowHighSlotIndex, "Partitioning Dedicated Path Protection sa_r_LowHighSlotIndex")
     (ProtectionPDPP_MinNumSlot, "Partitioning Dedicated Path Protection MinNumSlot")
-    (ProtectionOPDPP_GA, "Optimized Partitioning Dedicated Path Protection (GA)");
+    (ProtectionOPDPP_GA, "Optimized Partitioning Dedicated Path Protection (GA)")
+    (ProtectionHPDPP_GA, "Hybrid Partitioning Dedicated Path Protection (GA)");
 
 const boost::unordered_map<FragMeasureOption, std::string>
 Options::mapFragMeasureOption = boost::assign::map_list_of

@@ -43,11 +43,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Algorithms/GA/GA_NumInterRoutesMSCL.o \
 	${OBJECTDIR}/src/Algorithms/GA/GA_PDPPBO.o \
 	${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrder.o \
+	${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrderProtection.o \
 	${OBJECTDIR}/src/Algorithms/GA/GA_SO.o \
 	${OBJECTDIR}/src/Algorithms/GA/Individual.o \
 	${OBJECTDIR}/src/Algorithms/GA/IndividualBool.o \
 	${OBJECTDIR}/src/Algorithms/GA/IndividualNumRoutesMSCL.o \
 	${OBJECTDIR}/src/Algorithms/GA/IndividualPDPPBO.o \
+	${OBJECTDIR}/src/Algorithms/GA/IndividualRsaOrderProtection.o \
 	${OBJECTDIR}/src/Algorithms/PSO/PSO.o \
 	${OBJECTDIR}/src/Algorithms/PSO/ParticlePSO.o \
 	${OBJECTDIR}/src/Algorithms/PSO/ParticlePSO_SCRA.o \
@@ -166,6 +168,11 @@ ${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrder.o: src/Algorithms/GA/GA_RsaOrder.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrder.o src/Algorithms/GA/GA_RsaOrder.cpp
 
+${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrderProtection.o: src/Algorithms/GA/GA_RsaOrderProtection.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/Algorithms/GA
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Algorithms/GA/GA_RsaOrderProtection.o src/Algorithms/GA/GA_RsaOrderProtection.cpp
+
 ${OBJECTDIR}/src/Algorithms/GA/GA_SO.o: src/Algorithms/GA/GA_SO.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Algorithms/GA
 	${RM} "$@.d"
@@ -190,6 +197,11 @@ ${OBJECTDIR}/src/Algorithms/GA/IndividualPDPPBO.o: src/Algorithms/GA/IndividualP
 	${MKDIR} -p ${OBJECTDIR}/src/Algorithms/GA
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Algorithms/GA/IndividualPDPPBO.o src/Algorithms/GA/IndividualPDPPBO.cpp
+
+${OBJECTDIR}/src/Algorithms/GA/IndividualRsaOrderProtection.o: src/Algorithms/GA/IndividualRsaOrderProtection.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/Algorithms/GA
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Algorithms/GA/IndividualRsaOrderProtection.o src/Algorithms/GA/IndividualRsaOrderProtection.cpp
 
 ${OBJECTDIR}/src/Algorithms/PSO/PSO.o: src/Algorithms/PSO/PSO.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Algorithms/PSO

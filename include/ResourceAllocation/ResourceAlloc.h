@@ -191,8 +191,8 @@ public:
      */
     void SetResourceAllocOrder(std::vector<ResAllocOrder> resourceAllocOrder);
     /**
-     * @brief Set the container that indicate the RSA order (MinHop, Minlength,
-     * MinSumSlotIndex or MinMaxSlotIndex) for each node pair in the network, for
+     * @brief Set the container that indicate the RSA order (r_sa_MinHop, Minlength,
+     * sa_r_MinSumSlotIndex or sa_r_LowHighSlotIndex) for each node pair in the network, for
      * protection schemes simulations.
      * @param resourceAllocOrderProtection Container of RSA order for all node pairs.
      */
@@ -203,7 +203,7 @@ public:
      * each node pair in the network of the output of the first simulation.
      */
     void SetResourceAllocOrderGA();
-    
+
     bool RsaOrderTopology();
     
     void SetResourceAllocOrderHE();
@@ -378,7 +378,6 @@ private:
      * @param call Call request to allocate.
      */
     void OfflineModulationRSA(Call* call);
-    
     /**
      * @brief Function to create the routing object and the other parameters
      * used, based on the routing choice.
