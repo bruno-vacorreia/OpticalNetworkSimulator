@@ -79,6 +79,7 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
     numSchProtRoutes = parameters->GetNumberPDPPprotectionRoutes();
 
     switch(resDevAlloc->options->GetProtectionOption()){
+        case ProtectionHPDPP_GA:
         case ProtectionPDPP_MinHop:
         case ProtectionPDPP_MinLength:
         case ProtectionPDPP_MinSumSlotIndex:
@@ -89,7 +90,6 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
             LoadPDPPBitRateOptions();
             break;
         case ProtectionOPDPP_GA:
-        case ProtectionHPDPP_GA:
             break;
         default:
             std::cerr << "Invalid Protection Option for PDPPBitRate option" << std::endl;
