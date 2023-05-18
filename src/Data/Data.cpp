@@ -23,6 +23,7 @@
 #include "../../include/Algorithms/Algorithms.h"
 #include "../../include/Structure/Topology.h"
 #include "../../include/Algorithms/GA/IndividualPDPPBO.h"
+#include "../../include/Algorithms/GA/IndividualRsaOrderProtection.h"
 
 std::ostream& operator<<(std::ostream& ostream, 
 const Data* data) {
@@ -745,12 +746,23 @@ std::ostream& bestInds, std::ostream& worstInds) {
 void Data::SaveBestIndividual(GA_SO* ga, std::ostream& bestInd) {
     //Make function to check the cast for the best individual
     //and a switch function for casting according to the individual. 
-    IndividualBool* ind = dynamic_cast<IndividualBool*>
-                          (ga->GetBestIndividual());
-    
-    std::vector<bool> gene = ind->GetGenes();
-    for(unsigned int a = 0; a < gene.size(); a++){
-        bestInd << gene.at(a) << std::endl;
+    if (simulType->GetOptions()->GetGaOption() == GaRsaOrder) {
+        IndividualBool *ind = dynamic_cast<IndividualBool *>
+        (ga->GetBestIndividual());
+
+        std::vector<bool> gene = ind->GetGenes();
+        for (unsigned int a = 0; a < gene.size(); a++) {
+            bestInd << gene.at(a) << std::endl;
+        }
+    }
+    else if (simulType->GetOptions()->GetGaOption() == GaHPDPP) {
+        IndividualRsaOrderProtection *ind = dynamic_cast<IndividualRsaOrderProtection *>
+        (ga->GetBestIndividual());
+
+        std::vector<int> gene = ind->GetGenes();
+        for (unsigned int a = 0; a < gene.size(); a++) {
+            bestInd << gene.at(a) << std::endl;
+        }
     }
 }
 

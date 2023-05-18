@@ -139,8 +139,12 @@ enum RsaOrder {
     MixedOrderGA,
     MixedOrderHE,
     HeuristicsOrder,
+    RsaProtectionMinHop,
+    RsaProtectionMinLength,
+    SarProtectionMinSumSlotIndex,
+    SarProtectionLowHighSlotIndex,
     FirstOrderRSA = OrderRoutingSa,
-    LastOrderRSA = HeuristicsOrder
+    LastOrderRSA = SarProtectionLowHighSlotIndex
 };
 
 /**

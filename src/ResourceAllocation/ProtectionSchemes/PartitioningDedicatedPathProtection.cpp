@@ -69,7 +69,6 @@ void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
                 std::abort();
         }
     }
-
     this->CreatePDPPBitRateOptions();
 }
 
@@ -95,7 +94,7 @@ void PartitioningDedicatedPathProtection::CreatePDPPBitRateOptions() {
             std::cerr << "Invalid Protection Option for PDPPBitRate option" << std::endl;
             std::abort();
     }
-    LoadPDPPBitRateNodePairDist();
+    this->LoadPDPPBitRateNodePairDist();
 }
 
 void PartitioningDedicatedPathProtection::LoadPDPPBitRateOptions() {
@@ -139,6 +138,7 @@ void PartitioningDedicatedPathProtection::LoadPDPPBitRateNodePairDist() {
             std::abort();
     }
 }
+
 
 void PartitioningDedicatedPathProtection::ResourceAlloc(CallDevices* call) {
 
@@ -5305,6 +5305,8 @@ std::vector<std::shared_ptr<Route>> group, std::shared_ptr<Call> firstPartition)
         CalcAlpha(call);
     }
 }
+
+
 
 
 

@@ -186,7 +186,7 @@ void SimulationType::SimulateNumTotalReq() {
         countEvent++;
 
 //        std::cout << "requisição número:" << numberRequests << std::endl;
-//        if(this->numberRequests == 420)
+//        if(this->numberRequests == 282)
 //            int x = 0;
                
         evt->ImplementEvent();

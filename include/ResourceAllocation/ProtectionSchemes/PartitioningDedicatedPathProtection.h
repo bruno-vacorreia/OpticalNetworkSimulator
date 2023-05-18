@@ -152,17 +152,15 @@ public:
     * @param call Call request the function will try to allocate.
     */
     void ResourceAllocProtectionPDPP_MinNumSlot(CallDevices* call);
-
-
     /**
      * @brief Function which compute a partial bit rate distribution for all 
       * source-destination pair and for all incoming traffic demand possibilities.
      */
     void LoadPDPPBitRateNodePairDist();
     /**
-     * @brief Function which calculates the partial bit rate for each 
-     * partitioned routes based in incoming traffic demand. A vector 
-     * PDPPBitRateDistOptions is loaded with equally distribution between routes. 
+     * @brief Function which load the resourceAllocOrderProtection vector with the option
+     * (1 R-SA MinHop, 2 R-SA MinLength, 3 SA-R MinSumSlotIndex or 4 SA-R LowHighSlotIndex) for all
+      * source-destination pair.  Such vector allows the OPDPP scheme works with RSA Order.
      */
     void LoadPDPPBitRateOptions();
     /**

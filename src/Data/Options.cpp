@@ -91,7 +91,11 @@ Options::mapOrderRSA = boost::assign::map_list_of
     (OrderSaRouting, "SA-Routing")
     (MixedOrderGA, "Mixed orderGA")
     (MixedOrderHE, "Mixed orderHE")
-    (HeuristicsOrder, "Heuristics Ring Order");
+    (HeuristicsOrder, "Heuristics Ring Order")
+    (RsaProtectionMinHop, "Routing-SA Protection Minhop")
+    (RsaProtectionMinLength, "Routing-SA Protection MinLength")
+    (SarProtectionMinSumSlotIndex, "SA-Routing Protection MinSumSlotIndex")
+    (SarProtectionLowHighSlotIndex, "SA-Routing Protection LowHighSlotIndex");
 
 const boost::unordered_map<GAOption, std::string>
 Options::mapGaOption = boost::assign::map_list_of
@@ -457,6 +461,7 @@ bool Options::IsGA_SO() const {
     switch(this->GetGaOption()){
         case GaRsaOrder:
         case GaCoreOrder:
+        case GaHPDPP:
             return true;
         default:
             return false;

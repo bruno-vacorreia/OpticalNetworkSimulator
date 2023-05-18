@@ -925,25 +925,27 @@ void ResourceAlloc::CreateRsaOrder() {
     unsigned int numNodes = this->topology->GetNumNodes();
     resources->resourceAllocOrder.resize(numNodes * numNodes);
     
-    switch(this->simulType->GetOptions()->GetOrderRSA()){
-        case OrderRoutingSa:
-            resources->resourceAllocOrder.assign(numNodes*numNodes, r_sa);
-            break;
-        case OrderSaRouting:
-            resources->resourceAllocOrder.assign(numNodes*numNodes, sa_r);
-            break;
-        case MixedOrderGA:
-            this->SetResourceAllocOrderGA();
-            break;
-        case MixedOrderHE:
-            this->SetResourceAllocOrderHE();
-            break;
-        case HeuristicsOrder:
-            this->SetResAllocOrderHeuristicsRing();
-            break;
-        default:
-            std::cout << "Invalid RSA order" << std::endl;
-            abort();
+    if(this->simulType->GetOptions()->GetProtectionOption() == ProtectionDisable) {
+        switch (this->simulType->GetOptions()->GetOrderRSA()) {
+            case OrderRoutingSa:
+                resources->resourceAllocOrder.assign(numNodes * numNodes, r_sa);
+                break;
+            case OrderSaRouting:
+                resources->resourceAllocOrder.assign(numNodes * numNodes, sa_r);
+                break;
+            case MixedOrderGA:
+                this->SetResourceAllocOrderGA();
+                break;
+            case MixedOrderHE:
+                this->SetResourceAllocOrderHE();
+                break;
+            case HeuristicsOrder:
+                this->SetResAllocOrderHeuristicsRing();
+                break;
+            default:
+                std::cout << "Invalid RSA order" << std::endl;
+                abort();
+        }
     }
 }
 

@@ -291,25 +291,25 @@ void ResourceDeviceAlloc::CreateRsaOrderProtection() {
     unsigned int numNodes = this->topology->GetNumNodes();
     resources->resourceAllocOrderProtection.resize(numNodes * numNodes);
 
-    switch(this->simulType->GetOptions()->GetProtectionOption()){
-        case ProtectionPDPP_MinHop:
+    switch(this->simulType->GetOptions()->GetOrderRSA()){
+        case RsaProtectionMinHop:
             resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinHop);
             break;
-        case ProtectionPDPP_MinLength:
+        case RsaProtectionMinLength:
             resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinLength);
             break;
-        case ProtectionPDPP_MinSumSlotIndex:
+        case SarProtectionMinSumSlotIndex:
             resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_MinSumSlotIndex);
             break;
-        case ProtectionPDPP_LowHighSlotIndex:
+        case SarProtectionLowHighSlotIndex:
             resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_LowHighSlotIndex);
             break;
-        case ProtectionHPDPP_GA:
-            this->SetResourceAllocOrderProtectionGA();
-            break;
         default:
-            break;
+            std::cout << "Invalid RSA order" << std::endl;
+            abort();
     }
+    if(this->simulType->GetOptions()->GetProtectionOption() == ProtectionHPDPP_GA)
+        this->SetResourceAllocOrderProtectionGA();
 }
 
 void ResourceDeviceAlloc::SetResourceAllocOrderProtectionGA() {

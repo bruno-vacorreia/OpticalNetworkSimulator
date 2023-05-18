@@ -6,7 +6,7 @@
 2
 1
 2
-0
+5
 0
 1
 0
@@ -15,7 +15,7 @@
 0
 0
 0
-10
+2
 0
 
 1-Topology
@@ -76,6 +76,10 @@
     2 - Mixed order GA
     3 - Mixed order HE
     4 - Heuristics order
+    5 - Routing-SA Protection Minhop
+    6 - Routing-SA Protection MinLength
+    7 - SA-Routing Protection MinSumSlotIndex
+    8 - SA-Routing Protection LowHighSlotIndex
 10-GA Option
     0 - GA Disabled
     1 - GA RSA Order
