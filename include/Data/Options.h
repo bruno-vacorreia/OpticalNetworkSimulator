@@ -54,8 +54,9 @@ enum RoutingOption {
      RoutingBSR,
      RoutingBSR_YEN,
      RoutingDPGR,
+     RoutingBhandari,
      FirstRoutingOption = RoutingDJK,
-     LastRoutingOption = RoutingDPGR
+     LastRoutingOption = RoutingBhandari
 };
 
 /**

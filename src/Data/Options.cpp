@@ -41,7 +41,8 @@ Options::mapRoutingOptions = boost::assign::map_list_of
     (RoutingYEN, "YEN")
     (RoutingBSR, "BSR")
     (RoutingBSR_YEN, "BSR_YEN")
-     (RoutingDPGR, "DPGR");
+    (RoutingDPGR, "DPGR")
+    (RoutingBhandari, "Bhandari");
 
 const boost::unordered_map<SpectrumAllocationOption, std::string>
 Options::mapSpecAlgOptions = boost::assign::map_list_of

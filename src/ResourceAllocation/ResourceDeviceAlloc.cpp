@@ -54,11 +54,11 @@ void ResourceDeviceAlloc::AdditionalSettings() {
             assert(options->GetResourAllocOption() == ResourAllocRMSA);
             this->resources->CreateRegenerationResources();
         }
-    
-        // Put functions to create the offline
-        if(options->GetProtectionOption() != ProtectionDisable){
-           protScheme->CreateProtectionRoutes();
-        }
+    }
+
+    // Put functions to create the offline
+    if(options->GetProtectionOption() != ProtectionDisable){
+        protScheme->CreateProtectionRoutes();
     }
     this->CreateRsaOrderProtection();
 }

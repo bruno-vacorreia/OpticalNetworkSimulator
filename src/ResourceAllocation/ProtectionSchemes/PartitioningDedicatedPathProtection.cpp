@@ -41,33 +41,24 @@ PartitioningDedicatedPathProtection::~PartitioningDedicatedPathProtection() {
 
 void PartitioningDedicatedPathProtection::CreateProtectionRoutes() {
 
-    if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP || ProtectionPDPP_MultiP) {
-        switch (this->routing->GetRoutingOption()) {
-            case RoutingYEN:
+    switch (this->routing->GetRoutingOption()) {
+        case RoutingYEN:
+            if(resDevAlloc->options->GetProtectionOption() == ProtectionPDPP || ProtectionPDPP_MultiP)
                 routing->ProtectionDisjointYEN();
-                break;
-            case RoutingDPGR:
-                this->routing->DisjointPathGroupsRouting();
-                break;
-            default:
-                std::cerr << "Invalid offline routing option" << std::endl;
+            else{
+                std::cerr << "Invalid offline routing option for selected protection scheme" << std::endl;
                 std::abort();
-        }
-    }
-    else {
-        switch (resDevAlloc->options->GetProtectionOption()) {
-            case ProtectionPDPP_LowHighSlotIndex:
-            case ProtectionPDPP_MinSumSlotIndex:
-            case ProtectionPDPP_MinNumSlot:
-            case ProtectionPDPP_MinHop:
-            case ProtectionPDPP_MinLength:
-            case ProtectionOPDPP_GA:
-                this->routing->DisjointPathGroupsRouting();
-                break;
-            default:
-                std::cerr << "Invalid offline routing option" << std::endl;
-                std::abort();
-        }
+            }
+            break;
+        case RoutingDPGR:
+            this->routing->DisjointPathGroupsRouting();
+            break;
+        case RoutingBhandari:
+            this->routing->BhandariDisjointPathRouting();
+            break;
+        default:
+            std::cerr << "Invalid offline routing option" << std::endl;
+            std::abort();
     }
     this->CreatePDPPBitRateOptions();
 }

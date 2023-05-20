@@ -15,7 +15,7 @@
 0
 0
 0
-2
+3
 0
 
 1-Topology
@@ -40,6 +40,7 @@
     3 - BSR
     4 - BSR-YEN
     5 - DPGR (for Protection)
+    6 - Bhandari (for Protection)
 3-Spectral allocation algorithm
     0 - Invalid
     1 - Random

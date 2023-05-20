@@ -181,6 +181,14 @@ public:
     GenerateDisjointRoutesGroups(std::vector<std::vector<std::shared_ptr<Route>>>
     allRoutes);
     /**
+     * @brief Function to apply the Bhandari "K" link-disjoint path routing algorithm for
+     * all node pairs in the network. The "K" disjoint paths found are combined to
+     * create groups of 2, 3 and 4 disjoint routes (if possible) are formed to be
+     * used in PDPP scheme with 4, 3 or 2 routes.
+     */
+    void BhandariDisjointPathRouting();
+
+    /**
     * @brief Function to get all routes between all source-destination pair on the topology.
      * These routes are stored in allRoutes vector.
      */

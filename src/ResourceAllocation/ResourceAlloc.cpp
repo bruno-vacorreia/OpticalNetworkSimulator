@@ -253,6 +253,7 @@ bool ResourceAlloc::IsOfflineRouting() {
         case RoutingBSR:
         case RoutingBSR_YEN:
         case RoutingDPGR:
+        case RoutingBhandari:
             return true;
         default:
             return false;
@@ -277,6 +278,9 @@ void ResourceAlloc::RoutingOffline() {
             this->routing->BSR_YEN();
             break;
         case RoutingDPGR:
+            this->CreateRsaOrder();
+            break;
+        case RoutingBhandari:
             this->CreateRsaOrder();
             break;
         default:
