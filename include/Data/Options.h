@@ -29,7 +29,7 @@ enum TopologyOption {
     TopologyInvalid,
     TopologyNSFNet,
     TopologyRing,
-    TopologyToroidal,
+    TopologyTorus9,
     TopologyGermany,
     TopologyEON_RT,
     TopologyItaly,
@@ -40,8 +40,9 @@ enum TopologyOption {
     TopologyUS_Backbone,
     TopologyEuropean,
     TopologyCost239,
+    TopologyTorus16,
     FirstTopology = TopologyNSFNet,
-    LastTopology = TopologyCost239
+    LastTopology = TopologyTorus16
 };
 
 /**

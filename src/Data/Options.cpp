@@ -22,7 +22,7 @@ Options::mapTopologyOptions = boost::assign::map_list_of
     (TopologyInvalid, "Invalid")
     (TopologyNSFNet, "NSFNet")
     (TopologyRing, "Ring")
-    (TopologyToroidal, "Toroidal")
+    (TopologyTorus9, "Torus9")
     (TopologyGermany,  "Germany")
     (TopologyEON_RT, "EON_RT")
     (TopologyItaly, "Italy")
@@ -32,7 +32,8 @@ Options::mapTopologyOptions = boost::assign::map_list_of
     (TopologyWaxman, "Waxman")
     (TopologyUS_Backbone, "US_Backbone")
     (TopologyEuropean, "European")
-    (TopologyCost239, "Cost239");
+    (TopologyCost239, "Cost239")
+    (TopologyTorus16, "Torus16");
 
 const boost::unordered_map<RoutingOption, std::string>
 Options::mapRoutingOptions = boost::assign::map_list_of
