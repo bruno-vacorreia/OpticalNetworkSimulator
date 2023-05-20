@@ -121,11 +121,11 @@
 120	inf
 121	inf
 122	inf
-123	-nan
-124	-nan
-125	-nan
-126	-nan
-127	-nan
+123	inf
+124	inf
+125	inf
+126	inf
+127	inf
 
 0	inf
 1	inf
@@ -254,7 +254,7 @@
 124	inf
 125	inf
 126	inf
-127	-nan
+127	inf
 
 0	inf
 1	inf

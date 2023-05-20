@@ -291,22 +291,25 @@ void ResourceDeviceAlloc::CreateRsaOrderProtection() {
     unsigned int numNodes = this->topology->GetNumNodes();
     resources->resourceAllocOrderProtection.resize(numNodes * numNodes);
 
-    switch(this->simulType->GetOptions()->GetOrderRSA()){
-        case RsaProtectionMinHop:
-            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinHop);
-            break;
-        case RsaProtectionMinLength:
-            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, r_sa_MinLength);
-            break;
-        case SarProtectionMinSumSlotIndex:
-            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_MinSumSlotIndex);
-            break;
-        case SarProtectionLowHighSlotIndex:
-            resources->resourceAllocOrderProtection.assign(numNodes*numNodes, sa_r_LowHighSlotIndex);
-            break;
-        default:
-            std::cout << "Invalid RSA order" << std::endl;
-            abort();
+    if (this->simulType->GetOptions()->GetProtectionOption() == ProtectionHPDPP_GA
+    || this->simulType->GetOptions()->GetGaOption() == GaHPDPP) {
+        switch (this->simulType->GetOptions()->GetOrderRSA()) {
+            case RsaProtectionMinHop:
+                resources->resourceAllocOrderProtection.assign(numNodes * numNodes,r_sa_MinHop);
+                break;
+            case RsaProtectionMinLength:
+                resources->resourceAllocOrderProtection.assign(numNodes * numNodes,r_sa_MinLength);
+                break;
+            case SarProtectionMinSumSlotIndex:
+                resources->resourceAllocOrderProtection.assign(numNodes * numNodes,sa_r_MinSumSlotIndex);
+                break;
+            case SarProtectionLowHighSlotIndex:
+                resources->resourceAllocOrderProtection.assign(numNodes * numNodes,sa_r_LowHighSlotIndex);
+                break;
+            default:
+                std::cout << "Invalid RSA order" << std::endl;
+                abort();
+        }
     }
     if(this->simulType->GetOptions()->GetProtectionOption() == ProtectionHPDPP_GA)
         this->SetResourceAllocOrderProtectionGA();
